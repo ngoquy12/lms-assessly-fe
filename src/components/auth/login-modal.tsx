@@ -57,8 +57,10 @@ export function LoginModal() {
                     toast.success(UI_TEXT.auth.login.success);
                     closeModal();
                     reset();
-                    const redirect = searchParams.get("redirect");
-                    router.push((redirect ?? DEFAULT_AUTH_REDIRECT) as Route);
+                    const redirectParam = searchParams.get("redirect");
+                    const safeRedirect =
+                        redirectParam && redirectParam.startsWith("/") && !redirectParam.startsWith("//") ? redirectParam : DEFAULT_AUTH_REDIRECT;
+                    router.push(safeRedirect as Route);
                 },
                 onError: () => {
                     toast.error(UI_TEXT.auth.login.errors.loginFailed);
