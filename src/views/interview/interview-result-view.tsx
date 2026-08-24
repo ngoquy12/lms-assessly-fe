@@ -2,14 +2,16 @@
 
 import { ArrowLeft, CheckCircle2, Home, MessageSquare, Mic, Sparkles } from "lucide-react";
 import Link from "next/link";
+import { QueryStateBoundary } from "@/components/shared/query-state";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
-import { MOCK_INTERVIEW_RESULT } from "@/mocks/interview.mock";
+import { UI_TEXT } from "@/constants/ui-text.constants";
+import { useInterviewResult } from "@/hooks/queries/use-interview";
 
 export function InterviewResultView({ sessionId: _sessionId }: { sessionId: string }) {
-    const result = MOCK_INTERVIEW_RESULT;
+    const { data: result, isLoading, isError, refetch } = useInterviewResult();
 
     return (
         <div className="mx-auto max-w-4xl space-y-6">
@@ -18,6 +20,20 @@ export function InterviewResultView({ sessionId: _sessionId }: { sessionId: stri
                 <span>Quay lại danh sách phòng phỏng vấn</span>
             </Link>
 
+            <QueryStateBoundary isLoading={isLoading} isError={isError} onRetry={refetch}>
+                {result ? (
+                    <InterviewResultContent result={result} />
+                ) : (
+                    <div className="flex items-center justify-center py-16 text-slate-500">{UI_TEXT.common.noData}</div>
+                )}
+            </QueryStateBoundary>
+        </div>
+    );
+}
+
+function InterviewResultContent({ result }: { result: NonNullable<ReturnType<typeof useInterviewResult>["data"]> }) {
+    return (
+        <>
             {/* Header Banner */}
             <div className="space-y-4 rounded-3xl bg-linear-to-r from-emerald-600 via-teal-600 to-indigo-700 p-8 text-center text-white shadow-xl">
                 <Badge variant="success" size="lg" className="bg-white/20 font-bold text-white">
@@ -135,6 +151,6 @@ export function InterviewResultView({ sessionId: _sessionId }: { sessionId: stri
                     </Button>
                 </Link>
             </div>
-        </div>
+        </>
     );
 }
