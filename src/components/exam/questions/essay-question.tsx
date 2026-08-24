@@ -1,7 +1,17 @@
 "use client";
 
-import { EssayEditor } from "@/components/editor/essay-editor";
+import { Loader2 } from "lucide-react";
+import dynamic from "next/dynamic";
 import type { QuestionItem, UserExamAnswer } from "@/types/exam.types";
+
+const EssayEditor = dynamic(() => import("@/components/editor/essay-editor").then((m) => m.EssayEditor), {
+    ssr: false,
+    loading: () => (
+        <div className="flex h-full min-h-[280px] w-full items-center justify-center text-slate-400">
+            <Loader2 className="h-5 w-5 animate-spin" />
+        </div>
+    ),
+});
 
 export interface EssayQuestionProps {
     question: QuestionItem;

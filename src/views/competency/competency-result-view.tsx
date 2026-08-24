@@ -1,11 +1,20 @@
 "use client";
 
-import { ArrowLeft, CheckCircle2, Home, TrendingUp } from "lucide-react";
+import { ArrowLeft, CheckCircle2, Home, Loader2, TrendingUp } from "lucide-react";
+import dynamic from "next/dynamic";
 import Link from "next/link";
-import { AssessmentRadarChart } from "@/components/charts/assessment-radar-chart";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+
+const AssessmentRadarChart = dynamic(() => import("@/components/charts/assessment-radar-chart").then((m) => m.AssessmentRadarChart), {
+    ssr: false,
+    loading: () => (
+        <div className="flex h-full min-h-[300px] w-full items-center justify-center text-slate-400">
+            <Loader2 className="h-5 w-5 animate-spin" />
+        </div>
+    ),
+});
 
 const RADAR_DATA = {
     labels: [

@@ -1,10 +1,19 @@
 "use client";
 
 import { useState } from "react";
-import { CheckCircle2, Play, Terminal } from "lucide-react";
-import { CodeEditor } from "@/components/editor/code-editor";
+import { CheckCircle2, Loader2, Play, Terminal } from "lucide-react";
+import dynamic from "next/dynamic";
 import { Button } from "@/components/ui/button";
 import type { QuestionItem, UserExamAnswer } from "@/types/exam.types";
+
+const CodeEditor = dynamic(() => import("@/components/editor/code-editor").then((m) => m.CodeEditor), {
+    ssr: false,
+    loading: () => (
+        <div className="flex h-full min-h-[340px] w-full items-center justify-center text-slate-400">
+            <Loader2 className="h-5 w-5 animate-spin" />
+        </div>
+    ),
+});
 
 export interface CodingQuestionProps {
     question: QuestionItem;
