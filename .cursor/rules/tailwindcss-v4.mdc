@@ -1,0 +1,89 @@
+---
+description: Quy chuẩn và quy tắc bắt buộc khi viết Tailwind CSS phiên bản 4 (TailwindCSS v4)
+globs: **/*.{tsx,ts,jsx,js,css}
+alwaysApply: true
+---
+
+# Quy Chuẩn & Quy Tắc Viết Tailwind CSS Version 4 (Tailwind v4 Standard)
+
+Dự án sử dụng **Tailwind CSS v4**. Toàn bộ mã nguồn do AI hoặc Developer tạo ra **BẮT BUỘC** phải tuân thủ đúng cú pháp của Tailwind v4. Hệ thống đã cài đặt ESLint rule để chặn tự động mọi cú pháp v3 cũ.
+
+---
+
+## 1. Cú pháp Important Modifier (`!`)
+
+Trong Tailwind CSS v4, ký tự quan trọng `!` **luôn luôn phải đặt ở CUỐI** utility class, không được đặt ở đầu class hay đặt trước tên variant.
+
+| Trạng thái                          | Cú pháp sai (v3 cũ - BỊ CHẶN BỞI LINT)                   | Cú pháp chuẩn (v4 - BẮT BUỘC)                            |
+| :---------------------------------- | :------------------------------------------------------- | :------------------------------------------------------- |
+| **Margin / Padding**                | `!mb-3`, `!p-4`, `!mt-auto`, `!m-0`                      | `mb-3!`, `p-4!`, `mt-auto!`, `m-0!`                      |
+| **Display / Layout**                | `!hidden`, `!flex`, `!block`, `!grid`, `!inline-flex`    | `hidden!`, `flex!`, `block!`, `grid!`, `inline-flex!`    |
+| **Kích thước**                      | `!w-full`, `!h-screen`, `!max-w-lg`, `!min-h-0`          | `w-full!`, `h-screen!`, `max-w-lg!`, `min-h-0!`          |
+| **Màu sắc & Text**                  | `!bg-brand-500`, `!text-white`, `!text-sm`, `!font-bold` | `bg-brand-500!`, `text-white!`, `text-sm!`, `font-bold!` |
+| **Border & Shadow**                 | `!border`, `!rounded-lg`, `!shadow-none`                 | `border!`, `rounded-lg!`, `shadow-none!`                 |
+| **Kèm Variant (Hover/Focus/Group)** | `hover:!bg-red-500`, `group-hover:!block`, `md:!flex`    | `hover:bg-red-500!`, `group-hover:block!`, `md:flex!`    |
+
+---
+
+## 2. Cú pháp Độ mờ màu (Color Opacity)
+
+Trong Tailwind CSS v4, **KHÔNG CÒN** sử dụng các utility `-opacity-*` rời rạc. Hãy sử dụng cú pháp dấu gạch chéo `/` (slash opacity modifier) trực tiếp sau token màu.
+
+- ❌ **Cấm (v3)**: `bg-opacity-50`, `text-opacity-80`, `border-opacity-30`, `ring-opacity-50`, `divide-opacity-20`
+- ✅ **Chuẩn (v4)**:
+    - `bg-black/50`, `bg-brand-500/80`, `bg-white/10`
+    - `text-slate-900/70`, `text-brand-600/90`
+    - `border-gray-200/40`, `ring-brand-500/30`
+    - `divide-slate-200/50`
+
+---
+
+## 3. Cú pháp Gradient
+
+Trong Tailwind CSS v4, linear gradient sử dụng cú pháp `bg-linear-to-*`:
+
+- ❌ `bg-gradient-to-r from-blue-500 to-purple-500` (cũ)
+- ✅ `bg-linear-to-r from-brand-500 to-brand-600` (v4 chuẩn)
+- Các hướng hỗ trợ: `bg-linear-to-t`, `bg-linear-to-tr`, `bg-linear-to-r`, `bg-linear-to-br`, `bg-linear-to-b`, `bg-linear-to-bl`, `bg-linear-to-l`, `bg-linear-to-tl`.
+
+---
+
+## 4. Tuyệt đối không dùng mã màu Hex trực tiếp (No Hex in JSX)
+
+ESLint sẽ báo lỗi ngay lập tức nếu xuất hiện mã màu Hex cứng hoặc arbitrary value mã màu trong JSX:
+
+- ❌ **Cấm**: `bg-[#4B51C4]`, `text-[#333333]`, `border-[#E6E8F2]`
+- ✅ **Chuẩn**:
+    - Sử dụng token từ theme: `bg-brand-500`, `text-slate-700`, `border-line`, `bg-cream`.
+    - Nếu truyền prop dạng chuỗi JS / SVG style: dùng hằng số `ICON_COLORS.BRAND_500`, `COLORS` từ `src/constants/app.constants.ts`.
+
+---
+
+## 5. Ghép Class động (Class Merging)
+
+Luôn sử dụng `cx` (hoặc `cn`) khi ghép class hoặc điều kiện logic:
+
+```tsx
+import { cx } from "@/utils/cx";
+
+export function CustomBadge({ isActive, className }: { isActive?: boolean; className?: string }) {
+    return (
+        <span
+            className={cx(
+                "inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium",
+                isActive ? "bg-brand-50 text-brand-700" : "bg-gray-100 text-gray-600",
+                className,
+            )}
+        >
+            Badge
+        </span>
+    );
+}
+```
+
+---
+
+## 6. Container Queries & Modern Variants v4
+
+- **Container query**: Đặt `@container` ở thẻ cha và sử dụng `@sm:grid-cols-2`, `@md:flex`, `@lg:grid-cols-3` ở thẻ con.
+- **Stacked variants**: `hover:focus:bg-brand-600`, `dark:hover:text-white`.
