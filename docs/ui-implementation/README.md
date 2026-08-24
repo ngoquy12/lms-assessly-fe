@@ -1,5 +1,12 @@
 # UI Implementation Docs — LMS Assessly FE
 
+> ⚠️ **LƯU Ý (2026-08): đây là tài liệu ROADMAP/THIẾT KẾ DỰ KIẾN, không phản ánh 100% code hiện tại.**
+> Các `work-packages/` mô tả một LMS gamified rộng hơn scope đang có (dashboard, courses, leaderboard, avatar/pet, teacher/admin portal...). Nhiều màn/route ở đây **chưa được triển khai**; route thực tế hiện tại là luyện tập/thi/đánh giá năng lực/phỏng vấn (xem [/README.md](../../README.md) và [/ARCHITECTURE.md](../../ARCHITECTURE.md) để biết kiến trúc & phần đã làm thật).
+> Prototype `LMS_AI_SPEC/extracted-portal/` và `server.mjs` được nhắc bên dưới là **nguồn tham chiếu ngoài, không nằm trong repo này**.
+> Tài liệu `docs/khaothi-user-screens-report.md` là khảo sát một dự án THAM CHIẾU KHÁC (React+Vite+AntD), không phải app Next.js hiện tại.
+
+---
+
 > Triển khai giao diện từ prototype **extracted-portal** sang Next.js.  
 > Preview chuẩn: chạy `server.mjs` → `http://localhost:4178/template.html`.
 
