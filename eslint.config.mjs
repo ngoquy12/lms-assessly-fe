@@ -456,4 +456,12 @@ export default tseslint.config(
             "react/jsx-no-literals": "off",
         },
     },
+    {
+        files: ["**/*.{test,spec}.{ts,tsx}", "src/test/**/*.{ts,tsx}"],
+        rules: {
+            "no-restricted-syntax": "off",
+            "@typescript-eslint/no-explicit-any": "off",
+            "@typescript-eslint/no-magic-numbers": "off",
+        },
+    },
 );

@@ -15,7 +15,9 @@
         "type-check": "tsc --noEmit",
         "duplication-check": "pnpm dlx jscpd ./src -k 15 -r console --ignore \"**/*.d.ts,**/node_modules/**\"",
         "duplication-report": "pnpm dlx jscpd ./src -k 15 -r html --ignore \"**/*.d.ts,**/node_modules/**\"",
-        "prepare": "husky"
+        "prepare": "husky",
+        "test": "vitest run",
+        "test:watch": "vitest"
     },
     "dependencies": {
         "@hookform/resolvers": "^5.2.2",
@@ -78,11 +80,15 @@
         "@next/eslint-plugin-next": "^16.0.10",
         "@tailwindcss/postcss": "^4.1.17",
         "@tailwindcss/typography": "^0.5.19",
+        "@testing-library/jest-dom": "^7.0.1",
+        "@testing-library/react": "^16.3.2",
+        "@testing-library/user-event": "^14.6.6",
         "@trivago/prettier-plugin-sort-imports": "^6.0.0",
         "@types/js-cookie": "^3.0.6",
         "@types/node": "^20.12.12",
         "@types/react": "^19.0.1",
         "@types/react-dom": "^19.0.2",
+        "@vitejs/plugin-react": "^6.1.0",
         "eslint": "^9.39.2",
         "eslint-config-next": "^16.0.10",
         "eslint-plugin-boundaries": "^5.3.1",
@@ -94,13 +100,16 @@
         "globals": "^17.7.0",
         "husky": "^9.1.7",
         "jscpd": "^4.0.7",
+        "jsdom": "^30.0.1",
         "lint-staged": "^16.2.7",
         "postcss": "^8.5.6",
         "prettier": "^3.3.3",
         "prettier-plugin-tailwindcss": "^0.6.9",
         "tailwindcss": "^4.1.17",
         "typescript": "^5.6.3",
-        "typescript-eslint": "^8.50.0"
+        "typescript-eslint": "^8.50.0",
+        "vite-tsconfig-paths": "^6.1.1",
+        "vitest": "^4.1.11"
     },
     "lint-staged": {
         "**/*.{ts,tsx,js,jsx}": [
