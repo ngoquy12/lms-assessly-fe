@@ -10,6 +10,9 @@ export const DEMO_CREDENTIALS = {
     password: "Rikkei@123",
 };
 
+/** Token phiên giả lập trả về khi đăng nhập mock thành công (chưa có API). */
+export const MOCK_SESSION_TOKEN = "mock-session-token";
+
 /** Trang mặc định sau khi đăng nhập nếu không có ?redirect. */
 export const DEFAULT_AUTH_REDIRECT = "/page-exam";
 
