@@ -1,11 +1,17 @@
 "use client";
 
 import { useState } from "react";
-import { BarController, BarElement, CategoryScale, Chart as ChartJS, Legend, LineController, LineElement, LinearScale, PointElement, Tooltip } from "chart.js";
-import { ChevronDown, ChevronUp, RefreshCcw, TrendingDown } from "lucide-react";
-import { Chart } from "react-chartjs-2";
+import { ChevronDown, ChevronUp, Loader2, RefreshCcw, TrendingDown } from "lucide-react";
+import dynamic from "next/dynamic";
 
-ChartJS.register(CategoryScale, LinearScale, BarElement, LineElement, PointElement, Tooltip, Legend, BarController, LineController);
+const ResultHistoryChart = dynamic(() => import("@/components/charts/result-history-chart").then((m) => m.ResultHistoryChart), {
+    ssr: false,
+    loading: () => (
+        <div className="flex h-[360px] w-full items-center justify-center text-slate-400">
+            <Loader2 className="h-5 w-5 animate-spin" />
+        </div>
+    ),
+});
 
 interface TopicSubItem {
     id: string;
@@ -340,7 +346,7 @@ export function ExamResultHistoryView() {
 
                             {/* Chart Canvas */}
                             <div className="h-[360px] w-full pt-2">
-                                <Chart type="bar" data={chartData} options={chartOptions} />
+                                <ResultHistoryChart data={chartData} options={chartOptions} />
                             </div>
                         </div>
                     </div>
