@@ -8,6 +8,7 @@ export const UI_TEXT = {
         delete: "Xóa",
         close: "Đóng",
         noData: "Không có dữ liệu",
+        retry: "Thử lại",
         today: "Hôm nay",
         pdfDocument: "Tài liệu PDF",
         openInNewWindow: "Mở trong cửa sổ mới ↗",
