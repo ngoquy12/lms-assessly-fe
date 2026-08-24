@@ -54,8 +54,10 @@ Cookie là nguồn sự thật cho "đã đăng nhập". Service là seam: khi c
 ### 4. Auth hooks
 - **`src/hooks/queries/use-auth.ts`**: `useCurrentUser()` (useQuery, key `queryKeys.auth.currentUser`), `useLogin()` (useMutation → onSuccess set cookie + invalidate currentUser + redirect), `useLogout()` (useMutation → clear cookie + invalidate + về trang công khai). Thêm `auth` namespace vào `query-keys.ts`.
 
-### 5. Middleware
-- **`src/middleware.ts`** (hoặc root `middleware.ts` theo Next 16): đọc `request.cookies.get(SESSION_COOKIE_NAME)`. Nếu path khớp `PROTECTED_PATH_PREFIXES` và không có cookie → `NextResponse.redirect(/login?redirect=<pathname>)`. Config `matcher` loại trừ `_next`, static, api. (KHÔNG import js-cookie trong middleware — chạy edge/server.)
+### 5. Proxy (Next 16 middleware)
+- **Next 16 đã đổi `middleware.ts` → `proxy.ts`** (middleware deprecated). File đặt tại **`src/proxy.ts`** (cùng cấp `src/app`), export `export function proxy(request: NextRequest)` từ `next/server`, kèm `export const config = { matcher: [...] }`.
+- Logic: đọc `request.cookies.get(SESSION_COOKIE_NAME)`. Nếu `pathname` khớp `PROTECTED_PATH_PREFIXES` và không có cookie → `NextResponse.redirect(new URL("/login?redirect=<pathname>", request.url))`. `matcher` loại trừ `_next`, static assets, favicon. (KHÔNG import js-cookie — chạy server/edge; dùng `request.cookies`.)
+- Docs Next: proxy dùng cho "optimistic check" (redirect theo cookie) — đúng use-case; không dùng làm session management đầy đủ.
 
 ### 6. Wire login-modal + logout + redirect
 - Thay `setTimeout` trong `login-modal.tsx` bằng `useLogin().mutate(data, { onSuccess: → đọc `?redirect` hoặc mặc định `/page-exam`, toast, closeModal })`, xử lý `onError` (toast lỗi). Giữ nguyên toàn bộ JSX form.
