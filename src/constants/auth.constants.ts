@@ -20,4 +20,14 @@ export const DEFAULT_AUTH_REDIRECT = "/page-exam";
  * Các tiền tố đường dẫn YÊU CẦU đăng nhập. Route không khớp = công khai.
  * Proxy (src/proxy.ts) chặn theo danh sách này.
  */
-export const PROTECTED_PATH_PREFIXES = ["/page-exam", "/profile", "/exam-result", "/exam/", "/verify-ticket", "/ai-interview/", "/interview/result/"];
+export const PROTECTED_PATH_PREFIXES = [
+    "/page-exam",
+    "/profile",
+    "/exam-result",
+    "/exam/",
+    "/verify-ticket",
+    "/ai-interview/",
+    "/interview/result/",
+    "/toeic/",
+    "/competency-assessment/",
+];
