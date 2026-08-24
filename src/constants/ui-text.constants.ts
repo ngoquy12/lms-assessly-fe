@@ -332,6 +332,8 @@ export const UI_TEXT = {
         },
     },
     auth: {
+        logout: "Đăng xuất",
+        logoutSuccess: "Đã đăng xuất.",
         login: {
             title: "Đăng nhập",
             welcomeBack: "Chào mừng bạn quay lại hành trình học",
@@ -344,6 +346,7 @@ export const UI_TEXT = {
             hidePassword: "Ẩn mật khẩu",
             showPasswordLabel: "Hiện mật khẩu",
             hidePasswordLabel: "Ẩn mật khẩu",
+            success: "Đăng nhập thành công!",
             errors: {
                 emailRequired: "Email không được để trống",
                 emailInvalid: "Email không hợp lệ",

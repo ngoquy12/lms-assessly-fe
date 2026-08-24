@@ -9,7 +9,9 @@ export function PublicLayout({ children }: { children: React.ReactNode }) {
             <MainHeader />
             <main className="w-full flex-1">{children}</main>
             <MainFooter />
-            <LoginModal />
+            <React.Suspense fallback={null}>
+                <LoginModal />
+            </React.Suspense>
         </div>
     );
 }

@@ -3,13 +3,17 @@
 import { useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Eye, EyeOff, Loader2 } from "lucide-react";
+import type { Route } from "next";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import * as z from "zod";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { DEFAULT_AUTH_REDIRECT, DEMO_CREDENTIALS } from "@/constants/auth.constants";
+import { UI_TEXT } from "@/constants/ui-text.constants";
+import { useLogin } from "@/hooks/queries/use-auth";
 import { useAuthModal } from "@/store/use-auth-modal";
 
 const loginSchema = z.object({
@@ -22,9 +26,10 @@ type LoginFormData = z.infer<typeof loginSchema>;
 
 export function LoginModal() {
     const router = useRouter();
+    const searchParams = useSearchParams();
     const { isOpen, setIsOpen, closeModal } = useAuthModal();
     const [showPassword, setShowPassword] = useState(false);
-    const [isLoading, setIsLoading] = useState(false);
+    const { mutate: loginMutate, isPending: isLoading } = useLogin();
 
     const {
         register,
@@ -36,24 +41,30 @@ export function LoginModal() {
     } = useForm<LoginFormData>({
         resolver: zodResolver(loginSchema),
         defaultValues: {
-            email: "baohoang01@gmail.com",
-            password: "password123",
+            email: DEMO_CREDENTIALS.email,
+            password: DEMO_CREDENTIALS.password,
             isPortal: false,
         },
     });
 
     const isPortal = watch("isPortal");
 
-    const onSubmit = async (_data: LoginFormData) => {
-        setIsLoading(true);
-        // Simulate authentication API call
-        setTimeout(() => {
-            setIsLoading(false);
-            toast.success("Đăng nhập thành công!");
-            closeModal();
-            reset();
-            router.push("/page-exam");
-        }, 700);
+    const onSubmit = (data: LoginFormData) => {
+        loginMutate(
+            { email: data.email, password: data.password },
+            {
+                onSuccess: () => {
+                    toast.success(UI_TEXT.auth.login.success);
+                    closeModal();
+                    reset();
+                    const redirect = searchParams.get("redirect");
+                    router.push((redirect ?? DEFAULT_AUTH_REDIRECT) as Route);
+                },
+                onError: () => {
+                    toast.error(UI_TEXT.auth.login.errors.loginFailed);
+                },
+            },
+        );
     };
 
     return (

@@ -136,7 +136,7 @@
   },
   "src/components/auth/login-modal.tsx": {
     "no-restricted-syntax": {
-      "count": 24
+      "count": 23
     }
   },
   "src/components/charts/assessment-radar-chart.tsx": {
