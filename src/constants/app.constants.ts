@@ -296,6 +296,12 @@ export const VALIDATION_LIMITS = {
 export const DEBOUNCE_MS = 300;
 
 /**
+ * Độ trễ giả lập cho tầng service khi chưa có API thật (ms).
+ * Dùng bởi `src/services/mock-delay.ts`. Khi nối API thật, service không dùng hằng số này nữa.
+ */
+export const MOCK_LATENCY_MS = 400;
+
+/**
  * UI Breakpoints in pixels
  */
 export const BREAKPOINTS = {

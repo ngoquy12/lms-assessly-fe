@@ -5,6 +5,7 @@ import { UI_TEXT } from "@/constants/ui-text.constants";
 import "@/styles/globals.css";
 import { cx } from "@/utils/cx";
 import { primaryFont } from "./fonts";
+import { Providers } from "./providers";
 
 export const metadata: Metadata = {
     title: {
@@ -27,7 +28,7 @@ export default function RootLayout({
     return (
         <html lang="vi" suppressHydrationWarning>
             <body className={cx(primaryFont.variable, primaryFont.className, "min-h-screen bg-cream antialiased")}>
-                {children}
+                <Providers>{children}</Providers>
                 <Toaster />
             </body>
         </html>
