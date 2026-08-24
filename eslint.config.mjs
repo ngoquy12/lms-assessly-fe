@@ -422,19 +422,36 @@ export default tseslint.config(
         },
     },
     {
+        // Constants data files + mock data files: intentionally exempt from the
+        // governance no-restricted-syntax checks. Constants hold the UI_TEXT /
+        // style definitions (which legitimately contain Vietnamese copy); mock
+        // files hold static enum-like seed data. Keep only the Tailwind v4
+        // syntax checks here (preserves prior behavior for these directories).
         files: [
             "src/constants/app.constants.ts",
             "src/constants/application.constants.ts",
             "src/constants/base-components.constants.ts",
             "src/constants/ui-text.constants.ts",
             "src/constants/ui-style.constants.ts",
-            "src/components/**/*.{ts,tsx}",
-            "src/views/**/*.{ts,tsx}",
-            "src/app/**/*.{ts,tsx}",
             "src/mocks/**/*.{ts,tsx}",
         ],
         rules: {
             "no-restricted-syntax": ["error", ...TAILWIND_V4_CHECKS],
+            "@typescript-eslint/no-magic-numbers": "off",
+            "react/jsx-no-literals": "off",
+        },
+    },
+    {
+        // Views/components/app: turn off the literal-heavy rules that fight JSX,
+        // but DO NOT override no-restricted-syntax — the earlier per-directory
+        // governance blocks (Vietnamese-text-must-be-in-UI_TEXT,
+        // types-must-be-in-src/types, etc.) must remain in effect here.
+        // (Previously a stray no-restricted-syntax override on this same file
+        // list silently disabled all of them.) Pre-existing violations are
+        // grandfathered via the ESLint suppressions baseline
+        // (eslint-suppressions.json); any NEW violation is reported and blocks CI.
+        files: ["src/components/**/*.{ts,tsx}", "src/views/**/*.{ts,tsx}", "src/app/**/*.{ts,tsx}"],
+        rules: {
             "@typescript-eslint/no-magic-numbers": "off",
             "react/jsx-no-literals": "off",
         },

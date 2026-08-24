@@ -1,0 +1,392 @@
+{
+  "src/app/(main)/competency-assessment/page.tsx": {
+    "no-restricted-syntax": {
+      "count": 2
+    }
+  },
+  "src/app/(main)/exam-result/page.tsx": {
+    "no-restricted-syntax": {
+      "count": 2
+    }
+  },
+  "src/app/(main)/huong-dan/page.tsx": {
+    "no-restricted-syntax": {
+      "count": 2
+    }
+  },
+  "src/app/(main)/interview/page.tsx": {
+    "no-restricted-syntax": {
+      "count": 2
+    }
+  },
+  "src/app/(main)/interview/result/[id]/page.tsx": {
+    "no-restricted-syntax": {
+      "count": 2
+    }
+  },
+  "src/app/(main)/page-exam/page.tsx": {
+    "no-restricted-syntax": {
+      "count": 2
+    }
+  },
+  "src/app/(main)/page.tsx": {
+    "no-restricted-syntax": {
+      "count": 2
+    }
+  },
+  "src/app/(main)/practice/[id]/page.tsx": {
+    "no-restricted-syntax": {
+      "count": 2
+    }
+  },
+  "src/app/(main)/practice/page.tsx": {
+    "no-restricted-syntax": {
+      "count": 2
+    }
+  },
+  "src/app/(main)/profile/page.tsx": {
+    "no-restricted-syntax": {
+      "count": 2
+    }
+  },
+  "src/app/(main)/ranking/page.tsx": {
+    "no-restricted-syntax": {
+      "count": 2
+    }
+  },
+  "src/app/(main)/toeic/page.tsx": {
+    "no-restricted-syntax": {
+      "count": 2
+    }
+  },
+  "src/app/(main)/topics/[id]/page.tsx": {
+    "no-restricted-syntax": {
+      "count": 2
+    }
+  },
+  "src/app/(main)/topics/page.tsx": {
+    "no-restricted-syntax": {
+      "count": 2
+    }
+  },
+  "src/app/(main)/verify-ticket/page.tsx": {
+    "no-restricted-syntax": {
+      "count": 2
+    }
+  },
+  "src/app/ai-interview/check-device/[id]/page.tsx": {
+    "no-restricted-syntax": {
+      "count": 2
+    }
+  },
+  "src/app/ai-interview/session/[id]/page.tsx": {
+    "no-restricted-syntax": {
+      "count": 2
+    }
+  },
+  "src/app/competency-assessment/[id]/page.tsx": {
+    "no-restricted-syntax": {
+      "count": 2
+    }
+  },
+  "src/app/competency-assessment/[id]/result/page.tsx": {
+    "no-restricted-syntax": {
+      "count": 2
+    }
+  },
+  "src/app/exam/[id]/page.tsx": {
+    "no-restricted-syntax": {
+      "count": 2
+    }
+  },
+  "src/app/exam/[id]/result/page.tsx": {
+    "no-restricted-syntax": {
+      "count": 2
+    }
+  },
+  "src/app/login/page.tsx": {
+    "no-restricted-syntax": {
+      "count": 2
+    }
+  },
+  "src/app/not-found.tsx": {
+    "no-restricted-syntax": {
+      "count": 2
+    }
+  },
+  "src/app/practice-public/[id]/page.tsx": {
+    "no-restricted-syntax": {
+      "count": 2
+    }
+  },
+  "src/app/practice-public/[id]/result/page.tsx": {
+    "no-restricted-syntax": {
+      "count": 2
+    }
+  },
+  "src/app/toeic/[id]/page.tsx": {
+    "no-restricted-syntax": {
+      "count": 2
+    }
+  },
+  "src/app/toeic/[id]/result/page.tsx": {
+    "no-restricted-syntax": {
+      "count": 2
+    }
+  },
+  "src/components/auth/login-modal.tsx": {
+    "no-restricted-syntax": {
+      "count": 24
+    }
+  },
+  "src/components/charts/assessment-radar-chart.tsx": {
+    "no-restricted-syntax": {
+      "count": 14
+    }
+  },
+  "src/components/charts/result-bar-chart.tsx": {
+    "no-restricted-syntax": {
+      "count": 9
+    }
+  },
+  "src/components/editor/code-editor.tsx": {
+    "no-restricted-syntax": {
+      "count": 12
+    }
+  },
+  "src/components/editor/essay-editor.tsx": {
+    "no-restricted-syntax": {
+      "count": 9
+    }
+  },
+  "src/components/exam/question-palette.tsx": {
+    "no-restricted-syntax": {
+      "count": 7
+    }
+  },
+  "src/components/exam/questions/coding-question.tsx": {
+    "no-restricted-syntax": {
+      "count": 5
+    }
+  },
+  "src/components/exam/questions/essay-question.tsx": {
+    "no-restricted-syntax": {
+      "count": 3
+    }
+  },
+  "src/components/exam/questions/fill-blanks-question.tsx": {
+    "no-restricted-syntax": {
+      "count": 3
+    }
+  },
+  "src/components/exam/questions/matching-question.tsx": {
+    "no-restricted-syntax": {
+      "count": 2
+    }
+  },
+  "src/components/exam/questions/multiple-choice-question.tsx": {
+    "no-restricted-syntax": {
+      "count": 1
+    }
+  },
+  "src/components/exam/questions/single-choice-question.tsx": {
+    "no-restricted-syntax": {
+      "count": 1
+    }
+  },
+  "src/components/layout/exam-shell-layout.tsx": {
+    "no-restricted-syntax": {
+      "count": 6
+    }
+  },
+  "src/components/layout/main-footer.tsx": {
+    "no-restricted-syntax": {
+      "count": 36
+    }
+  },
+  "src/components/layout/main-header.tsx": {
+    "no-restricted-syntax": {
+      "count": 20
+    }
+  },
+  "src/components/layout/split-pane-layout.tsx": {
+    "no-restricted-syntax": {
+      "count": 1
+    }
+  },
+  "src/components/shared/query-state.tsx": {
+    "no-restricted-syntax": {
+      "count": 1
+    }
+  },
+  "src/components/ui/badge.tsx": {
+    "no-restricted-syntax": {
+      "count": 1
+    }
+  },
+  "src/components/ui/button.tsx": {
+    "no-restricted-syntax": {
+      "count": 1
+    }
+  },
+  "src/components/ui/card.tsx": {
+    "no-restricted-syntax": {
+      "count": 1
+    }
+  },
+  "src/components/ui/dialog.tsx": {
+    "no-restricted-syntax": {
+      "count": 2
+    }
+  },
+  "src/components/ui/input.tsx": {
+    "no-restricted-syntax": {
+      "count": 1
+    }
+  },
+  "src/components/ui/progress.tsx": {
+    "no-restricted-syntax": {
+      "count": 1
+    }
+  },
+  "src/components/ui/sonner.tsx": {
+    "no-restricted-syntax": {
+      "count": 2
+    }
+  },
+  "src/components/ui/tabs.tsx": {
+    "no-restricted-syntax": {
+      "count": 1
+    }
+  },
+  "src/views/competency/competency-exam-view.tsx": {
+    "no-restricted-syntax": {
+      "count": 19
+    }
+  },
+  "src/views/competency/competency-list-view.tsx": {
+    "no-restricted-syntax": {
+      "count": 55
+    }
+  },
+  "src/views/competency/competency-result-view.tsx": {
+    "no-restricted-syntax": {
+      "count": 18
+    }
+  },
+  "src/views/error/not-found-view.tsx": {
+    "no-restricted-syntax": {
+      "count": 4
+    }
+  },
+  "src/views/exam-result/exam-result-history-view.tsx": {
+    "no-restricted-syntax": {
+      "count": 29
+    }
+  },
+  "src/views/exam/exam-lobby-view.tsx": {
+    "no-restricted-syntax": {
+      "count": 126
+    }
+  },
+  "src/views/exam/exam-result-detail-view.tsx": {
+    "no-restricted-syntax": {
+      "count": 29
+    }
+  },
+  "src/views/exam/exam-taking-view.tsx": {
+    "no-restricted-syntax": {
+      "count": 71
+    }
+  },
+  "src/views/exam/verify-ticket-view.tsx": {
+    "no-restricted-syntax": {
+      "count": 25
+    }
+  },
+  "src/views/guide/exam-guide-view.tsx": {
+    "no-restricted-syntax": {
+      "count": 26
+    }
+  },
+  "src/views/home/home-view.tsx": {
+    "no-restricted-syntax": {
+      "count": 81
+    }
+  },
+  "src/views/interview/check-device-view.tsx": {
+    "no-restricted-syntax": {
+      "count": 14
+    }
+  },
+  "src/views/interview/interview-list-view.tsx": {
+    "no-restricted-syntax": {
+      "count": 11
+    }
+  },
+  "src/views/interview/interview-result-view.tsx": {
+    "no-restricted-syntax": {
+      "count": 17
+    }
+  },
+  "src/views/interview/voice-interview-view.tsx": {
+    "no-restricted-syntax": {
+      "count": 11
+    }
+  },
+  "src/views/practice/practice-detail-view.tsx": {
+    "no-restricted-syntax": {
+      "count": 16
+    }
+  },
+  "src/views/practice/practice-exam-public-view.tsx": {
+    "no-restricted-syntax": {
+      "count": 7
+    }
+  },
+  "src/views/practice/practice-list-view.tsx": {
+    "no-restricted-syntax": {
+      "count": 21
+    }
+  },
+  "src/views/practice/practice-result-public-view.tsx": {
+    "no-restricted-syntax": {
+      "count": 28
+    }
+  },
+  "src/views/profile/profile-view.tsx": {
+    "no-restricted-syntax": {
+      "count": 23
+    }
+  },
+  "src/views/ranking/ranking-view.tsx": {
+    "no-restricted-syntax": {
+      "count": 27
+    }
+  },
+  "src/views/toeic/toeic-exam-view.tsx": {
+    "no-restricted-syntax": {
+      "count": 71
+    }
+  },
+  "src/views/toeic/toeic-list-view.tsx": {
+    "no-restricted-syntax": {
+      "count": 63
+    }
+  },
+  "src/views/toeic/toeic-result-view.tsx": {
+    "no-restricted-syntax": {
+      "count": 39
+    }
+  },
+  "src/views/topics/topic-detail-view.tsx": {
+    "no-restricted-syntax": {
+      "count": 5
+    }
+  },
+  "src/views/topics/topics-view.tsx": {
+    "no-restricted-syntax": {
+      "count": 10
+    }
+  }
+}
