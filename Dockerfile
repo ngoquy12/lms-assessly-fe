@@ -4,10 +4,11 @@ FROM node:20-alpine AS base
 FROM base AS deps
 RUN apk add --no-cache libc6-compat
 WORKDIR /app
+RUN corepack enable
 
-# Install dependencies based on the preferred package manager
-COPY package.json package-lock.json* ./
-RUN npm ci
+# Install dependencies with pnpm (project is pnpm-managed)
+COPY package.json pnpm-lock.yaml ./
+RUN pnpm install --frozen-lockfile
 
 # Rebuild the source code only when needed
 FROM base AS builder
@@ -45,7 +46,7 @@ ENV NEXT_PUBLIC_FACEBOOK_PAGELINK=$NEXT_PUBLIC_FACEBOOK_PAGELINK
 ENV NEXT_PUBLIC_APP_URL=$NEXT_PUBLIC_APP_URL
 ENV NEXT_PUBLIC_GOOGLE_CLIENT_ID=$NEXT_PUBLIC_GOOGLE_CLIENT_ID
 
-RUN npm run build
+RUN corepack enable && pnpm run build
 
 # Production image, copy all the files and run next
 FROM base AS runner
