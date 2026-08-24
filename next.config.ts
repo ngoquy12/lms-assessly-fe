@@ -50,6 +50,20 @@ const nextConfig: NextConfig = {
             },
         ],
     },
+    async headers() {
+        return [
+            {
+                source: "/:path*",
+                headers: [
+                    { key: "X-Content-Type-Options", value: "nosniff" },
+                    { key: "X-Frame-Options", value: "SAMEORIGIN" },
+                    { key: "Referrer-Policy", value: "strict-origin-when-cross-origin" },
+                    // camera/microphone left enabled for same-origin: ai-interview (check-device, voice-interview) is an intended WebRTC feature.
+                    { key: "Permissions-Policy", value: "camera=(self), microphone=(self), geolocation=()" },
+                ],
+            },
+        ];
+    },
 };
 
 export default nextConfig;
