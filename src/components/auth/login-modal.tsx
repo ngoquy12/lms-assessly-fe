@@ -58,8 +58,7 @@ export function LoginModal() {
                     closeModal();
                     reset();
                     const redirectParam = searchParams.get("redirect");
-                    const safeRedirect =
-                        redirectParam && redirectParam.startsWith("/") && !redirectParam.startsWith("//") ? redirectParam : DEFAULT_AUTH_REDIRECT;
+                    const safeRedirect = redirectParam && /^\/(?![/\\])/.test(redirectParam) ? redirectParam : DEFAULT_AUTH_REDIRECT;
                     router.push(safeRedirect as Route);
                 },
                 onError: () => {
