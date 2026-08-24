@@ -2,13 +2,15 @@
 
 import { ChevronRight, FolderTree } from "lucide-react";
 import Link from "next/link";
+import { QueryStateBoundary } from "@/components/shared/query-state";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { MOCK_TOPICS_LIST } from "@/mocks/practice.mock";
+import { useTopicsList } from "@/hooks/queries/use-practice";
 
 export function TopicsView() {
-    const topics = MOCK_TOPICS_LIST;
+    const { data, isLoading, isError, refetch } = useTopicsList();
+    const topics = data ?? [];
 
     return (
         <div className="min-h-screen w-full bg-[#f8fafc] px-4 py-10 font-sans text-slate-900 sm:px-8 lg:px-12">
@@ -20,53 +22,55 @@ export function TopicsView() {
                 </div>
 
                 {/* 2. Topics Grid */}
-                <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
-                    {topics.map((topic) => (
-                        <Card
-                            key={topic.id}
-                            size="md"
-                            className="hover:shadow-card-md flex flex-col justify-between rounded-2xl border-slate-200/80 bg-white transition-all"
-                        >
-                            <CardHeader>
-                                <div className="mb-2 flex items-center justify-between">
-                                    <div className="rounded-xl bg-[#fff6f7] p-2.5 text-[#ab1f24]">
-                                        <FolderTree className="h-5 w-5" />
-                                    </div>
-                                    <Badge variant="secondary">{topic.questionsCount} câu hỏi</Badge>
-                                </div>
-                                <CardTitle className="text-lg font-bold text-slate-900">{topic.name}</CardTitle>
-                                <CardDescription className="text-sm text-slate-600">{topic.description}</CardDescription>
-                            </CardHeader>
-
-                            <CardContent className="space-y-4 pt-0">
-                                {topic.subTopics && (
-                                    <div className="space-y-2 rounded-xl border border-slate-100 bg-slate-50 p-3">
-                                        <span className="text-xs font-semibold text-slate-500">Nhóm chủ đề con</span>
-                                        <div className="space-y-1.5">
-                                            {topic.subTopics.map((sub) => (
-                                                <div key={sub.id} className="flex items-center justify-between text-xs text-slate-700">
-                                                    <span className="truncate">{sub.name}</span>
-                                                    <span className="font-mono text-slate-400">{sub.questionsCount} câu</span>
-                                                </div>
-                                            ))}
+                <QueryStateBoundary isLoading={isLoading} isError={isError} onRetry={refetch}>
+                    <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+                        {topics.map((topic) => (
+                            <Card
+                                key={topic.id}
+                                size="md"
+                                className="hover:shadow-card-md flex flex-col justify-between rounded-2xl border-slate-200/80 bg-white transition-all"
+                            >
+                                <CardHeader>
+                                    <div className="mb-2 flex items-center justify-between">
+                                        <div className="rounded-xl bg-[#fff6f7] p-2.5 text-[#ab1f24]">
+                                            <FolderTree className="h-5 w-5" />
                                         </div>
+                                        <Badge variant="secondary">{topic.questionsCount} câu hỏi</Badge>
                                     </div>
-                                )}
+                                    <CardTitle className="text-lg font-bold text-slate-900">{topic.name}</CardTitle>
+                                    <CardDescription className="text-sm text-slate-600">{topic.description}</CardDescription>
+                                </CardHeader>
 
-                                <Link href={`/topics/${topic.id}`} className="block">
-                                    <Button
-                                        variant="outline"
-                                        className="h-10 w-full justify-between rounded-xl font-semibold hover:border-[#ab1f24] hover:text-[#ab1f24]"
-                                        size="sm"
-                                    >
-                                        <span>Vào ôn luyện theo chủ đề</span>
-                                        <ChevronRight className="h-4 w-4" />
-                                    </Button>
-                                </Link>
-                            </CardContent>
-                        </Card>
-                    ))}
-                </div>
+                                <CardContent className="space-y-4 pt-0">
+                                    {topic.subTopics && (
+                                        <div className="space-y-2 rounded-xl border border-slate-100 bg-slate-50 p-3">
+                                            <span className="text-xs font-semibold text-slate-500">Nhóm chủ đề con</span>
+                                            <div className="space-y-1.5">
+                                                {topic.subTopics.map((sub) => (
+                                                    <div key={sub.id} className="flex items-center justify-between text-xs text-slate-700">
+                                                        <span className="truncate">{sub.name}</span>
+                                                        <span className="font-mono text-slate-400">{sub.questionsCount} câu</span>
+                                                    </div>
+                                                ))}
+                                            </div>
+                                        </div>
+                                    )}
+
+                                    <Link href={`/topics/${topic.id}`} className="block">
+                                        <Button
+                                            variant="outline"
+                                            className="h-10 w-full justify-between rounded-xl font-semibold hover:border-[#ab1f24] hover:text-[#ab1f24]"
+                                            size="sm"
+                                        >
+                                            <span>Vào ôn luyện theo chủ đề</span>
+                                            <ChevronRight className="h-4 w-4" />
+                                        </Button>
+                                    </Link>
+                                </CardContent>
+                            </Card>
+                        ))}
+                    </div>
+                </QueryStateBoundary>
             </div>
         </div>
     );
