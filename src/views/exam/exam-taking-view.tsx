@@ -49,8 +49,11 @@ export function ExamTakingView({ examId }: { examId: string }) {
         }, 800);
     }, [examId, router]);
 
-    // Timer Countdown
+    // Timer Countdown — only starts once the real duration has been seeded from the loaded session,
+    // otherwise it would tick against the unseeded `0` and auto-submit before data arrives.
     useEffect(() => {
+        if (!session) return;
+
         const interval = setInterval(() => {
             setSecondsRemaining((prev) => {
                 if (prev <= 1) {
@@ -62,7 +65,7 @@ export function ExamTakingView({ examId }: { examId: string }) {
             });
         }, 1000);
         return () => clearInterval(interval);
-    }, [handleConfirmSubmit]);
+    }, [session, handleConfirmSubmit]);
 
     const formatTime = (secs: number) => {
         const hours = Math.floor(secs / 3600);
