@@ -20,4 +20,7 @@ export const queryKeys = {
         profile: ["user", "profile"] as const,
         leaderboard: ["user", "leaderboard"] as const,
     },
+    auth: {
+        currentUser: ["auth", "current-user"] as const,
+    },
 } as const;
