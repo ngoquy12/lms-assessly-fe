@@ -1,65 +1,20 @@
 "use client";
 
 import { useState } from "react";
-import { BarChart3, Clock, Monitor, PlayCircle } from "lucide-react";
+import { BarChart3, Clock, Layers, Monitor, PlayCircle } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-
-const TOPIC_TABS = [
-    { id: "all", name: "Tất cả chủ đề" },
-    { id: "java", name: "Java Core & Spring" },
-    { id: "frontend", name: "ReactJS & Frontend" },
-    { id: "database", name: "Database & SQL" },
-    { id: "embedded", name: "Lập trình C/C++" },
-];
-
-const CURATED_EXAMS = [
-    {
-        id: "exam-1",
-        title: "Đề Thi Khảo Sát Năng Lực Lập Trình Java Căn Bản",
-        description: "Kiểm tra kiến thức cốt lõi về OOP, Collection Framework, Exception Handling và đa luồng.",
-        image: "/images/bannerPractice/practice1.png",
-        tag: "Công khai",
-        topicId: "java",
-        questionCount: 40,
-        duration: "60 phút",
-    },
-    {
-        id: "exam-2",
-        title: "Đề Thi Luyện Tập ReactJS & Next.js Toàn Diện",
-        description: "Đánh giá khả năng xây dựng ứng dụng với React 19, Hooks, Server Components và State Management.",
-        image: "/images/bannerPractice/practice2.png",
-        tag: "Công khai",
-        topicId: "frontend",
-        questionCount: 35,
-        duration: "45 phút",
-    },
-    {
-        id: "exam-3",
-        title: "Bộ Đề Luyện Thi SQL Server & Tối Ưu Truy Vấn",
-        description: "Đánh giá kỹ năng viết truy vấn phức tạp, Indexing, Transaction và thiết kế cơ sở dữ liệu quan hệ.",
-        image: "/images/bannerPractice/practice3.png",
-        tag: "Công khai",
-        topicId: "database",
-        questionCount: 30,
-        duration: "45 phút",
-    },
-    {
-        id: "exam-4",
-        title: "Đề Thi Khảo Sát Kiến Thức C++ & Cấu Trúc Dữ Liệu",
-        description: "Kiểm tra tư duy giải thuật, quản lý bộ nhớ con trỏ, STL và tối ưu hóa hiệu năng ứng dụng.",
-        image: "/images/bannerPractice/practice1.png",
-        tag: "Công khai",
-        topicId: "embedded",
-        questionCount: 40,
-        duration: "60 phút",
-    },
-];
+import { QueryStateBoundary } from "@/components/shared/query-state";
+import { Badge } from "@/components/ui/badge";
+import { usePracticeList } from "@/hooks/queries/use-practice";
 
 export function HomeView() {
-    const [selectedTopic, setSelectedTopic] = useState("all");
+    const { data, isLoading, isError, refetch } = usePracticeList();
+    const practices = data ?? [];
+    const categories = Array.from(new Set(practices.map((p) => p.category)));
+    const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
 
-    const filteredExams = selectedTopic === "all" ? CURATED_EXAMS : CURATED_EXAMS.filter((e) => e.topicId === selectedTopic);
+    const filteredExams = selectedCategory ? practices.filter((p) => p.category === selectedCategory) : practices;
 
     return (
         <div className="w-full font-sans text-[#1e2328]">
@@ -133,24 +88,33 @@ export function HomeView() {
 
                     {/* Filter Tabs */}
                     <div className="mb-12 flex flex-wrap items-center justify-center gap-3">
-                        {TOPIC_TABS.map((tab) => (
+                        <button
+                            type="button"
+                            onClick={() => setSelectedCategory(null)}
+                            className={`cursor-pointer rounded-lg px-6 py-3 text-base font-medium transition-all ${
+                                selectedCategory === null ? "bg-brand-500 text-white shadow-xs" : "bg-white text-gray-800 hover:bg-brand-500 hover:text-white"
+                            }`}
+                        >
+                            Tất cả chủ đề
+                        </button>
+                        {categories.map((category) => (
                             <button
-                                key={tab.id}
+                                key={category}
                                 type="button"
-                                onClick={() => setSelectedTopic(tab.id)}
+                                onClick={() => setSelectedCategory(category)}
                                 className={`cursor-pointer rounded-lg px-6 py-3 text-base font-medium transition-all ${
-                                    selectedTopic === tab.id
-                                        ? "bg-[#ab1f24] text-white shadow-xs"
-                                        : "bg-white text-[#1e2328] hover:bg-[#ab1f24] hover:text-white"
+                                    selectedCategory === category
+                                        ? "bg-brand-500 text-white shadow-xs"
+                                        : "bg-white text-gray-800 hover:bg-brand-500 hover:text-white"
                                 }`}
                             >
-                                {tab.name}
+                                {category}
                             </button>
                         ))}
                         <Link href="/topics">
                             <button
                                 type="button"
-                                className="cursor-pointer rounded-lg border border-dashed border-gray-300 bg-white px-6 py-3 text-base font-medium text-[#1e2328] transition-all hover:border-[#ab1f24] hover:text-[#ab1f24]"
+                                className="cursor-pointer rounded-lg border border-dashed border-gray-300 bg-white px-6 py-3 text-base font-medium text-gray-800 transition-all hover:border-brand-500 hover:text-brand-500"
                             >
                                 Xem thêm +
                             </button>
@@ -158,38 +122,49 @@ export function HomeView() {
                     </div>
 
                     {/* Exams Cards Grid */}
-                    <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4">
-                        {filteredExams.map((exam) => (
-                            <Link key={exam.id} href={`/practice-public/${exam.id}`}>
-                                <div className="group flex h-full cursor-pointer flex-col justify-between overflow-hidden rounded-2xl bg-white shadow-[0_4px_12px_rgba(0,0,0,0.08)] transition-all hover:-translate-y-1.5 hover:shadow-xl">
-                                    <div className="relative aspect-16/10 w-full overflow-hidden bg-gray-100">
-                                        <Image
-                                            src={exam.image}
-                                            alt={exam.title}
-                                            width={320}
-                                            height={200}
-                                            className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
-                                        />
-                                        <div className="absolute top-3 right-3 rounded bg-[#10b981] px-2.5 py-1 text-xs font-medium text-white">{exam.tag}</div>
-                                    </div>
-
-                                    <div className="flex flex-1 flex-col justify-between space-y-4 p-6">
-                                        <div className="space-y-2">
-                                            <h3 className="line-clamp-2 text-lg font-bold text-[#1e2328] transition-colors group-hover:text-[#ab1f24]">
-                                                {exam.title}
+                    <QueryStateBoundary isLoading={isLoading} isError={isError} onRetry={refetch}>
+                        <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4">
+                            {filteredExams.map((practice) => (
+                                <Link key={practice.id} href={`/practice-public/${practice.id}`}>
+                                    <div className="group flex h-full cursor-pointer flex-col justify-between overflow-hidden rounded-2xl bg-white p-6 shadow-[0_4px_12px_rgba(0,0,0,0.08)] transition-all hover:-translate-y-1.5 hover:shadow-xl">
+                                        <div className="space-y-3">
+                                            <div className="flex items-center justify-between gap-2">
+                                                <Badge variant="primary" className="border-red-200 bg-brand-25 text-brand-600" size="sm">
+                                                    {practice.category}
+                                                </Badge>
+                                                <Badge
+                                                    variant={
+                                                        practice.difficulty === "HARD"
+                                                            ? "destructive"
+                                                            : practice.difficulty === "MEDIUM"
+                                                              ? "warning"
+                                                              : "success"
+                                                    }
+                                                    size="sm"
+                                                >
+                                                    {practice.difficulty === "HARD" ? "Nâng cao" : practice.difficulty === "MEDIUM" ? "Trung bình" : "Cơ bản"}
+                                                </Badge>
+                                            </div>
+                                            <h3 className="line-clamp-2 text-lg font-bold text-gray-800 transition-colors group-hover:text-brand-500">
+                                                {practice.title}
                                             </h3>
-                                            <p className="line-clamp-2 text-sm leading-relaxed text-[#6b7280]">{exam.description}</p>
+                                            <p className="line-clamp-2 text-sm leading-relaxed text-gray-400">{practice.description}</p>
                                         </div>
-
-                                        <div className="flex items-center justify-between border-t border-gray-100 pt-4 text-xs font-medium text-[#6b7280]">
-                                            <span>{exam.questionCount} câu hỏi</span>
-                                            <span>{exam.duration}</span>
+                                        <div className="mt-4 flex items-center justify-between gap-3 rounded-xl border border-gray-100 bg-gray-50 p-3 text-xs font-medium text-gray-400">
+                                            <span className="flex items-center gap-1">
+                                                <Clock className="h-3.5 w-3.5 text-brand-500" />
+                                                {practice.durationMinutes} phút
+                                            </span>
+                                            <span className="flex items-center gap-1">
+                                                <Layers className="h-3.5 w-3.5 text-brand-500" />
+                                                {practice.totalQuestions} câu hỏi
+                                            </span>
                                         </div>
                                     </div>
-                                </div>
-                            </Link>
-                        ))}
-                    </div>
+                                </Link>
+                            ))}
+                        </div>
+                    </QueryStateBoundary>
                 </div>
             </section>
 
