@@ -311,7 +311,7 @@
   },
   "src/views/home/home-view.tsx": {
     "no-restricted-syntax": {
-      "count": 71
+      "count": 37
     }
   },
   "src/views/interview/check-device-view.tsx": {
