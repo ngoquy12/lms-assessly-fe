@@ -1,0 +1,432 @@
+{
+    "meta": {
+        "seedVersion": "1.0.0",
+        "description": "Seed mock dùng chung giữa LMS-AI-QLDT (admin khảo thí) và lms-assessly-fe (thí sinh). Nguồn sự thật duy nhất — commit bản giống hệt ở cả 2 repo. KHÔNG sửa lệch giữa hai bên.",
+        "institution": "Hội đồng Khảo thí Rikkei Education",
+        "demoCandidateId": "cand-01"
+    },
+    "criteria": [
+        { "id": "cri-core", "name": "Kiến thức nền tảng Python & JavaScript" },
+        { "id": "cri-arch", "name": "Kiến trúc Next.js 16 & React 19" },
+        { "id": "cri-css", "name": "CSS & Styling Tailwind v4" },
+        { "id": "cri-coding", "name": "Kỹ năng lập trình & Tự luận" },
+        { "id": "cri-softskill", "name": "Tư duy & Kỹ năng mềm (IQ/EQ)" }
+    ],
+    "candidates": [
+        {
+            "id": "cand-01",
+            "code": "RA-2026-0889",
+            "fullName": "Nguyễn Văn An",
+            "email": "an.nguyen@rikkei.edu.vn",
+            "phone": "0987654321",
+            "dateOfBirth": "2002-05-15",
+            "gender": "MALE",
+            "className": "Kỹ sư Cầu nối Frontend - K26",
+            "avatarUrl": ""
+        },
+        {
+            "id": "cand-02",
+            "code": "RA-2026-0102",
+            "fullName": "Trần Minh Quân",
+            "email": "quan.tran@rikkei.edu.vn",
+            "phone": "0912000102",
+            "dateOfBirth": "2002-03-02",
+            "gender": "MALE",
+            "className": "Kỹ sư Cầu nối Frontend - K26",
+            "avatarUrl": ""
+        },
+        {
+            "id": "cand-03",
+            "code": "RA-2026-0345",
+            "fullName": "Lê Hoàng Yến",
+            "email": "yen.le@rikkei.edu.vn",
+            "phone": "0912000345",
+            "dateOfBirth": "2002-07-20",
+            "gender": "FEMALE",
+            "className": "Kỹ sư Cầu nối Frontend - K26",
+            "avatarUrl": ""
+        },
+        {
+            "id": "cand-04",
+            "code": "RA-2026-0771",
+            "fullName": "Phạm Đức Thắng",
+            "email": "thang.pham@rikkei.edu.vn",
+            "phone": "0912000771",
+            "dateOfBirth": "2001-11-11",
+            "gender": "MALE",
+            "className": "Kỹ sư Cầu nối Backend - K26",
+            "avatarUrl": ""
+        },
+        {
+            "id": "cand-05",
+            "code": "RA-2026-0520",
+            "fullName": "Vũ Phương Linh",
+            "email": "linh.vu@rikkei.edu.vn",
+            "phone": "0912000520",
+            "dateOfBirth": "2002-09-09",
+            "gender": "FEMALE",
+            "className": "Kỹ sư Cầu nối Backend - K26",
+            "avatarUrl": ""
+        }
+    ],
+    "questions": [
+        {
+            "id": "q-01",
+            "orderNumber": 1,
+            "type": "SINGLE_CHOICE",
+            "points": 10,
+            "criteriaId": "cri-core",
+            "tag": "Python - Cơ bản",
+            "title": "Hàm nào trong Python được dùng để kiểm tra độ dài của một chuỗi hoặc danh sách?",
+            "description": "Chọn 1 đáp án chính xác nhất.",
+            "options": [
+                { "id": "q-01-a", "label": "A", "text": "count()", "isCorrect": false },
+                { "id": "q-01-b", "label": "B", "text": "size()", "isCorrect": false },
+                { "id": "q-01-c", "label": "C", "text": "len()", "isCorrect": true },
+                { "id": "q-01-d", "label": "D", "text": "length()", "isCorrect": false }
+            ]
+        },
+        {
+            "id": "q-02",
+            "orderNumber": 2,
+            "type": "SINGLE_CHOICE",
+            "points": 10,
+            "criteriaId": "cri-core",
+            "tag": "Python Web (FastAPI)",
+            "title": "Trong dự án FastAPI 4 lớp chuẩn, thư mục routers/ đảm nhận nhiệm vụ gì?",
+            "description": "Chọn 1 đáp án chính xác nhất.",
+            "options": [
+                { "id": "q-02-a", "label": "A", "text": "Chứa script kiểm thử tự động (Unit Test)", "isCorrect": false },
+                { "id": "q-02-b", "label": "B", "text": "Chứa APIRouter định nghĩa URL endpoints và nhận Request", "isCorrect": true },
+                { "id": "q-02-c", "label": "C", "text": "Chứa cấu hình kết nối cơ sở dữ liệu SQLAlchemy", "isCorrect": false },
+                { "id": "q-02-d", "label": "D", "text": "Chứa Pydantic Schemas validate dữ liệu", "isCorrect": false }
+            ]
+        },
+        {
+            "id": "q-03",
+            "orderNumber": 3,
+            "type": "MULTIPLE_CHOICE",
+            "points": 15,
+            "criteriaId": "cri-css",
+            "tag": "Tailwind v4",
+            "title": "Những cải tiến nào sau đây thuộc về Tailwind CSS phiên bản 4?",
+            "description": "Chọn tất cả các đáp án đúng.",
+            "options": [
+                { "id": "q-03-a", "label": "A", "text": "Biên dịch bằng Rust engine (Oxide) nhanh hơn nhiều lần", "isCorrect": true },
+                { "id": "q-03-b", "label": "B", "text": "Important modifier đặt cuối class như mb-3!", "isCorrect": true },
+                { "id": "q-03-c", "label": "C", "text": "Cấu hình native CSS variables với @theme trong CSS", "isCorrect": true },
+                { "id": "q-03-d", "label": "D", "text": "Bắt buộc tạo file tailwind.config.js mới chạy được", "isCorrect": false }
+            ]
+        },
+        {
+            "id": "q-04",
+            "orderNumber": 4,
+            "type": "FILL_IN_BLANKS",
+            "points": 10,
+            "criteriaId": "cri-arch",
+            "tag": "React - State",
+            "title": "Điền tên hàm/hook thích hợp vào ô trống:",
+            "description": "Điền tên phương thức chính xác vào ô nhập liệu.",
+            "content": "Để khởi tạo store quản lý state toàn cục với Zustand trong React, ta dùng hàm tạo store là _____ từ package 'zustand'.",
+            "answerText": "create"
+        },
+        {
+            "id": "q-05",
+            "orderNumber": 5,
+            "type": "MATCHING",
+            "points": 15,
+            "criteriaId": "cri-arch",
+            "tag": "Next.js - Kiến trúc",
+            "title": "Ghép nối khái niệm React & Next.js với định nghĩa phù hợp:",
+            "description": "Chọn định nghĩa tương ứng cho mỗi thuật ngữ.",
+            "matchingPairs": [
+                { "id": "q-05-m1", "left": "React Server Components (RSC)", "right": "Render trên server, không tải JS bundle về client" },
+                { "id": "q-05-m2", "left": "Server Actions", "right": "Hàm async chạy trên server, trigger từ form/button" },
+                { "id": "q-05-m3", "left": "Hydration", "right": "Gắn event listeners vào HTML tĩnh sau khi tải về" }
+            ]
+        },
+        {
+            "id": "q-06",
+            "orderNumber": 6,
+            "type": "SINGLE_CHOICE",
+            "points": 10,
+            "criteriaId": "cri-arch",
+            "tag": "Next.js 16",
+            "title": "Trong Next.js 16 App Router, directive nào bắt buộc khai báo đầu file khi component dùng React Hook (useState/useEffect)?",
+            "description": "Chọn 1 đáp án chính xác nhất.",
+            "options": [
+                { "id": "q-06-a", "label": "A", "text": "\"use client\";", "isCorrect": true },
+                { "id": "q-06-b", "label": "B", "text": "\"use server\";", "isCorrect": false },
+                { "id": "q-06-c", "label": "C", "text": "\"use static\";", "isCorrect": false },
+                { "id": "q-06-d", "label": "D", "text": "\"use dynamic\";", "isCorrect": false }
+            ]
+        },
+        {
+            "id": "q-07",
+            "orderNumber": 7,
+            "type": "ESSAY",
+            "points": 10,
+            "criteriaId": "cri-coding",
+            "tag": "Tự luận",
+            "title": "Phân tích sự khác biệt cốt lõi giữa Server-Side Rendering (SSR) và Client-Side Rendering (CSR).",
+            "description": "Trình bày ngắn gọn ưu nhược điểm và tình huống sử dụng thực tế.",
+            "answerText": "Không có đáp án cố định (chấm tay)."
+        },
+        {
+            "id": "q-08",
+            "orderNumber": 8,
+            "type": "CODING",
+            "points": 15,
+            "criteriaId": "cri-coding",
+            "tag": "Coding - JavaScript",
+            "title": "Viết hàm đếm số lần xuất hiện của các từ trong một chuỗi văn bản.",
+            "description": "Hoàn thiện hàm countWordFrequency(text) trả về object chứa tần suất của từng từ.",
+            "language": "javascript",
+            "codeTemplate": "function countWordFrequency(text) {\n    // Viết mã nguồn của bạn tại đây\n    return {};\n}"
+        },
+        {
+            "id": "q-09",
+            "orderNumber": 9,
+            "type": "ORDERING",
+            "points": 10,
+            "criteriaId": "cri-arch",
+            "tag": "Sắp xếp",
+            "title": "Sắp xếp các cụm từ để tạo thành câu hoàn chỉnh về kiến trúc phần mềm:",
+            "description": "Bấm các cụm từ theo đúng thứ tự để tạo câu có nghĩa.",
+            "orderingItems": [
+                "Next.js App Router",
+                "sử dụng React Server Components",
+                "để tối ưu hóa hiệu năng",
+                "và giảm kích thước bundle",
+                "trên trình duyệt người dùng."
+            ]
+        },
+        {
+            "id": "q-10",
+            "orderNumber": 10,
+            "type": "EQ",
+            "points": 10,
+            "criteriaId": "cri-softskill",
+            "tag": "EQ - Xử lý tình huống",
+            "title": "Trong buổi Code Review, một đồng nghiệp phản bác gay gắt kiến trúc bạn thiết kế với từ ngữ thiếu thiện chí. Bạn phản ứng thế nào?",
+            "description": "Chọn phương án ứng xử phù hợp và chuyên nghiệp nhất.",
+            "explanation": "Đánh giá khả năng làm chủ cảm xúc, lắng nghe phản hồi và giải quyết mâu thuẫn mang tính xây dựng.",
+            "options": [
+                { "id": "q-10-a", "label": "A", "text": "Giữ bình tĩnh, tách cảm xúc khỏi vấn đề kỹ thuật; đề nghị làm rõ điểm chưa tối ưu và so sánh giải pháp dựa trên dữ liệu.", "scoreWeight": 10, "isCorrect": true },
+                { "id": "q-10-b", "label": "B", "text": "Tranh luận lại ngay trên diễn đàn công khai để bảo vệ uy tín kỹ thuật.", "scoreWeight": 2, "isCorrect": false },
+                { "id": "q-10-c", "label": "C", "text": "Im lặng, sửa toàn bộ theo ý đồng nghiệp dù biết có thể gây lỗi.", "scoreWeight": 4, "isCorrect": false },
+                { "id": "q-10-d", "label": "D", "text": "Báo cáo ngay lên PM và từ chối làm việc cùng đồng nghiệp đó.", "scoreWeight": 3, "isCorrect": false }
+            ]
+        },
+        {
+            "id": "q-11",
+            "orderNumber": 11,
+            "type": "IQ",
+            "points": 10,
+            "criteriaId": "cri-softskill",
+            "tag": "IQ - Tư duy logic",
+            "title": "Cho ma trận quy luật số học. Tìm giá trị dấu hỏi (?)",
+            "description": "Phân tích quy luật hàng/cột để chọn đáp án chính xác.",
+            "content": "[Hàng 1] 4 → 9 → 20\n[Hàng 2] 8 → 5 → 14\n[Hàng 3] 10 → 3 → ?",
+            "explanation": "Quy luật: c = a/2 + b*2 => (10/2) + (3*2) = 5 + 6 = 11.",
+            "options": [
+                { "id": "q-11-a", "label": "A", "text": "11", "isCorrect": true },
+                { "id": "q-11-b", "label": "B", "text": "13", "isCorrect": false },
+                { "id": "q-11-c", "label": "C", "text": "16", "isCorrect": false },
+                { "id": "q-11-d", "label": "D", "text": "18", "isCorrect": false }
+            ]
+        },
+        {
+            "id": "q-12",
+            "orderNumber": 12,
+            "type": "SINGLE_CHOICE",
+            "points": 10,
+            "criteriaId": "cri-core",
+            "tag": "Cơ sở dữ liệu",
+            "title": "Chỉ số Index trong SQL Database thường dùng cấu trúc cây nào phổ biến nhất?",
+            "description": "Chọn 1 đáp án chính xác nhất.",
+            "options": [
+                { "id": "q-12-a", "label": "A", "text": "B-Tree / B+Tree", "isCorrect": true },
+                { "id": "q-12-b", "label": "B", "text": "Binary Search Tree thuần", "isCorrect": false },
+                { "id": "q-12-c", "label": "C", "text": "Red-Black Tree", "isCorrect": false },
+                { "id": "q-12-d", "label": "D", "text": "Trie", "isCorrect": false }
+            ]
+        }
+    ],
+    "exam": {
+        "id": "exam-01",
+        "code": "FE-FRESHER-2026",
+        "title": "Đánh giá năng lực Lập trình Fresher 2026",
+        "subject": "Kỹ thuật Phát triển Ứng dụng Web & Backend",
+        "frameworkName": "Khung đề đánh giá năng lực Fresher",
+        "topicName": "Đánh giá năng lực CNTT K26",
+        "durationMinutes": 50,
+        "maxScore": 135,
+        "questionIds": ["q-01", "q-02", "q-03", "q-04", "q-05", "q-06", "q-07", "q-08", "q-09", "q-10", "q-11", "q-12"]
+    },
+    "session": {
+        "id": "sess-demo-01",
+        "code": "3021-8890",
+        "name": "Ca thi Đánh giá năng lực Fresher 2026 - Đợt 1",
+        "examId": "exam-01",
+        "roomName": "Phòng thi Trực tuyến 01",
+        "proctors": ["ThS. Nguyễn Văn Anh (CBCT 1)", "ThS. Lê Thị Bích (CBCT 2)"],
+        "openTime": "2026-08-24T08:00:00Z",
+        "closeTime": "2026-08-24T08:50:00Z",
+        "examMode": "individual",
+        "gradingType": "system",
+        "status": "completed",
+        "candidateIds": ["cand-01", "cand-02", "cand-03", "cand-04", "cand-05"]
+    },
+    "results": [
+        {
+            "candidateId": "cand-01",
+            "examId": "exam-01",
+            "sessionId": "sess-demo-01",
+            "score": 118,
+            "maxScore": 135,
+            "percentage": 87,
+            "status": "PASSED",
+            "totalCorrect": 10,
+            "totalWrong": 1,
+            "totalSkipped": 1,
+            "durationSpentSeconds": 2145,
+            "submittedAt": "2026-08-24T08:42:15Z",
+            "identificationNumber": "SBD-001",
+            "criteriaBreakdown": [
+                { "criteriaName": "Kiến thức nền tảng Python & JavaScript", "correct": 3, "total": 3, "percentage": 100 },
+                { "criteriaName": "Kiến trúc Next.js 16 & React 19", "correct": 3, "total": 4, "percentage": 75 },
+                { "criteriaName": "CSS & Styling Tailwind v4", "correct": 1, "total": 1, "percentage": 100 },
+                { "criteriaName": "Kỹ năng lập trình & Tự luận", "correct": 2, "total": 2, "percentage": 100 },
+                { "criteriaName": "Tư duy & Kỹ năng mềm (IQ/EQ)", "correct": 1, "total": 2, "percentage": 50 }
+            ],
+            "feedback": "Thí sinh nắm chắc kiến thức nền tảng và framework hiện đại, hoàn thành tốt bài thi."
+        },
+        {
+            "candidateId": "cand-02",
+            "examId": "exam-01",
+            "sessionId": "sess-demo-01",
+            "score": 128,
+            "maxScore": 135,
+            "percentage": 95,
+            "status": "PASSED",
+            "totalCorrect": 11,
+            "totalWrong": 1,
+            "totalSkipped": 0,
+            "durationSpentSeconds": 1980,
+            "submittedAt": "2026-08-24T08:39:02Z",
+            "identificationNumber": "SBD-002",
+            "criteriaBreakdown": [],
+            "feedback": "Xuất sắc toàn diện."
+        },
+        {
+            "candidateId": "cand-03",
+            "examId": "exam-01",
+            "sessionId": "sess-demo-01",
+            "score": 110,
+            "maxScore": 135,
+            "percentage": 81,
+            "status": "PASSED",
+            "totalCorrect": 9,
+            "totalWrong": 2,
+            "totalSkipped": 1,
+            "durationSpentSeconds": 2400,
+            "submittedAt": "2026-08-24T08:47:30Z",
+            "identificationNumber": "SBD-003",
+            "criteriaBreakdown": [],
+            "feedback": "Nền tảng tốt, cần cải thiện phần tư duy logic."
+        },
+        {
+            "candidateId": "cand-04",
+            "examId": "exam-01",
+            "sessionId": "sess-demo-01",
+            "score": 76,
+            "maxScore": 135,
+            "percentage": 56,
+            "status": "FAILED",
+            "totalCorrect": 6,
+            "totalWrong": 4,
+            "totalSkipped": 2,
+            "durationSpentSeconds": 2600,
+            "submittedAt": "2026-08-24T08:49:10Z",
+            "identificationNumber": "SBD-004",
+            "criteriaBreakdown": [],
+            "feedback": "Cần củng cố thêm kiến thức framework và kỹ năng lập trình."
+        },
+        {
+            "candidateId": "cand-05",
+            "examId": "exam-01",
+            "sessionId": "sess-demo-01",
+            "score": 95,
+            "maxScore": 135,
+            "percentage": 70,
+            "status": "PASSED",
+            "totalCorrect": 8,
+            "totalWrong": 3,
+            "totalSkipped": 1,
+            "durationSpentSeconds": 2210,
+            "submittedAt": "2026-08-24T08:44:55Z",
+            "identificationNumber": "SBD-005",
+            "criteriaBreakdown": [],
+            "feedback": "Đạt yêu cầu, ổn định."
+        }
+    ],
+    "leaderboard": [
+        { "candidateId": "cand-02", "rank": 1, "totalScore": 985, "examsCompleted": 10, "badge": "Top 1 Xuất Sắc" },
+        { "candidateId": "cand-03", "rank": 2, "totalScore": 960, "examsCompleted": 10, "badge": "Top 2 Tài Năng" },
+        { "candidateId": "cand-01", "rank": 3, "totalScore": 940, "examsCompleted": 10, "badge": "Top 3 Triển Vọng" },
+        { "candidateId": "cand-04", "rank": 4, "totalScore": 890, "examsCompleted": 9, "badge": "" },
+        { "candidateId": "cand-05", "rank": 5, "totalScore": 875, "examsCompleted": 9, "badge": "" }
+    ],
+    "toeic": {
+        "id": "toeic-01",
+        "code": "TOEIC-2026-01",
+        "title": "TOEIC Test 01 - ĐGNL Tiếng Anh 2026",
+        "durationMinutes": 120,
+        "totalQuestions": 6,
+        "questions": [
+            { "id": "tq-01", "part": "Part 1 - Photographs", "content": "Look at the photograph. Which statement best describes the scene at the office workspace?" },
+            { "id": "tq-02", "part": "Part 2 - Question-Response", "content": "Where is the nearest subway station from here?" },
+            { "id": "tq-03", "part": "Part 3 - Conversations", "content": "What are the two speakers mainly discussing?" },
+            { "id": "tq-04", "part": "Part 4 - Short Talks", "content": "What type of event will take place next month?" },
+            { "id": "tq-05", "part": "Part 5 - Incomplete Sentences", "content": "The marketing team ______ its quarterly report before the board meeting on Friday." },
+            { "id": "tq-06", "part": "Part 7 - Reading Comprehension", "content": "What is the main purpose of the notice?" }
+        ]
+    },
+    "interview": {
+        "levels": [
+            { "id": "level-junior", "code": "JUNIOR", "name": "Junior" },
+            { "id": "level-middle", "code": "MIDDLE", "name": "Middle" },
+            { "id": "level-senior", "code": "SENIOR", "name": "Senior" }
+        ],
+        "positions": [
+            {
+                "id": "pos-fe",
+                "title": "Frontend Developer",
+                "description": "Phỏng vấn AI đánh giá năng lực Frontend (React/Next.js).",
+                "levelId": "level-junior",
+                "level": "Junior",
+                "category": "Frontend Development",
+                "questionsCount": 8,
+                "durationMinutes": 20,
+                "difficulty": "MEDIUM"
+            },
+            {
+                "id": "pos-be",
+                "title": "Backend Developer",
+                "description": "Phỏng vấn AI đánh giá năng lực Backend (FastAPI/SQL).",
+                "levelId": "level-senior",
+                "level": "Senior",
+                "category": "Backend Development",
+                "questionsCount": 10,
+                "durationMinutes": 25,
+                "difficulty": "HARD"
+            }
+        ]
+    },
+    "topics": [
+        { "id": "topic-cntt", "name": "Đánh giá năng lực CNTT K26", "description": "Bộ chủ đề đánh giá năng lực lập trình cho khóa K26.", "questionsCount": 12 },
+        { "id": "topic-toeic", "name": "TOEIC Listening & Reading", "description": "Ngân hàng câu hỏi TOEIC chuẩn.", "questionsCount": 6 },
+        { "id": "topic-softskill", "name": "Kỹ năng mềm & Tư duy (IQ/EQ)", "description": "Câu hỏi đánh giá tư duy logic và kỹ năng mềm.", "questionsCount": 2 }
+    ]
+}
