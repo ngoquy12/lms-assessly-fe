@@ -70,40 +70,43 @@ export function LoginModal() {
 
     return (
         <Dialog open={isOpen} onOpenChange={setIsOpen}>
-            <DialogContent className="max-w-[580px] rounded-2xl border-0 bg-white p-8 shadow-2xl sm:p-12">
-                {/* Dialog Header with Logo */}
-                <DialogHeader className="space-y-4 text-left">
-                    <div className="flex items-center">
+            <DialogContent className="max-w-[480px] rounded-2xl border-0 bg-white p-6 shadow-2xl sm:p-8">
+                {/* Dialog Header with Centered Logo, Title & Description */}
+                <DialogHeader className="space-y-3 text-center sm:text-center">
+                    <div className="flex items-center justify-center pb-1">
                         <Image
                             src="/images/header/logo-rikkei2 1.png"
                             alt="RikkeiEdu"
-                            width={114}
-                            height={40}
-                            className="h-10 w-auto object-contain"
+                            width={160}
+                            height={52}
+                            className="h-11 w-auto object-contain"
                             priority
+                            quality={100}
                         />
                     </div>
 
                     <div>
-                        <DialogTitle className="text-[32px] leading-tight font-semibold text-[#2d2c2c]">Đăng nhập</DialogTitle>
-                        <DialogDescription className="mt-2.5 text-[16px] leading-relaxed text-[#2d2c2c]">
+                        <DialogTitle className="text-2xl leading-tight font-bold text-slate-900 sm:text-[28px]">Đăng nhập</DialogTitle>
+                        <DialogDescription className="mx-auto mt-1.5 max-w-[380px] text-xs leading-relaxed text-slate-500 sm:text-sm">
                             Khám phá kho tàng kiến thức bất tận cùng bộ tài liệu độc quyền với Rikkei Education
                         </DialogDescription>
                     </div>
                 </DialogHeader>
 
-                {/* Form */}
-                <form onSubmit={handleSubmit(onSubmit)} className="mt-6 space-y-5">
+                {/* Form (Left-aligned for best readability and scanability) */}
+                <form onSubmit={handleSubmit(onSubmit)} className="mt-5 space-y-4">
                     {/* Email Input */}
-                    <div className="space-y-2">
-                        <label className="text-[16px] font-medium text-[#2d2c2c]">Email</label>
+                    <div className="space-y-1.5 text-left">
+                        <label className="text-xs font-semibold text-slate-700 sm:text-sm">Email</label>
                         <div className="relative">
                             <input
                                 type="email"
                                 placeholder="Nhập email"
                                 {...register("email")}
-                                className={`h-12 w-full rounded-lg border bg-[#ebf3ff]/60 px-4 text-[16px] text-[#2d2c2c] transition-all outline-none placeholder:text-gray-400 ${
-                                    errors.email ? "border-red-500 bg-red-50/20" : "border-transparent focus:border-[#ab1f24] focus:bg-white"
+                                className={`h-11 w-full rounded-xl border bg-slate-50/70 px-4 text-xs text-slate-900 transition-all outline-none placeholder:text-slate-400 sm:text-sm ${
+                                    errors.email
+                                        ? "border-red-500 bg-red-50/20"
+                                        : "border-slate-200 focus:border-[#ab1f24] focus:bg-white focus:ring-1 focus:ring-[#ab1f24]"
                                 }`}
                             />
                         </div>
@@ -111,34 +114,36 @@ export function LoginModal() {
                     </div>
 
                     {/* Password Input */}
-                    <div className="space-y-2">
-                        <label className="text-[16px] font-medium text-[#2d2c2c]">Mật khẩu</label>
+                    <div className="space-y-1.5 text-left">
+                        <label className="text-xs font-semibold text-slate-700 sm:text-sm">Mật khẩu</label>
                         <div className="relative flex items-center">
                             <input
                                 type={showPassword ? "text" : "password"}
                                 placeholder="Nhập mật khẩu"
                                 {...register("password")}
-                                className={`h-12 w-full rounded-lg border bg-[#ebf3ff]/60 px-4 pr-12 text-[16px] text-[#2d2c2c] transition-all outline-none placeholder:text-gray-400 ${
-                                    errors.password ? "border-red-500 bg-red-50/20" : "border-transparent focus:border-[#ab1f24] focus:bg-white"
+                                className={`h-11 w-full rounded-xl border bg-slate-50/70 px-4 pr-11 text-xs text-slate-900 transition-all outline-none placeholder:text-slate-400 sm:text-sm ${
+                                    errors.password
+                                        ? "border-red-500 bg-red-50/20"
+                                        : "border-slate-200 focus:border-[#ab1f24] focus:bg-white focus:ring-1 focus:ring-[#ab1f24]"
                                 }`}
                             />
                             <button
                                 type="button"
                                 onClick={() => setShowPassword(!showPassword)}
-                                className="absolute right-4 cursor-pointer p-1 text-gray-400 hover:text-gray-600"
+                                className="absolute right-3 cursor-pointer p-1 text-slate-400 hover:text-slate-600"
                                 aria-label={showPassword ? "Ẩn mật khẩu" : "Hiện mật khẩu"}
                             >
-                                {showPassword ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
+                                {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
                             </button>
                         </div>
                         {errors.password && <p className="mt-1 text-xs font-medium text-red-600">{errors.password.message}</p>}
                     </div>
 
                     {/* Portal Checkbox & Forgot Password */}
-                    <div className="flex items-center justify-between pt-1">
+                    <div className="flex items-center justify-between pt-0.5">
                         <div className="flex items-center gap-2">
                             <Checkbox id="isPortal" checked={isPortal} onCheckedChange={(checked) => setValue("isPortal", Boolean(checked))} />
-                            <label htmlFor="isPortal" className="cursor-pointer text-sm font-medium text-[#2d2c2c] select-none">
+                            <label htmlFor="isPortal" className="cursor-pointer text-xs font-medium text-slate-700 select-none sm:text-sm">
                                 Đăng nhập với Portal
                             </label>
                         </div>
@@ -146,22 +151,22 @@ export function LoginModal() {
                         <button
                             type="button"
                             onClick={() => toast.info("Vui lòng liên hệ quản trị viên để cấp lại mật khẩu.")}
-                            className="cursor-pointer text-sm font-semibold text-[#ab1f24] hover:underline"
+                            className="cursor-pointer text-xs font-semibold text-[#ab1f24] hover:underline sm:text-sm"
                         >
                             Quên mật khẩu?
                         </button>
                     </div>
 
                     {/* Submit Button */}
-                    <div className="pt-3">
+                    <div className="pt-2">
                         <button
                             type="submit"
                             disabled={isLoading}
-                            className="flex h-12 w-full cursor-pointer items-center justify-center gap-2 rounded-lg bg-[#ab1f24] text-[16px] font-semibold text-white shadow-xs transition-all hover:bg-[#8b1a1f] disabled:opacity-70"
+                            className="flex h-11 w-full cursor-pointer items-center justify-center gap-2 rounded-xl bg-[#ab1f24] text-xs font-bold text-white shadow-xs transition-all hover:bg-[#8b1a1f] disabled:opacity-70 sm:text-sm"
                         >
                             {isLoading ? (
                                 <>
-                                    <Loader2 className="h-5 w-5 animate-spin" />
+                                    <Loader2 className="h-4 w-4 animate-spin" />
                                     <span>Đang xác thực...</span>
                                 </>
                             ) : (

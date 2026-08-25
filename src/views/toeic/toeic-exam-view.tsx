@@ -1,122 +1,105 @@
 "use client";
 
 import { useCallback, useEffect, useState } from "react";
-import { ArrowRight, Flag, Headphones, Loader2, Pause, Play, Volume2 } from "lucide-react";
+import { ArrowRight, CheckCircle2, Clock, Headphones, HelpCircle, Loader2, Pause, Play, Volume2 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { HeaderNav } from "@/components/layout/header-nav";
+import { HeaderUserActions } from "@/components/layout/header-user-actions";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { Progress } from "@/components/ui/progress";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { useToeicQuestions } from "@/hooks/queries/use-toeic";
+import { cn } from "@/lib/utils";
 
-interface ToeicQuestion {
-    id: string;
-    num: number;
-    part: number;
-    partTitle: string;
-    title: string;
-    options: { id: string; label: string; text: string }[];
-}
+const INITIAL_DURATION_SECONDS = 7200; // 120 minutes
 
-const MOCK_TOEIC_QUESTIONS: ToeicQuestion[] = [
-    {
-        id: "tq-1",
-        num: 1,
-        part: 5,
-        partTitle: "Part 5: Incomplete Sentences",
-        title: "The quarterly financial report was submitted ______ the finance committee for review.",
-        options: [
-            { id: "to-1a", label: "A", text: "to" },
-            { id: "to-1b", label: "B", text: "at" },
-            { id: "to-1c", label: "C", text: "on" },
-            { id: "to-1d", label: "D", text: "from" },
-        ],
-    },
-    {
-        id: "tq-2",
-        num: 2,
-        part: 5,
-        partTitle: "Part 5: Incomplete Sentences",
-        title: "All attendees are required to register ______ arriving at the seminar venue.",
-        options: [
-            { id: "to-2a", label: "A", text: "prior" },
-            { id: "to-2b", label: "B", text: "before" },
-            { id: "to-2c", label: "C", text: "earlier" },
-            { id: "to-2d", label: "D", text: "ahead" },
-        ],
-    },
-    {
-        id: "tq-3",
-        num: 3,
-        part: 7,
-        partTitle: "Part 7: Reading Comprehension",
-        title: "What is the primary purpose of the memo sent by the operations department?",
-        options: [
-            { id: "to-3a", label: "A", text: "To announce new server maintenance protocols and scheduled downtime" },
-            { id: "to-3b", label: "B", text: "To recruit additional customer support representatives" },
-            { id: "to-3c", label: "C", text: "To celebrate the successful launch of a mobile application" },
-            { id: "to-3d", label: "D", text: "To schedule the annual corporate holiday retreat" },
-        ],
-    },
-    {
-        id: "tq-4",
-        num: 4,
-        part: 7,
-        partTitle: "Part 7: Reading Comprehension",
-        title: "According to the passage, when will the system upgrade officially commence?",
-        options: [
-            { id: "to-4a", label: "A", text: "On Friday at 11:00 PM" },
-            { id: "to-4b", label: "B", text: "On Saturday at 08:00 AM" },
-            { id: "to-4c", label: "C", text: "On Sunday at midnight" },
-            { id: "to-4d", label: "D", text: "Next Monday morning" },
-        ],
-    },
-];
-
-const SAMPLE_READING_PASSAGE = `
-MEMORANDUM
-To: All Department Heads and Project Leads
-From: IT Infrastructure & Cloud Operations Division
-Date: August 24, 2026
-Subject: Scheduled Cloud Migration and System Maintenance Window
-
-Please be advised that the Global Cloud Architecture team will perform an extensive system overhaul this coming weekend to enhance data throughput and security compliance across all LMS platforms.
-
-Maintenance Schedule Details:
-• Initiation Time: Friday, August 28, 2026 at 11:00 PM (GMT+7)
-• Estimated Completion: Saturday, August 29, 2026 at 06:00 AM (GMT+7)
-• Affected Services: Internal Assessment Portal, Candidate Grading Service, and Student Record Database.
-
-Action Required:
-All faculty members and examiners are advised to save all active grading rubrics and submit pending exam assessments prior to 10:00 PM on Friday. During the maintenance window, the database will operate in read-only mode.
-
-Thank you for your cooperation and patience as we modernize our digital infrastructure.
-`;
-
-export function ToeicExamView({ examId }: { examId: string }) {
+export function ToeicExamView({ examId, testId }: { examId?: string; testId?: string }) {
+    const actualId = examId || testId || "toeic-test-01";
     const router = useRouter();
-    const [answers, setAnswers] = useState<Record<string, string>>({
-        "tq-1": "to-1a",
-    });
-    const [flaggedQuestions, setFlaggedQuestions] = useState<Record<string, boolean>>({});
+    const { data } = useToeicQuestions();
+    const questions = data ?? [];
+
+    const storageAnswersKey = `lms_toeic_answers_${actualId}`;
+    const storageStartTimeKey = `lms_toeic_start_time_${actualId}`;
+    const storageLastSavedKey = `lms_toeic_last_saved_${actualId}`;
+
+    const [answers, setAnswers] = useState<Record<string, string>>({});
     const [activeQuestionId, setActiveQuestionId] = useState<number>(1);
-    const [isPlayingAudio, setIsPlayingAudio] = useState(false);
-    const [audioProgress, setAudioProgress] = useState(35);
-    const [secondsRemaining, setSecondsRemaining] = useState(120 * 60);
     const [isSubmitModalOpen, setIsSubmitModalOpen] = useState(false);
     const [isSubmitting, setIsSubmitting] = useState(false);
+    const [isPlayingAudio, setIsPlayingAudio] = useState(false);
+    const [audioProgress, setAudioProgress] = useState(25);
+    const [secondsRemaining, setSecondsRemaining] = useState(INITIAL_DURATION_SECONDS);
+    const [lastSavedTime, setLastSavedTime] = useState<string | null>(null);
+    const [isHydrated, setIsHydrated] = useState(false);
 
-    const handleConfirmSubmit = useCallback(() => {
-        setIsSubmitting(true);
-        setTimeout(() => {
-            setIsSubmitting(false);
-            setIsSubmitModalOpen(false);
-            router.push(`/toeic/${examId}/result`);
-        }, 800);
-    }, [examId, router]);
-
-    // Timer Countdown
+    // Hydrate answers and timer from LocalStorage
     useEffect(() => {
+        try {
+            const savedAnswers = localStorage.getItem(storageAnswersKey);
+            if (savedAnswers) {
+                setAnswers(JSON.parse(savedAnswers));
+            }
+
+            const savedStartTime = localStorage.getItem(storageStartTimeKey);
+            const now = Date.now();
+
+            if (!savedStartTime) {
+                localStorage.setItem(storageStartTimeKey, now.toString());
+                setSecondsRemaining(INITIAL_DURATION_SECONDS);
+            } else {
+                const elapsedSeconds = Math.floor((now - parseInt(savedStartTime, 10)) / 1000);
+                const remaining = Math.max(0, INITIAL_DURATION_SECONDS - elapsedSeconds);
+                setSecondsRemaining(remaining);
+            }
+
+            const savedTime = localStorage.getItem(storageLastSavedKey);
+            if (savedTime) {
+                setLastSavedTime(savedTime);
+            }
+        } catch {
+            // fallback
+        } finally {
+            setIsHydrated(true);
+        }
+    }, [storageAnswersKey, storageStartTimeKey, storageLastSavedKey]);
+
+    // Save to LocalStorage
+    const saveToLocalStorage = useCallback(
+        (newAnswers: Record<string, string>) => {
+            try {
+                localStorage.setItem(storageAnswersKey, JSON.stringify(newAnswers));
+                const timeStr = new Date().toLocaleTimeString("vi-VN", {
+                    hour: "2-digit",
+                    minute: "2-digit",
+                    second: "2-digit",
+                });
+                localStorage.setItem(storageLastSavedKey, timeStr);
+                setLastSavedTime(timeStr);
+            } catch {
+                // storage full or disabled
+            }
+        },
+        [storageAnswersKey, storageLastSavedKey],
+    );
+
+    const handleSelectOption = (questionId: string, optionId: string) => {
+        setAnswers((prev) => {
+            const updated = { ...prev, [questionId]: optionId };
+            saveToLocalStorage(updated);
+            return updated;
+        });
+    };
+
+    // Countdown Timer with auto-submit
+    useEffect(() => {
+        if (!isHydrated) return;
+
         const interval = setInterval(() => {
             setSecondsRemaining((prev) => {
                 if (prev <= 1) {
@@ -127,100 +110,103 @@ export function ToeicExamView({ examId }: { examId: string }) {
                 return prev - 1;
             });
         }, 1000);
+
         return () => clearInterval(interval);
-    }, [handleConfirmSubmit]);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [isHydrated]);
+
+    const handleConfirmSubmit = () => {
+        setIsSubmitting(true);
+        try {
+            localStorage.removeItem(storageAnswersKey);
+            localStorage.removeItem(storageStartTimeKey);
+            localStorage.removeItem(storageLastSavedKey);
+        } catch {
+            // ignore
+        }
+        setTimeout(() => {
+            setIsSubmitModalOpen(false);
+            router.push(`/toeic/${actualId}/result`);
+        }, 600);
+    };
 
     const formatTime = (secs: number) => {
-        const hours = Math.floor(secs / 3600);
-        const mins = Math.floor((secs % 3600) / 60);
-        const remSecs = secs % 60;
-        return `${hours.toString().padStart(2, "0")}:${mins.toString().padStart(2, "0")}:${remSecs.toString().padStart(2, "0")}`;
+        const h = Math.floor(secs / 3600);
+        const m = Math.floor((secs % 3600) / 60);
+        const s = secs % 60;
+        if (h > 0) {
+            return `${h.toString().padStart(2, "0")}:${m.toString().padStart(2, "0")}:${s.toString().padStart(2, "0")}`;
+        }
+        return `${m.toString().padStart(2, "0")}:${s.toString().padStart(2, "0")}`;
     };
 
-    const handleSelectOption = (questionId: string, optionId: string) => {
-        setAnswers((prev) => ({ ...prev, [questionId]: optionId }));
-    };
-
-    const toggleFlag = (questionId: string) => {
-        setFlaggedQuestions((prev) => ({ ...prev, [questionId]: !prev[questionId] }));
-    };
-
-    const scrollToQuestion = (qNum: number) => {
-        setActiveQuestionId(qNum);
-        const el = document.getElementById(`toeic-q-${qNum}`);
-        if (el) {
-            el.scrollIntoView({ behavior: "smooth", block: "start" });
+    const scrollToQuestion = (orderNum: number) => {
+        setActiveQuestionId(orderNum);
+        const element = document.getElementById(`toeic-question-card-${orderNum}`);
+        if (element) {
+            element.scrollIntoView({ behavior: "smooth", block: "center" });
         }
     };
 
     const answeredCount = Object.keys(answers).length;
-    const totalQuestionsCount = 36; // 36 questions in palette
-    const paletteNumbers = Array.from({ length: totalQuestionsCount }, (_, i) => i + 1);
+    const paletteNumbers = Array.from({ length: 20 }, (_, i) => i + 1);
 
     return (
-        <div className="flex min-h-screen w-full flex-col bg-[#f8fafc] font-sans text-slate-900">
-            {/* 1. Sticky Exam Header */}
-            <header className="sticky top-0 z-50 w-full border-b border-slate-200/80 bg-white shadow-xs">
-                <div className="mx-auto flex h-[70px] max-w-[1440px] items-center justify-between px-6 sm:px-10">
-                    {/* Left: Brand & Exit */}
-                    <div className="flex items-center gap-6">
+        <div className="min-h-screen w-full bg-[#f8fafc] font-sans text-slate-900">
+            {/* 1. Header (RikkeiEdu Logo + 5 Navigation Tabs + Candidate Avatar) */}
+            <header className="sticky top-0 z-50 w-full border-b border-slate-200/80 bg-white shadow-2xs">
+                <div className="relative mx-auto flex h-18 max-w-[1440px] items-center justify-between px-6 sm:px-10">
+                    {/* Left: Brand Logo */}
+                    <div className="flex items-center">
                         <Link href="/" className="flex items-center">
                             <Image
                                 src="/images/header/logo-rikkei2 1.png"
                                 alt="RikkeiEdu"
-                                width={110}
-                                height={38}
-                                className="h-9 w-auto cursor-pointer object-contain"
+                                width={114}
+                                height={40}
+                                className="h-10 w-auto cursor-pointer object-contain"
                                 priority
                             />
                         </Link>
-                        <div className="hidden items-center gap-2 border-l border-slate-200 pl-6 md:flex">
-                            <span className="text-sm font-bold text-slate-900">[TEST] TOEIC (21/08)</span>
-                            <Badge variant="outline" className="border-red-200 bg-[#fff6f7] text-xs font-semibold text-[#ab1f24]">
-                                Full Test 200 câu
-                            </Badge>
-                        </div>
                     </div>
 
-                    {/* Right: Timer & Submit CTA */}
-                    <div className="flex items-center gap-4">
-                        <div className="flex items-center gap-2 rounded-xl bg-slate-900 px-4 py-2 font-mono text-base font-bold text-white shadow-xs">
-                            <span className="font-sans text-xs font-normal text-slate-400">Còn lại:</span>
-                            <span>{formatTime(secondsRemaining)}</span>
-                        </div>
+                    {/* Center: Navigation Links */}
+                    <HeaderNav />
 
-                        <Button
-                            type="button"
-                            onClick={() => setIsSubmitModalOpen(true)}
-                            className="h-10 rounded-xl bg-[#ab1f24] px-5 font-bold text-white shadow-xs hover:bg-[#9c1b20] active:scale-98"
-                        >
-                            <span>Nộp bài</span>
-                            <ArrowRight className="ml-1 h-4 w-4" />
-                        </Button>
-                    </div>
+                    {/* Right: Actions with Bell & Avatar Dropdowns */}
+                    <HeaderUserActions />
                 </div>
             </header>
 
-            {/* 2. Main Body: Split-Screen Layout */}
-            <main className="mx-auto w-full max-w-[1440px] flex-1 px-6 py-6 sm:px-10">
-                <div className="grid grid-cols-1 items-start gap-8 lg:grid-cols-12">
-                    {/* Left Column (5 Cols): Audio Player & Reading Passage */}
-                    <div className="max-h-[calc(100vh-120px)] space-y-6 overflow-y-auto pr-1 lg:sticky lg:top-24 lg:col-span-6">
+            {/* 2. Main Exam Body */}
+            <main className="mx-auto max-w-[1440px] px-6 py-8 sm:px-10">
+                {/* Breadcrumb Navigation */}
+                <div className="mb-6 flex items-center gap-2 text-xs font-semibold text-slate-500 sm:text-sm">
+                    <Link href="/toeic" className="transition-colors hover:text-[#ab1f24]">
+                        TOEIC
+                    </Link>
+                    <span>/</span>
+                    <span className="font-bold text-slate-900">Phòng thi trực tuyến</span>
+                </div>
+
+                <div className="flex flex-col items-start justify-between gap-8 lg:flex-row lg:gap-12">
+                    {/* Left Column: Stacked Questions List & Simulator */}
+                    <div className="w-full max-w-[880px] flex-1 space-y-8">
                         {/* Listening Player Simulator */}
-                        <div className="space-y-4 rounded-2xl border border-slate-200 bg-white p-5 shadow-xs">
+                        <div className="space-y-4 rounded-2xl border border-slate-200/80 bg-white p-6 shadow-2xs sm:p-7">
                             <div className="flex items-center justify-between border-b border-slate-100 pb-3">
-                                <div className="flex items-center gap-2 text-sm font-bold text-slate-900">
-                                    <Headphones className="h-4 w-4 text-[#ab1f24]" />
-                                    <span>Listening Audio Track · TOEIC Section 1</span>
+                                <div className="flex items-center gap-2.5 text-base font-bold text-slate-900">
+                                    <Headphones className="h-5 w-5 text-[#ab1f24]" />
+                                    <span>Audio Listening Track · ETS Official Section 1</span>
                                 </div>
-                                <span className="font-mono text-xs text-slate-400">03:45 / 45:00</span>
+                                <span className="font-mono text-xs font-semibold text-slate-500">03:45 / 45:00</span>
                             </div>
 
                             <div className="flex items-center gap-4">
                                 <button
                                     type="button"
                                     onClick={() => setIsPlayingAudio(!isPlayingAudio)}
-                                    className="flex h-11 w-11 shrink-0 cursor-pointer items-center justify-center rounded-full bg-[#ab1f24] text-white shadow-xs transition-transform hover:bg-[#9c1b20] active:scale-95"
+                                    className="flex h-11 w-11 shrink-0 cursor-pointer items-center justify-center rounded-full bg-[#ab1f24] text-white shadow-xs transition-transform hover:bg-[#8b1a1f] active:scale-95"
                                 >
                                     {isPlayingAudio ? <Pause className="h-5 w-5 fill-current" /> : <Play className="ml-0.5 h-5 w-5 fill-current" />}
                                 </button>
@@ -236,7 +222,7 @@ export function ToeicExamView({ examId }: { examId: string }) {
                                     >
                                         <div className="h-full rounded-full bg-[#ab1f24] transition-all" style={{ width: `${audioProgress}%` }} />
                                     </div>
-                                    <div className="flex justify-between font-mono text-[10px] text-slate-400">
+                                    <div className="text-2xs flex justify-between font-mono text-slate-400">
                                         <span>01:15</span>
                                         <span>Tự động phát theo trình tự bài thi</span>
                                     </div>
@@ -249,201 +235,243 @@ export function ToeicExamView({ examId }: { examId: string }) {
                             </div>
                         </div>
 
-                        {/* Reading Passage Container */}
-                        <div className="space-y-4 rounded-2xl border border-slate-200 bg-white p-6 shadow-xs">
-                            <div className="flex items-center justify-between border-b border-slate-100 pb-3">
-                                <Badge variant="secondary" className="bg-slate-100 text-xs font-semibold text-slate-700">
-                                    Reading Passage · Questions 3 - 4
-                                </Badge>
-                                <span className="text-xs text-slate-400">Đoạn văn 185 từ</span>
-                            </div>
-
-                            <div className="prose max-w-none rounded-xl border border-slate-200/60 bg-slate-50/60 p-5 font-serif text-sm leading-relaxed whitespace-pre-wrap text-slate-700 prose-slate">
-                                {SAMPLE_READING_PASSAGE}
-                            </div>
-                        </div>
-                    </div>
-
-                    {/* Right Column (6 Cols): Question Cards & Quick Matrix Palette */}
-                    <div className="space-y-8 lg:col-span-6">
                         {/* Questions List */}
-                        <div className="space-y-6">
-                            {MOCK_TOEIC_QUESTIONS.map((q) => {
-                                const selectedOpt = answers[q.id];
-                                const isFlagged = flaggedQuestions[q.id];
+                        {questions.map((q) => {
+                            const selectedOptionId = answers[q.id];
 
-                                return (
-                                    <div
-                                        key={q.id}
-                                        id={`toeic-q-${q.num}`}
-                                        className={`scroll-mt-24 space-y-4 rounded-2xl border bg-white p-6 shadow-xs transition-all ${
-                                            activeQuestionId === q.num ? "border-slate-400 ring-2 ring-slate-200" : "border-slate-200/80"
-                                        }`}
-                                    >
-                                        {/* Question Card Header */}
-                                        <div className="flex items-center justify-between border-b border-slate-100 pb-3">
-                                            <div className="flex items-center gap-2">
-                                                <span className="text-base font-bold text-[#ab1f24]">Question {q.num}</span>
-                                                <Badge variant="outline" className="bg-slate-50 text-[11px] font-semibold text-slate-700">
+                            return (
+                                <div
+                                    key={q.id}
+                                    id={`toeic-question-card-${q.orderNumber}`}
+                                    className="scroll-mt-24 space-y-4 rounded-2xl border border-slate-200/80 bg-white p-6 shadow-2xs sm:p-7"
+                                >
+                                    {/* Question Header & Points Badge */}
+                                    <div>
+                                        <div className="flex items-center justify-between">
+                                            <div className="flex items-center gap-2.5">
+                                                <h2 className="text-lg font-bold tracking-tight text-slate-900">Câu hỏi {q.orderNumber}</h2>
+                                                <Badge variant="outline" className="border-slate-200 bg-slate-50 text-xs font-semibold text-slate-600">
                                                     {q.partTitle}
                                                 </Badge>
                                             </div>
-
-                                            <button
-                                                type="button"
-                                                onClick={() => toggleFlag(q.id)}
-                                                className={`flex cursor-pointer items-center gap-1.5 rounded-lg border px-3 py-1.5 text-xs font-semibold transition-all ${
-                                                    isFlagged
-                                                        ? "border-amber-400 bg-amber-50 text-amber-700"
-                                                        : "border-slate-200 bg-white text-slate-500 hover:bg-slate-50"
-                                                }`}
-                                            >
-                                                <Flag className={`h-3.5 w-3.5 ${isFlagged ? "fill-amber-500 text-amber-500" : ""}`} />
-                                                <span>{isFlagged ? "Đã gắn cờ" : "Gắn cờ"}</span>
-                                            </button>
+                                            <Badge className="border border-red-200 bg-red-50 text-xs font-bold text-[#ab1f24] shadow-none">
+                                                {q.points} điểm
+                                            </Badge>
                                         </div>
+                                        <p className="mt-3 text-base leading-relaxed font-semibold text-slate-800">{q.title}</p>
+                                    </div>
 
-                                        {/* Question Text */}
-                                        <p className="text-[15px] leading-relaxed font-semibold text-slate-900">{q.title}</p>
-
-                                        {/* 4 Bubble Options (A, B, C, D) */}
-                                        <div className="space-y-2.5 pt-1">
+                                    {/* Options using Shadcn RadioGroup */}
+                                    <div className="pt-2">
+                                        <RadioGroup
+                                            value={selectedOptionId || ""}
+                                            onValueChange={(val) => handleSelectOption(q.id, val)}
+                                            className="grid grid-cols-1 gap-3"
+                                        >
                                             {q.options.map((opt) => {
-                                                const isSelected = selectedOpt === opt.id;
+                                                const isSelected = selectedOptionId === opt.id;
                                                 return (
-                                                    <div
+                                                    <label
                                                         key={opt.id}
-                                                        onClick={() => handleSelectOption(q.id, opt.id)}
-                                                        className={`flex cursor-pointer items-center gap-3.5 rounded-xl border p-3 transition-all ${
+                                                        htmlFor={`radio-toeic-${q.id}-${opt.id}`}
+                                                        className={cn(
+                                                            "flex cursor-pointer items-center gap-3.5 rounded-xl border p-4 transition-all",
                                                             isSelected
-                                                                ? "border-[#007aff] bg-[#f0f7ff] font-medium text-[#1e2328] shadow-2xs"
-                                                                : "border-slate-200 bg-white text-slate-700 hover:bg-slate-50"
-                                                        }`}
+                                                                ? "border-[#ab1f24] bg-red-50/50 font-semibold text-slate-900 shadow-2xs"
+                                                                : "border-slate-200 bg-white text-slate-700 hover:border-slate-300 hover:bg-slate-50",
+                                                        )}
                                                     >
-                                                        {/* Bubble Letter */}
-                                                        <div
-                                                            className={`flex h-7 w-7 shrink-0 items-center justify-center rounded-full text-xs font-bold transition-colors ${
-                                                                isSelected ? "bg-[#007aff] text-white" : "border border-slate-300 bg-slate-100 text-slate-600"
-                                                            }`}
-                                                        >
-                                                            {opt.label}
+                                                        <RadioGroupItem
+                                                            value={opt.id}
+                                                            id={`radio-toeic-${q.id}-${opt.id}`}
+                                                            className="border-slate-400 data-[state=checked]:border-[#ab1f24] data-[state=checked]:text-[#ab1f24]"
+                                                        />
+                                                        <div className="flex items-center gap-2">
+                                                            <span className="text-sm font-bold text-slate-900">{opt.label}.</span>
+                                                            <span className="text-sm leading-relaxed select-none sm:text-base">{opt.text}</span>
                                                         </div>
-                                                        <span className="text-sm select-none">{opt.text}</span>
-                                                    </div>
+                                                    </label>
                                                 );
                                             })}
-                                        </div>
+                                        </RadioGroup>
                                     </div>
-                                );
-                            })}
-                        </div>
+                                </div>
+                            );
+                        })}
+                    </div>
 
-                        {/* Sticky Palette & Quick Nav */}
-                        <div className="space-y-4 rounded-2xl border border-slate-200 bg-white p-6 shadow-xs">
-                            <div className="flex items-center justify-between border-b border-slate-100 pb-3">
-                                <h3 className="text-sm font-bold text-slate-900">Bảng câu hỏi nhanh (Palette)</h3>
-                                <span className="text-xs font-semibold text-slate-500">
-                                    Đã trả lời: <strong className="text-[#ab1f24]">{answeredCount}</strong>/{totalQuestionsCount}
-                                </span>
+                    {/* Right Column: Sticky Navigation Palette & Submit CTA */}
+                    <div className="sticky top-24 w-full shrink-0 space-y-5 lg:w-[360px] xl:w-[380px]">
+                        <Card className="space-y-5 rounded-2xl border border-slate-200/80 bg-white p-5 shadow-2xs sm:p-6">
+                            {/* Palette Header with Timer & Auto-Save status */}
+                            <CardHeader className="space-y-3 border-b border-slate-100 p-0 pb-4">
+                                <div className="flex items-center justify-between">
+                                    <CardTitle className="text-base font-bold text-slate-900">Danh sách câu hỏi</CardTitle>
+                                    <div
+                                        className={cn(
+                                            "flex items-center gap-1.5 rounded-xl border px-3 py-1 font-mono text-base font-bold shadow-2xs transition-colors",
+                                            secondsRemaining <= 60
+                                                ? "animate-pulse border-red-300 bg-red-100 text-[#ab1f24]"
+                                                : secondsRemaining <= 300
+                                                  ? "border-amber-200 bg-amber-50 text-amber-700"
+                                                  : "border-red-100 bg-red-50 text-[#ab1f24]",
+                                        )}
+                                    >
+                                        <Clock
+                                            className={cn(
+                                                "h-4 w-4 shrink-0",
+                                                secondsRemaining <= 300 && secondsRemaining > 60 ? "text-amber-600" : "text-[#ab1f24]",
+                                            )}
+                                        />
+                                        <span>{formatTime(secondsRemaining)}</span>
+                                    </div>
+                                </div>
+
+                                {/* Auto-Save Persistence Status Badge */}
+                                <div className="flex items-center justify-between rounded-xl border border-emerald-200/80 bg-emerald-50/70 px-2.5 py-1.5 text-xs font-medium text-emerald-800">
+                                    <div className="flex items-center gap-1.5">
+                                        <CheckCircle2 className="h-3.5 w-3.5 shrink-0 text-emerald-600" />
+                                        <span>Tự động lưu vào máy</span>
+                                    </div>
+                                    {lastSavedTime && <span className="font-mono text-[11px] font-semibold text-emerald-700">{lastSavedTime}</span>}
+                                </div>
+                            </CardHeader>
+
+                            {/* 8-Column Matrix Palette with Square Buttons (4 cạnh bằng nhau aspect-square) */}
+                            <CardContent className="space-y-5 p-0">
+                                <div className="grid grid-cols-6 justify-items-center gap-2 sm:grid-cols-6 lg:grid-cols-8">
+                                    {paletteNumbers.map((num) => {
+                                        const matchingQuestion = questions.find((q) => q.orderNumber === num);
+                                        const isAvailable = Boolean(matchingQuestion);
+                                        const isCurrent = activeQuestionId === num;
+                                        const hasAnswer = matchingQuestion ? Boolean(answers[matchingQuestion.id]) : false;
+
+                                        return (
+                                            <button
+                                                key={num}
+                                                type="button"
+                                                onClick={() => isAvailable && scrollToQuestion(num)}
+                                                disabled={!isAvailable}
+                                                className={cn(
+                                                    "flex aspect-square h-9 w-9 cursor-pointer items-center justify-center rounded-xl text-xs font-bold transition-all sm:h-10 sm:w-10 sm:text-sm",
+                                                    isCurrent
+                                                        ? "border-2 border-[#ab1f24] bg-white text-[#ab1f24] shadow-xs"
+                                                        : hasAnswer
+                                                          ? "border border-emerald-300 bg-emerald-50 text-emerald-700"
+                                                          : isAvailable
+                                                            ? "border border-slate-200 bg-white text-slate-700 hover:border-slate-300 hover:bg-slate-50"
+                                                            : "cursor-not-allowed border border-slate-100 bg-slate-50 text-slate-300 opacity-40",
+                                                )}
+                                            >
+                                                {num}
+                                            </button>
+                                        );
+                                    })}
+                                </div>
+
+                                {/* Palette Legend */}
+                                <div className="flex items-center justify-between border-t border-slate-100 pt-1 text-xs text-slate-500">
+                                    <div className="flex items-center gap-1.5">
+                                        <span className="h-3 w-3 rounded-md border-2 border-[#ab1f24] bg-white" />
+                                        <span>Đang làm</span>
+                                    </div>
+                                    <div className="flex items-center gap-1.5">
+                                        <span className="h-3 w-3 rounded-md border border-emerald-300 bg-emerald-50" />
+                                        <span>Đã làm</span>
+                                    </div>
+                                    <div className="flex items-center gap-1.5">
+                                        <span className="h-3 w-3 rounded-md border border-slate-200 bg-white" />
+                                        <span>Chưa làm</span>
+                                    </div>
+                                </div>
+
+                                {/* Submit Exam Button using Shadcn Button */}
+                                <div className="pt-1">
+                                    <Button
+                                        type="button"
+                                        size="lg"
+                                        onClick={() => setIsSubmitModalOpen(true)}
+                                        className="h-12 w-full cursor-pointer gap-2 rounded-xl bg-[#ab1f24] text-base font-bold text-white shadow-xs hover:bg-[#8b1a1f] active:scale-98"
+                                    >
+                                        <span>Nộp bài</span>
+                                        <ArrowRight className="h-5 w-5" />
+                                    </Button>
+                                </div>
+                            </CardContent>
+                        </Card>
+
+                        {/* Progress Quick Card with Shadcn Progress */}
+                        <Card className="space-y-2 rounded-xl border border-slate-200 bg-white p-4 text-xs text-slate-600 shadow-2xs">
+                            <div className="flex justify-between font-semibold">
+                                <span>Tiến độ hoàn thành:</span>
+                                <strong className="font-bold text-[#ab1f24]">
+                                    {answeredCount}/{questions.length} câu ({questions.length > 0 ? Math.round((answeredCount / questions.length) * 100) : 0}%)
+                                </strong>
                             </div>
-
-                            {/* 8-Column Grid */}
-                            <div className="grid grid-cols-8 gap-2">
-                                {paletteNumbers.map((num) => {
-                                    const matchingQ = MOCK_TOEIC_QUESTIONS.find((q) => q.num === num);
-                                    const isAvailable = Boolean(matchingQ);
-                                    const hasAnswer = matchingQ && Boolean(answers[matchingQ.id]);
-                                    const isFlagged = matchingQ && Boolean(flaggedQuestions[matchingQ.id]);
-                                    const isCurrent = activeQuestionId === num;
-
-                                    return (
-                                        <button
-                                            key={num}
-                                            type="button"
-                                            onClick={() => isAvailable && scrollToQuestion(num)}
-                                            disabled={!isAvailable}
-                                            className={`relative flex h-9 w-full cursor-pointer items-center justify-center rounded-lg text-xs font-bold transition-all ${
-                                                isCurrent
-                                                    ? "border-2 border-[#ab1f24] bg-white font-black text-[#ab1f24]"
-                                                    : hasAnswer
-                                                      ? "border border-emerald-500 bg-emerald-50 text-emerald-800"
-                                                      : isFlagged
-                                                        ? "border border-amber-400 bg-amber-50 text-amber-800"
-                                                        : isAvailable
-                                                          ? "border border-slate-200 text-slate-700 hover:bg-slate-50"
-                                                          : "cursor-not-allowed border border-slate-100 text-slate-300 opacity-60"
-                                            }`}
-                                        >
-                                            {num}
-                                        </button>
-                                    );
-                                })}
-                            </div>
-
-                            {/* Submit Button */}
-                            <div className="pt-2">
-                                <Button
-                                    type="button"
-                                    onClick={() => setIsSubmitModalOpen(true)}
-                                    className="h-12 w-full rounded-xl bg-[#ab1f24] text-base font-bold text-white shadow-xs hover:bg-[#9c1b20] active:scale-98"
-                                >
-                                    <span>Nộp bài & Chấm điểm</span>
-                                    <ArrowRight className="ml-1 h-4 w-4" />
-                                </Button>
-                            </div>
-                        </div>
+                            <Progress value={questions.length > 0 ? (answeredCount / questions.length) * 100 : 0} className="h-2 rounded-full bg-slate-100" />
+                        </Card>
                     </div>
                 </div>
             </main>
 
-            {/* 3. Submit Confirmation Modal (Matching standardized modal) */}
+            {/* 3. Submit Confirmation Modal (Padding 20px 24px, Max Radius 12px, Shadcn UI) */}
             <Dialog open={isSubmitModalOpen} onOpenChange={setIsSubmitModalOpen}>
-                <DialogContent className="max-w-[560px] rounded-3xl border-0 bg-white p-8 shadow-2xl sm:p-10">
-                    <div className="space-y-6 text-center">
-                        <DialogHeader className="space-y-3 p-0 text-center sm:text-center">
-                            <DialogTitle className="text-center text-[32px] font-bold tracking-tight text-[#2d2c2c]">Xác nhận nộp bài</DialogTitle>
-                            <p className="w-full text-center text-[18px] font-normal text-[#2d2c2c]">Bạn có chắc chắn muốn nộp bài thi TOEIC không?</p>
-                        </DialogHeader>
-
-                        <div className="mx-auto w-fit max-w-full space-y-1.5 rounded-xl border border-[#e5e7eb] bg-[#f9fafb] px-6 py-3.5 text-left shadow-2xs">
-                            <p className="text-[15px] whitespace-nowrap text-[#374151]">
-                                <strong className="font-semibold text-[#1e2328]">Bài test:</strong> [TEST] TOEIC (21/08)
-                            </p>
-                            <p className="text-[15px] text-[#374151]">
-                                <strong className="font-semibold text-[#1e2328]">Số câu đã làm:</strong> {answeredCount}/{totalQuestionsCount}
-                            </p>
+                <DialogContent size="md" className="max-w-[460px] gap-4 rounded-xl border border-slate-200 bg-white px-[24px] py-[20px] shadow-xl">
+                    <DialogHeader className="pb-0 text-center sm:text-center">
+                        <div className="mx-auto mb-2 flex h-12 w-12 items-center justify-center rounded-xl bg-red-50 text-[#ab1f24]">
+                            <HelpCircle className="h-6 w-6" />
                         </div>
+                        <DialogTitle className="text-xl font-bold text-slate-900">Xác nhận nộp bài TOEIC</DialogTitle>
+                        <DialogDescription className="text-sm text-slate-500">Bạn có chắc chắn muốn nộp bài thi ngay bây giờ?</DialogDescription>
+                    </DialogHeader>
 
-                        <p className="text-center text-[17px] font-normal text-[#2d2c2c]">
-                            Sau khi nộp, bạn sẽ <span className="font-bold text-[#ab1f24]">không thể thay đổi đáp án</span>
-                        </p>
-
-                        <div className="flex flex-col items-center justify-center gap-4 pt-4 sm:flex-row">
-                            <button
-                                type="button"
-                                onClick={() => setIsSubmitModalOpen(false)}
-                                disabled={isSubmitting}
-                                className="h-12 w-full cursor-pointer rounded-xl border border-[#ab1f24] bg-white text-[16px] font-bold text-[#ab1f24] transition-all hover:bg-red-50/60 active:scale-98 sm:w-[215px]"
-                            >
-                                Tiếp tục làm bài
-                            </button>
-                            <button
-                                type="button"
-                                onClick={handleConfirmSubmit}
-                                disabled={isSubmitting}
-                                className="flex h-12 w-full cursor-pointer items-center justify-center gap-2 rounded-xl bg-[#ab1f24] text-[16px] font-bold text-white shadow-xs transition-all hover:bg-[#8b1a1f] active:scale-98 sm:w-[215px]"
-                            >
-                                {isSubmitting ? (
-                                    <>
-                                        <Loader2 className="h-5 w-5 animate-spin" />
-                                        <span>Đang nộp...</span>
-                                    </>
-                                ) : (
-                                    <span>Nộp bài</span>
-                                )}
-                            </button>
+                    {/* Test Summary Box */}
+                    <div className="space-y-1 rounded-xl border border-slate-100 bg-slate-50 p-3.5 text-left">
+                        <p className="line-clamp-1 text-sm font-bold text-slate-900">TOEIC Full Test 2026 — Đề Chuẩn ETS Format</p>
+                        <div className="flex flex-wrap items-center gap-2 text-xs font-medium text-slate-500">
+                            <span>
+                                Tiến độ:{" "}
+                                <strong className="font-bold text-slate-800">
+                                    {answeredCount}/{questions.length} câu
+                                </strong>
+                            </span>
+                            <span>•</span>
+                            <span>
+                                Thời gian còn lại: <strong className="font-mono text-slate-800">{formatTime(secondsRemaining)}</strong>
+                            </span>
                         </div>
                     </div>
+
+                    <p className="text-center text-xs text-slate-500">
+                        Sau khi nộp bài, bạn sẽ <span className="font-bold text-[#ab1f24]">không thể chỉnh sửa</span> đáp án.
+                    </p>
+
+                    <DialogFooter className="flex-row items-center justify-center gap-2.5 pt-1 sm:justify-center">
+                        <Button
+                            type="button"
+                            variant="outline"
+                            onClick={() => setIsSubmitModalOpen(false)}
+                            disabled={isSubmitting}
+                            className="h-11 flex-1 rounded-xl border-slate-200 font-semibold text-slate-700 hover:bg-slate-50"
+                        >
+                            Tiếp tục làm bài
+                        </Button>
+                        <Button
+                            type="button"
+                            onClick={handleConfirmSubmit}
+                            disabled={isSubmitting}
+                            className="h-11 flex-1 rounded-xl bg-[#ab1f24] font-bold text-white shadow-xs hover:bg-[#8b1a1f]"
+                        >
+                            {isSubmitting ? (
+                                <>
+                                    <Loader2 className="mr-1.5 h-4 w-4 animate-spin" />
+                                    <span>Đang nộp...</span>
+                                </>
+                            ) : (
+                                <span>Xác nhận nộp</span>
+                            )}
+                        </Button>
+                    </DialogFooter>
                 </DialogContent>
             </Dialog>
         </div>

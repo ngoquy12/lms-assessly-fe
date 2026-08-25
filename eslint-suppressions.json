@@ -24,6 +24,11 @@
       "count": 2
     }
   },
+  "src/app/(main)/notifications/page.tsx": {
+    "no-restricted-syntax": {
+      "count": 2
+    }
+  },
   "src/app/(main)/page-exam/page.tsx": {
     "no-restricted-syntax": {
       "count": 2
@@ -136,7 +141,12 @@
   },
   "src/components/auth/login-modal.tsx": {
     "no-restricted-syntax": {
-      "count": 23
+      "count": 18
+    }
+  },
+  "src/components/charts/activity-heatmap-calendar.tsx": {
+    "no-restricted-syntax": {
+      "count": 17
     }
   },
   "src/components/charts/assessment-radar-chart.tsx": {
@@ -151,7 +161,7 @@
   },
   "src/components/editor/code-editor.tsx": {
     "no-restricted-syntax": {
-      "count": 12
+      "count": 14
     }
   },
   "src/components/editor/essay-editor.tsx": {
@@ -199,17 +209,37 @@
       "count": 6
     }
   },
+  "src/components/layout/header-nav.tsx": {
+    "no-restricted-syntax": {
+      "count": 13
+    }
+  },
+  "src/components/layout/header-user-actions.tsx": {
+    "no-restricted-syntax": {
+      "count": 45
+    }
+  },
   "src/components/layout/main-footer.tsx": {
     "no-restricted-syntax": {
-      "count": 36
+      "count": 26
     }
   },
   "src/components/layout/main-header.tsx": {
     "no-restricted-syntax": {
-      "count": 20
+      "count": 7
     }
   },
   "src/components/layout/split-pane-layout.tsx": {
+    "no-restricted-syntax": {
+      "count": 1
+    }
+  },
+  "src/components/modals/logout-confirm-dialog.tsx": {
+    "no-restricted-syntax": {
+      "count": 8
+    }
+  },
+  "src/components/shared/language-switcher.tsx": {
     "no-restricted-syntax": {
       "count": 1
     }
@@ -224,6 +254,11 @@
       "count": 1
     }
   },
+  "src/components/ui/breadcrumb.tsx": {
+    "no-restricted-syntax": {
+      "count": 2
+    }
+  },
   "src/components/ui/button.tsx": {
     "no-restricted-syntax": {
       "count": 1
@@ -232,6 +267,11 @@
   "src/components/ui/card.tsx": {
     "no-restricted-syntax": {
       "count": 1
+    }
+  },
+  "src/components/ui/date-picker.tsx": {
+    "no-restricted-syntax": {
+      "count": 9
     }
   },
   "src/components/ui/dialog.tsx": {
@@ -249,6 +289,11 @@
       "count": 1
     }
   },
+  "src/components/ui/select.tsx": {
+    "no-restricted-syntax": {
+      "count": 3
+    }
+  },
   "src/components/ui/sonner.tsx": {
     "no-restricted-syntax": {
       "count": 2
@@ -259,19 +304,29 @@
       "count": 1
     }
   },
+  "src/components/ui/textarea.tsx": {
+    "no-restricted-syntax": {
+      "count": 2
+    }
+  },
+  "src/i18n/routing.ts": {
+    "no-restricted-syntax": {
+      "count": 2
+    }
+  },
   "src/views/competency/competency-exam-view.tsx": {
     "no-restricted-syntax": {
-      "count": 19
+      "count": 35
     }
   },
   "src/views/competency/competency-list-view.tsx": {
     "no-restricted-syntax": {
-      "count": 55
+      "count": 132
     }
   },
   "src/views/competency/competency-result-view.tsx": {
     "no-restricted-syntax": {
-      "count": 18
+      "count": 58
     }
   },
   "src/views/error/not-found-view.tsx": {
@@ -281,22 +336,22 @@
   },
   "src/views/exam-result/exam-result-history-view.tsx": {
     "no-restricted-syntax": {
-      "count": 29
+      "count": 63
     }
   },
   "src/views/exam/exam-lobby-view.tsx": {
     "no-restricted-syntax": {
-      "count": 126
+      "count": 120
     }
   },
   "src/views/exam/exam-result-detail-view.tsx": {
     "no-restricted-syntax": {
-      "count": 29
+      "count": 44
     }
   },
   "src/views/exam/exam-taking-view.tsx": {
     "no-restricted-syntax": {
-      "count": 71
+      "count": 96
     }
   },
   "src/views/exam/verify-ticket-view.tsx": {
@@ -306,87 +361,95 @@
   },
   "src/views/guide/exam-guide-view.tsx": {
     "no-restricted-syntax": {
-      "count": 26
+      "count": 27
     }
   },
   "src/views/home/home-view.tsx": {
     "no-restricted-syntax": {
-      "count": 37
+      "count": 63
     }
   },
   "src/views/interview/check-device-view.tsx": {
     "no-restricted-syntax": {
-      "count": 14
+      "count": 23
     }
   },
   "src/views/interview/interview-list-view.tsx": {
     "no-restricted-syntax": {
-      "count": 11
+      "count": 118
     }
   },
   "src/views/interview/interview-result-view.tsx": {
     "no-restricted-syntax": {
-      "count": 17
+      "count": 57
     }
   },
   "src/views/interview/voice-interview-view.tsx": {
     "no-restricted-syntax": {
-      "count": 11
+      "count": 15
+    }
+  },
+  "src/views/notifications/notification-list-view.tsx": {
+    "no-restricted-syntax": {
+      "count": 38
     }
   },
   "src/views/practice/practice-detail-view.tsx": {
     "no-restricted-syntax": {
-      "count": 16
+      "count": 18
     }
   },
   "src/views/practice/practice-exam-public-view.tsx": {
     "no-restricted-syntax": {
-      "count": 7
+      "count": 96
     }
   },
   "src/views/practice/practice-list-view.tsx": {
     "no-restricted-syntax": {
-      "count": 21
+      "count": 24
     }
   },
   "src/views/practice/practice-result-public-view.tsx": {
     "no-restricted-syntax": {
-      "count": 28
+      "count": 67
     }
   },
   "src/views/profile/profile-view.tsx": {
     "no-restricted-syntax": {
-      "count": 23
+      "count": 48
     }
   },
   "src/views/ranking/ranking-view.tsx": {
     "no-restricted-syntax": {
-      "count": 27
+      "count": 30
     }
   },
   "src/views/toeic/toeic-exam-view.tsx": {
     "no-restricted-syntax": {
-      "count": 71
+      "count": 46
+    },
+    "react-hooks/immutability": {
+      "count": 1
     }
   },
   "src/views/toeic/toeic-list-view.tsx": {
     "no-restricted-syntax": {
-      "count": 63
+      "count": 118
     }
   },
   "src/views/toeic/toeic-result-view.tsx": {
     "no-restricted-syntax": {
-      "count": 39
+      "count": 62
     }
   },
   "src/views/topics/topic-detail-view.tsx": {
     "no-restricted-syntax": {
-      "count": 5
+      "count": 6
     }
   },
   "src/views/topics/topics-view.tsx": {
     "no-restricted-syntax": {
-      "count": 10
+      "count": 13
     }
   }
 }

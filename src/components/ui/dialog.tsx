@@ -43,11 +43,11 @@ const DialogContent = React.forwardRef<React.ElementRef<typeof DialogPrimitive.C
                 {children}
                 <DialogPrimitive.Close
                     className={cn(
-                        "absolute top-4 right-4 cursor-pointer rounded-sm opacity-70 transition-opacity hover:opacity-100 disabled:pointer-events-none",
+                        "absolute top-4 right-4 flex h-8 w-8 cursor-pointer items-center justify-center rounded-lg text-slate-500 transition-all hover:bg-slate-100 hover:text-slate-900 disabled:pointer-events-none",
                         FOCUS_RING.default,
                     )}
                 >
-                    <X className="h-4 w-4" />
+                    <X className="h-5 w-5" />
                     <span className="sr-only">{"Đóng"}</span>
                 </DialogPrimitive.Close>
             </DialogPrimitive.Content>

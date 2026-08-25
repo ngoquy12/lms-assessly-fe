@@ -1,6 +1,6 @@
 "use client";
 
-import { ArrowLeft, Clock, Layers, Play, Users } from "lucide-react";
+import { Clock, Layers, Play, Users } from "lucide-react";
 import Link from "next/link";
 import { QueryStateBoundary } from "@/components/shared/query-state";
 import { Badge } from "@/components/ui/badge";
@@ -13,11 +13,15 @@ export function PracticeDetailView({ practiceId }: { practiceId: string }) {
     const { data: practice, isLoading, isError, refetch } = usePracticeDetail(practiceId);
 
     return (
-        <div className="mx-auto max-w-4xl space-y-6">
-            <Link href="/practice" className="inline-flex items-center gap-1.5 text-xs text-gray-500 hover:text-brand-600">
-                <ArrowLeft className="h-3.5 w-3.5" />
-                <span>Quay lại danh sách đề luyện tập</span>
-            </Link>
+        <div className="mx-auto max-w-[1440px] space-y-6 px-6 py-8 font-sans text-slate-900 sm:px-10">
+            {/* Breadcrumb Navigation */}
+            <div className="flex items-center gap-2 text-xs font-semibold text-slate-500 sm:text-sm">
+                <Link href="/practice" className="transition-colors hover:text-[#ab1f24]">
+                    Luyện tập
+                </Link>
+                <span>/</span>
+                <span className="font-bold text-slate-900">Chi tiết bài tập</span>
+            </div>
 
             <QueryStateBoundary isLoading={isLoading} isError={isError} onRetry={refetch}>
                 {practice ? (

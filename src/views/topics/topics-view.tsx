@@ -13,8 +13,17 @@ export function TopicsView() {
     const topics = data ?? [];
 
     return (
-        <div className="min-h-screen w-full bg-[#f8fafc] px-4 py-10 font-sans text-slate-900 sm:px-8 lg:px-12">
-            <div className="mx-auto max-w-[1440px] space-y-8">
+        <div className="min-h-screen w-full bg-[#f8fafc] font-sans text-slate-900">
+            <div className="mx-auto max-w-[1440px] space-y-8 px-6 py-8 sm:px-10">
+                {/* Breadcrumb Navigation */}
+                <div className="flex items-center gap-2 text-xs font-semibold text-slate-500 sm:text-sm">
+                    <Link href="/" className="transition-colors hover:text-[#ab1f24]">
+                        Trang chủ
+                    </Link>
+                    <span>/</span>
+                    <span className="font-bold text-slate-900">Chủ đề ôn tập</span>
+                </div>
+
                 {/* 1. Header */}
                 <div>
                     <h1 className="text-[32px] font-extrabold tracking-tight text-[#ab1f24] sm:text-[38px]">Cây Kiến Thức & Chủ Đề Ôn Luyện</h1>

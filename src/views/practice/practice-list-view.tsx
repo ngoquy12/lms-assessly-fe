@@ -20,8 +20,17 @@ export function PracticeListView() {
     );
 
     return (
-        <div className="min-h-screen w-full bg-[#f8fafc] px-4 py-10 font-sans text-slate-900 sm:px-8 lg:px-12">
-            <div className="mx-auto max-w-[1440px] space-y-8">
+        <div className="min-h-screen w-full bg-[#f8fafc] font-sans text-slate-900">
+            <div className="mx-auto max-w-[1440px] space-y-8 px-6 py-8 sm:px-10">
+                {/* Breadcrumb Navigation */}
+                <div className="flex items-center gap-2 text-xs font-semibold text-slate-500 sm:text-sm">
+                    <Link href="/" className="transition-colors hover:text-[#ab1f24]">
+                        Trang chủ
+                    </Link>
+                    <span>/</span>
+                    <span className="font-bold text-slate-900">Luyện tập</span>
+                </div>
+
                 {/* 1. Header */}
                 <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
                     <div>
@@ -62,12 +71,17 @@ export function PracticeListView() {
                             >
                                 <CardHeader>
                                     <div className="mb-2 flex items-center justify-between">
-                                        <Badge variant="primary" className="border-red-200 bg-[#fff6f7] text-[#ab1f24]" size="sm">
+                                        <Badge
+                                            variant="primary"
+                                            className="pointer-events-none border-red-200/80 bg-red-50 font-semibold text-[#ab1f24]"
+                                            size="sm"
+                                        >
                                             {item.category}
                                         </Badge>
                                         <Badge
                                             variant={item.difficulty === "HARD" ? "destructive" : item.difficulty === "MEDIUM" ? "warning" : "success"}
                                             size="sm"
+                                            className="pointer-events-none"
                                         >
                                             {item.difficulty === "HARD" ? "Nâng cao" : item.difficulty === "MEDIUM" ? "Trung bình" : "Cơ bản"}
                                         </Badge>

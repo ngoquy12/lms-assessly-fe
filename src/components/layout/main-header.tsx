@@ -1,44 +1,52 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Menu, X } from "lucide-react";
-import type { Route } from "next";
+import { useTranslations } from "next-intl";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { toast } from "sonner";
-import { UI_TEXT } from "@/constants/ui-text.constants";
+import { HeaderNav, MAIN_NAVIGATION_ITEMS } from "@/components/layout/header-nav";
+import { HeaderUserActions } from "@/components/layout/header-user-actions";
+import { LogoutConfirmDialog } from "@/components/modals/logout-confirm-dialog";
 import { useCurrentUser, useLogout } from "@/hooks/queries/use-auth";
 import { cn } from "@/lib/utils";
 import { useAuthModal } from "@/store/use-auth-modal";
 
-interface NavLinkItem {
-    href: Route;
-    label: string;
-    tag?: string;
-}
-
-const NAVIGATION_ITEMS: NavLinkItem[] = [
-    { href: "/page-exam", label: "Khảo thí" },
-    { href: "/toeic", label: "TOEIC" },
-    { href: "/competency-assessment", label: "Khởi nguyên", tag: "new" },
-    { href: "/exam-result", label: "Hoạt động" },
-    { href: "/interview", label: "Interview" },
-];
-
 export function MainHeader() {
+    const tAuth = useTranslations("auth");
     const pathname = usePathname();
     const router = useRouter();
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+    const [isLogoutConfirmOpen, setIsLogoutConfirmOpen] = useState(false);
     const { openModal } = useAuthModal();
     const { data: currentUser } = useCurrentUser();
     const { mutate: logoutMutate } = useLogout();
     const isAuthenticated = Boolean(currentUser);
 
+    // Close mobile drawer on route change
+    useEffect(() => {
+        setIsMobileMenuOpen(false);
+    }, [pathname]);
+
+    // Prevent background scrolling when mobile menu is open
+    useEffect(() => {
+        if (isMobileMenuOpen) {
+            document.body.style.overflow = "hidden";
+        } else {
+            document.body.style.overflow = "unset";
+        }
+        return () => {
+            document.body.style.overflow = "unset";
+        };
+    }, [isMobileMenuOpen]);
+
+    // eslint-disable-next-line unused-imports/no-unused-vars
     const handleLogout = () => {
         logoutMutate(undefined, {
             onSuccess: () => {
-                toast.success(UI_TEXT.auth.logoutSuccess);
+                toast.success(tAuth("logoutSuccess"));
                 router.push("/");
             },
         });
@@ -61,39 +69,22 @@ export function MainHeader() {
                     </Link>
                 </div>
 
-                {/* Center: Desktop Navigation (Absolute Centered, 16px font-medium, 32px gap) */}
-                <nav className="absolute top-1/2 left-1/2 hidden -translate-x-1/2 -translate-y-1/2 items-center gap-8 lg:flex">
-                    {NAVIGATION_ITEMS.map((item, index) => {
-                        const isActive = pathname === item.href || (item.href !== "/" && pathname.startsWith(item.href));
-                        return (
-                            <Link
-                                key={index}
-                                href={item.href}
-                                className={cn(
-                                    "relative flex cursor-pointer items-center text-[16px] font-medium transition-colors hover:text-[#ab1f24]",
-                                    isActive ? "font-semibold text-[#ab1f24]" : "text-[#1e2328]",
-                                )}
-                            >
-                                <span>{item.label}</span>
-                                {item.tag && (
-                                    <span className="absolute -top-2 left-full ml-0.5 rounded bg-[#ab1f24] px-1 py-0.5 text-[8px] leading-none font-semibold text-white">
-                                        {item.tag}
-                                    </span>
-                                )}
-                            </Link>
-                        );
-                    })}
-                </nav>
+                {/* Center: Desktop Navigation with sliding bottom active indicator */}
+                <HeaderNav />
 
                 {/* Right: Actions */}
-                <div className="flex items-center gap-4">
-                    <button
-                        type="button"
-                        onClick={isAuthenticated ? handleLogout : openModal}
-                        className="hidden cursor-pointer items-center justify-center rounded-lg bg-[#ab1f24] px-6 py-2.5 text-[16px] font-medium text-white transition-colors hover:bg-[#8b1a1f] sm:inline-flex"
-                    >
-                        {isAuthenticated ? UI_TEXT.auth.logout : "Đăng nhập"}
-                    </button>
+                <div className="flex items-center gap-3">
+                    {isAuthenticated ? (
+                        <HeaderUserActions />
+                    ) : (
+                        <button
+                            type="button"
+                            onClick={openModal}
+                            className="hidden cursor-pointer items-center justify-center rounded-xl bg-[#ab1f24] px-5 py-2 text-sm font-bold text-white shadow-xs transition-colors hover:bg-[#8b1a1f] sm:inline-flex"
+                        >
+                            {tAuth("title")}
+                        </button>
+                    )}
 
                     {/* Mobile Menu Button */}
                     <button
@@ -102,50 +93,63 @@ export function MainHeader() {
                         onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
                         aria-label="Toggle menu"
                     >
-                        {isMobileMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+                        {isMobileMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6 text-slate-800" />}
                     </button>
                 </div>
             </div>
 
-            {/* Mobile Drawer */}
+            {/* Mobile Drawer Overlay (Floats and overlays directly ON TOP of the UI below without pushing it down) */}
             {isMobileMenuOpen && (
-                <div className="space-y-3 border-t border-gray-100 bg-white px-6 py-4 shadow-md lg:hidden">
-                    {NAVIGATION_ITEMS.map((item, index) => {
-                        const isActive = pathname === item.href || (item.href !== "/" && pathname.startsWith(item.href));
-                        return (
-                            <Link
-                                key={index}
-                                href={item.href}
-                                onClick={() => setIsMobileMenuOpen(false)}
-                                className={cn(
-                                    "flex items-center justify-between border-b border-gray-50 py-2 text-[16px] font-medium transition-colors",
-                                    isActive ? "font-bold text-[#ab1f24]" : "text-[#1e2328] hover:text-[#ab1f24]",
-                                )}
-                            >
-                                <span>{item.label}</span>
-                                {item.tag && <span className="rounded bg-[#ab1f24] px-1.5 py-0.5 text-[9px] font-semibold text-white">{item.tag}</span>}
-                            </Link>
-                        );
-                    })}
+                <div
+                    className="fixed inset-x-0 top-[72px] bottom-0 z-50 bg-slate-900/40 backdrop-blur-xs transition-opacity lg:hidden"
+                    onClick={() => setIsMobileMenuOpen(false)}
+                >
+                    <div
+                        className="w-full rounded-b-2xl border-t border-slate-100 bg-white px-6 py-5 shadow-2xl duration-200 animate-in slide-in-from-top-3"
+                        onClick={(e) => e.stopPropagation()}
+                    >
+                        <nav className="space-y-1">
+                            {MAIN_NAVIGATION_ITEMS.map((item, index) => {
+                                const isActive = pathname === item.href || (item.href !== "/" && pathname.startsWith(item.href));
+                                return (
+                                    <Link
+                                        key={index}
+                                        href={item.href}
+                                        onClick={() => setIsMobileMenuOpen(false)}
+                                        className={cn(
+                                            "flex items-center justify-between rounded-xl px-3.5 py-3 text-[15px] font-semibold transition-all",
+                                            isActive ? "bg-[#fff6f7] font-bold text-[#ab1f24]" : "text-slate-800 hover:bg-slate-50 hover:text-[#ab1f24]",
+                                        )}
+                                    >
+                                        <span>{item.label}</span>
+                                        {item.tag && <span className="rounded bg-[#ab1f24] px-1.5 py-0.5 text-[10px] font-bold text-white">{item.tag}</span>}
+                                    </Link>
+                                );
+                            })}
+                        </nav>
 
-                    <div className="pt-2">
-                        <button
-                            type="button"
-                            onClick={() => {
-                                setIsMobileMenuOpen(false);
-                                if (isAuthenticated) {
-                                    handleLogout();
-                                } else {
-                                    openModal();
-                                }
-                            }}
-                            className="w-full cursor-pointer rounded-lg bg-[#ab1f24] py-3 text-center text-[16px] font-medium text-white hover:bg-[#8b1a1f]"
-                        >
-                            {isAuthenticated ? UI_TEXT.auth.logout : "Đăng nhập"}
-                        </button>
+                        <div className="mt-3 border-t border-slate-100 pt-3">
+                            <button
+                                type="button"
+                                onClick={() => {
+                                    setIsMobileMenuOpen(false);
+                                    if (isAuthenticated) {
+                                        setIsLogoutConfirmOpen(true);
+                                    } else {
+                                        openModal();
+                                    }
+                                }}
+                                className="w-full cursor-pointer rounded-xl bg-[#ab1f24] py-3 text-center text-[15px] font-bold text-white shadow-xs transition-colors hover:bg-[#8b1a1f]"
+                            >
+                                {isAuthenticated ? tAuth("logout") : tAuth("title")}
+                            </button>
+                        </div>
                     </div>
                 </div>
             )}
+
+            {/* Mobile Logout Confirm Dialog */}
+            <LogoutConfirmDialog open={isLogoutConfirmOpen} onOpenChange={setIsLogoutConfirmOpen} />
         </header>
     );
 }

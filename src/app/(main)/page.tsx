@@ -3,7 +3,7 @@ import { HomeView } from "@/views/home/home-view";
 
 export const metadata: Metadata = {
     title: "Trang chủ khảo thí",
-    description: "Hệ thống Khảo thí & Đánh giá Năng lực Thí sinh LMS Assessly",
+    description: "Hệ thống Khảo thí & Đánh giá Năng lực Thí sinh RikkeiEdu",
 };
 
 export default function HomePage() {

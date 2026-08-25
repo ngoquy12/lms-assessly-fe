@@ -1,13 +1,25 @@
 export const APP_CONFIG = {
-    NAME: "LMS Assessly",
-    DESCRIPTION: "Hệ thống khảo thí và đánh giá năng lực",
-    ORGANIZATION: "Assessly",
+    NAME: "RikkeiEdu",
+    DESCRIPTION: "Hệ thống khảo thí và đánh giá năng lực RikkeiEdu",
+    ORGANIZATION: "RikkeiEdu",
     ACCESS_TOKEN_KEY: "assessly_access_token",
     /** One-time banner on /login after flows that force re-auth (e.g. change password). */
     AUTH_LOGIN_NOTICE_KEY: "assessly_auth_login_notice",
     DEFAULT_LOCALE: "vi",
-    CONTACT_EMAIL: "support@assessly.local",
+    CONTACT_EMAIL: "support@rikkei.edu.vn",
     DATE_FORMAT_DISPLAY: "dd/MM/yyyy",
+} as const;
+
+/**
+ * Cấu hình phòng chờ vào thi (giả lập realtime cho demo).
+ */
+export const WAITING_ROOM = {
+    TOTAL_SECONDS: 12,
+    TICK_MS: 1000,
+    TOTAL_PARTICIPANTS: 5,
+    INITIAL_READY: 2,
+    SECONDS_PER_MINUTE: 60,
+    PAD_LENGTH: 2,
 } as const;
 
 /**

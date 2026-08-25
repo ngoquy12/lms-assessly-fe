@@ -1,5 +1,5 @@
 import seed from "@/mocks/shared/assessment-seed.json";
-import type { ExamResultSummary, ExamSessionInfo, QuestionItem, QuestionOption, QuestionType } from "@/types/exam.types";
+import type { AssignedExamSession, ExamResultSummary, ExamSessionInfo, ExamSessionItem, QuestionItem, QuestionOption, QuestionType } from "@/types/exam.types";
 
 // Local loose shapes for the shared seed JSON. The seed is the single source of
 // truth shared with LMS-AI-QLDT; these interfaces only describe the fields this
@@ -76,6 +76,10 @@ export const MOCK_EXAM_QUESTIONS: QuestionItem[] = (seed.questions as SeedQuesti
     codeTemplate: question.codeTemplate,
     language: question.language,
 }));
+
+export const MOCK_EXAM_LIST: ExamSessionItem[] = seed.candidate.examList as unknown as ExamSessionItem[];
+
+export const MOCK_ASSIGNED_EXAM: AssignedExamSession = seed.candidate.assignedExam as unknown as AssignedExamSession;
 
 export const MOCK_EXAM_RESULT: ExamResultSummary = {
     examId: demoResult.examId,

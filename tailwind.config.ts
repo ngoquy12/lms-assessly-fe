@@ -89,13 +89,11 @@ const config: Config = {
             },
             fontFamily: {
                 sans: [
+                    "var(--font-sans-primary)",
                     "-apple-system",
                     "BlinkMacSystemFont",
-                    '"SF Pro Display"',
                     '"Segoe UI"',
                     "Roboto",
-                    "Helvetica",
-                    "Arial",
                     "sans-serif",
                     '"Apple Color Emoji"',
                     '"Segoe UI Emoji"',
@@ -104,7 +102,7 @@ const config: Config = {
                 heading: ["var(--font-sans-primary)", "sans-serif"],
                 display: ["var(--font-sans-primary)", "sans-serif"],
                 mono: ["var(--font-mono)", "var(--font-fallback-mono)"],
-                body: ["var(--font-body)"],
+                body: ["var(--font-sans-primary)", "sans-serif"],
             },
             boxShadow: {
                 "card-sm": "0 8px 30px rgba(15, 23, 42, 0.06)",

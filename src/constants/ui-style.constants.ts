@@ -155,11 +155,11 @@ export const COMPONENT_VARIANTS = {
         link: "text-brand-600 underline-offset-4 hover:underline",
     },
 
-    // Badge Variants
+    // Badge Variants (No dark hover background)
     badge: {
-        default: "border-transparent bg-brand-50 text-brand-700 hover:bg-brand-100",
-        primary: "border-transparent bg-brand-600 text-white shadow-xs hover:bg-brand-700",
-        secondary: "border-transparent bg-gray-100 text-gray-700 hover:bg-gray-200",
+        default: "border-transparent bg-brand-50 text-brand-700",
+        primary: "border-red-200/60 bg-red-50 text-[#ab1f24]",
+        secondary: "border-transparent bg-gray-100 text-gray-700",
         outline: "border-gray-300 bg-white text-gray-700",
         success: "border-transparent bg-success-50 text-success-700",
         warning: "border-transparent bg-warning-50 text-warning-700",

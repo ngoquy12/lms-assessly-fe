@@ -3,7 +3,7 @@ import { ExamGuideView } from "@/views/guide/exam-guide-view";
 
 export const metadata: Metadata = {
     title: "Quy chế & Hướng dẫn làm bài thi",
-    description: "Hướng dẫn thao tác làm bài và quy định phòng thi chống gian lận trên LMS Assessly",
+    description: "Hướng dẫn thao tác làm bài và quy định phòng thi chống gian lận trên RikkeiEdu",
 };
 
 export default function ExamGuidePage() {

@@ -1,520 +1,451 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import {
-    AlertCircle,
     ArrowRight,
-    Award,
     Calendar,
     CheckCircle2,
+    ChevronLeft,
+    ChevronRight,
     Clock,
-    FileText,
-    HelpCircle,
     KeyRound,
     LayoutGrid,
     List,
+    Loader2,
     Radio,
     Search,
     ShieldCheck,
-    Sparkles,
-    Video,
+    Users,
     X,
 } from "lucide-react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+import { WAITING_ROOM } from "@/constants/app.constants";
+import { UI_TEXT } from "@/constants/ui-text.constants";
+import { useExamList } from "@/hooks/queries/use-exam";
+import type { ExamSessionItem } from "@/types/exam.types";
 
-interface ExamItem {
-    id: string;
-    code: string;
-    title: string;
-    category: string;
-    startTime: string;
-    endTime: string;
-    duration: string;
-    totalQuestions: number;
-    status: "ACTIVE" | "COMPLETED";
-    hasInterview?: boolean;
-    score?: number;
-    totalScore?: number;
-    examId?: string;
-    interviewId?: string;
-    resultId?: string;
-}
-
-const MOCK_EXAM_SESSIONS: ExamItem[] = [
-    {
-        id: "exam-01",
-        code: "PV-0906-AI",
-        title: "test phỏng vấn 9/6",
-        category: "Kỹ năng Phỏng vấn & Lập trình",
-        startTime: "16:40 - 09/06/2026",
-        endTime: "00:00 - 11/06/2026",
-        duration: "45 phút",
-        totalQuestions: 30,
-        status: "ACTIVE",
-        hasInterview: true,
-        examId: "exam-01",
-        interviewId: "session-01",
-    },
-    {
-        id: "exam-02",
-        code: "QTKD-RE-01",
-        title: "[RE_GV/TG]Đánh giá năng lực-QTKD-Test",
-        category: "Quản trị Kinh doanh",
-        startTime: "07:32 - 06/06/2026",
-        endTime: "07:45 - 06/06/2026",
-        duration: "60 phút",
-        totalQuestions: 40,
-        status: "COMPLETED",
-        score: 9.2,
-        totalScore: 10,
-        resultId: "exam-02",
-    },
-    {
-        id: "exam-03",
-        code: "CNTT-RE-02",
-        title: "[RE_GV/TG]Đánh giá năng lực CNTT- Test 2",
-        category: "Công nghệ Thông tin",
-        startTime: "07:15 - 05/06/2026",
-        endTime: "16:00 - 05/06/2026",
-        duration: "90 phút",
-        totalQuestions: 50,
-        status: "COMPLETED",
-        score: 8.5,
-        totalScore: 10,
-        resultId: "exam-03",
-    },
-    {
-        id: "exam-04",
-        code: "DS-V2-ADV",
-        title: "[DEEKSEEK] - V2",
-        category: "Data Science & AI",
-        startTime: "09:35 - 04/06/2026",
-        endTime: "00:00 - 05/06/2026",
-        duration: "60 phút",
-        totalQuestions: 35,
-        status: "COMPLETED",
-        score: 9.8,
-        totalScore: 10,
-        resultId: "exam-04",
-    },
-    {
-        id: "exam-05",
-        code: "RE-DGNL-GEN",
-        title: "[RE_GV/TG]Đánh giá năng lực",
-        category: "Tổng quan Năng lực",
-        startTime: "08:00 - 04/06/2026",
-        endTime: "21:00 - 04/06/2026",
-        duration: "60 phút",
-        totalQuestions: 40,
-        status: "COMPLETED",
-        score: 8.8,
-        totalScore: 10,
-        resultId: "exam-05",
-    },
-];
+const ITEMS_PER_PAGE = 20;
 
 export function ExamLobbyView() {
-    const [searchQuery, setSearchQuery] = useState("");
-    const [statusFilter, setStatusFilter] = useState<"ALL" | "ACTIVE" | "COMPLETED">("ALL");
-    const [viewMode, setViewMode] = useState<"table" | "grid">("table");
-    const [accessCode, setAccessCode] = useState("");
-    const [isAccessModalOpen, setIsAccessModalOpen] = useState(false);
+    const router = useRouter();
 
-    const filteredExams = MOCK_EXAM_SESSIONS.filter((exam) => {
+    const { data: examListData } = useExamList();
+    const examList = useMemo(() => examListData ?? [], [examListData]);
+
+    const [searchQuery, setSearchQuery] = useState("");
+    const [statusFilter, setStatusFilter] = useState<"ALL" | "ACTIVE" | "UPCOMING" | "COMPLETED">("ALL");
+    const [viewMode, setViewMode] = useState<"table" | "grid">("table");
+    const [currentPage, setCurrentPage] = useState(1);
+
+    // Modal state for room code entry
+    const [isRoomModalOpen, setIsRoomModalOpen] = useState(false);
+    const [selectedExamForEntry, setSelectedExamForEntry] = useState<ExamSessionItem | null>(null);
+    const [roomCodeInput, setRoomCodeInput] = useState("");
+    const [roomCodeError, setRoomCodeError] = useState("");
+
+    // Phòng chờ realtime (giả lập): đếm ngược + số thí sinh sẵn sàng tăng dần rồi tự vào phòng thi.
+    const [isWaiting, setIsWaiting] = useState(false);
+    const [waitSeconds, setWaitSeconds] = useState<number>(WAITING_ROOM.TOTAL_SECONDS);
+    const [readyCount, setReadyCount] = useState<number>(WAITING_ROOM.INITIAL_READY);
+
+    useEffect(() => {
+        if (!isWaiting) return;
+        const timer = setInterval(() => {
+            setReadyCount((prev) => Math.min(prev + 1, WAITING_ROOM.TOTAL_PARTICIPANTS));
+            setWaitSeconds((prev) => {
+                if (prev <= 1) {
+                    clearInterval(timer);
+                    const targetExamId = selectedExamForEntry ? selectedExamForEntry.examId : (examList[0]?.examId ?? "");
+                    router.push(`/exam/${targetExamId}`);
+                    return 0;
+                }
+                return prev - 1;
+            });
+        }, WAITING_ROOM.TICK_MS);
+        return () => clearInterval(timer);
+    }, [isWaiting, router, selectedExamForEntry, examList]);
+
+    const closeRoomModal = () => {
+        setIsRoomModalOpen(false);
+        setIsWaiting(false);
+        setWaitSeconds(WAITING_ROOM.TOTAL_SECONDS);
+        setReadyCount(WAITING_ROOM.INITIAL_READY);
+    };
+
+    const waitMinutes = String(Math.floor(waitSeconds / WAITING_ROOM.SECONDS_PER_MINUTE)).padStart(WAITING_ROOM.PAD_LENGTH, "0");
+    const waitSecs = String(waitSeconds % WAITING_ROOM.SECONDS_PER_MINUTE).padStart(WAITING_ROOM.PAD_LENGTH, "0");
+
+    const handleSearchChange = (val: string) => {
+        setSearchQuery(val);
+        setCurrentPage(1);
+    };
+
+    const handleStatusFilterChange = (status: "ALL" | "ACTIVE" | "UPCOMING" | "COMPLETED") => {
+        setStatusFilter(status);
+        setCurrentPage(1);
+    };
+
+    const handleOpenRoomModal = (exam?: ExamSessionItem) => {
+        setSelectedExamForEntry(exam || activeExam || examList[0]);
+        setRoomCodeInput("");
+        setRoomCodeError("");
+        setIsWaiting(false);
+        setWaitSeconds(WAITING_ROOM.TOTAL_SECONDS);
+        setReadyCount(WAITING_ROOM.INITIAL_READY);
+        setIsRoomModalOpen(true);
+    };
+
+    const handleVerifyAndEnterRoom = (e: React.FormEvent) => {
+        e.preventDefault();
+        const trimmed = roomCodeInput.trim();
+        if (!trimmed) {
+            setRoomCodeError("Vui lòng nhập mã phòng thi do giám thị cung cấp.");
+            return;
+        }
+        // Mã hợp lệ → chuyển sang phòng chờ, giả lập chờ giám thị mở ca thi rồi tự vào phòng.
+        setWaitSeconds(WAITING_ROOM.TOTAL_SECONDS);
+        setReadyCount(WAITING_ROOM.INITIAL_READY);
+        setIsWaiting(true);
+    };
+
+    const filteredExams = examList.filter((exam) => {
         const matchesSearch =
             exam.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
             exam.code.toLowerCase().includes(searchQuery.toLowerCase()) ||
-            exam.category.toLowerCase().includes(searchQuery.toLowerCase());
+            exam.subject.toLowerCase().includes(searchQuery.toLowerCase());
         const matchesStatus = statusFilter === "ALL" || exam.status === statusFilter;
         return matchesSearch && matchesStatus;
     });
 
-    const activeExam = MOCK_EXAM_SESSIONS.find((e) => e.status === "ACTIVE");
+    const activeExam = examList.find((e) => e.status === "ACTIVE");
+    const activeCount = examList.filter((e) => e.status === "ACTIVE").length;
+    const upcomingCount = examList.filter((e) => e.status === "UPCOMING").length;
+    const completedCount = examList.filter((e) => e.status === "COMPLETED").length;
+
+    const totalPages = Math.ceil(filteredExams.length / ITEMS_PER_PAGE);
+    const paginatedExams = filteredExams.slice((currentPage - 1) * ITEMS_PER_PAGE, currentPage * ITEMS_PER_PAGE);
 
     return (
-        <div className="min-h-screen w-full bg-[#f8fafc] px-4 py-10 font-sans text-slate-900 sm:px-8 lg:px-12">
-            <div className="mx-auto max-w-[1440px] space-y-8">
-                {/* 1. Header & Metric Summary Bar */}
-                <div className="relative overflow-hidden rounded-3xl border border-slate-200/80 bg-linear-to-br from-white via-slate-50/60 to-white p-7 shadow-[0_10px_30px_-10px_rgba(0,0,0,0.06)] sm:p-9">
-                    <div className="pointer-events-none absolute -top-16 -right-16 h-64 w-64 rounded-full bg-red-500/5 blur-3xl" />
-
-                    <div className="relative z-10 flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
-                        <div className="space-y-3">
-                            <div className="inline-flex items-center gap-2 rounded-full border border-emerald-200/60 bg-emerald-50 px-3 py-1 shadow-2xs">
-                                <span className="h-2 w-2 animate-ping rounded-full bg-emerald-500" />
-                                <span className="text-xs font-bold text-emerald-700">Cổng Khảo Thí Trực Tuyến</span>
-                            </div>
-                            <h1 className="text-3xl font-extrabold tracking-tight text-slate-900 sm:text-4xl">
-                                Luyện thi cùng <span className="text-[#ab1f24] drop-shadow-xs">Rikkei Edu</span>
-                            </h1>
-                            <p className="max-w-2xl text-sm leading-relaxed font-medium text-slate-600 sm:text-base">
-                                Hệ thống luyện thi thông minh tích hợp giám sát AI, chấm điểm tự động và phân tích ma trận năng lực chi tiết giúp bạn bứt phá
-                                trình độ.
-                            </p>
-                        </div>
-
-                        {/* Quick Access Code CTA */}
-                        <div className="flex flex-wrap items-center gap-3">
-                            <Dialog open={isAccessModalOpen} onOpenChange={setIsAccessModalOpen}>
-                                <DialogTrigger asChild>
-                                    <button
-                                        type="button"
-                                        className="flex cursor-pointer items-center gap-2.5 rounded-xl bg-[#ab1f24] px-5 py-3.5 text-sm font-semibold text-white shadow-[0_4px_14px_rgba(188,34,40,0.25)] transition-all hover:bg-[#9c1b20] hover:shadow-[0_6px_20px_rgba(188,34,40,0.35)] active:scale-98"
-                                    >
-                                        <KeyRound className="h-4 w-4" />
-                                        <span>Nhập mã ca thi khẩn cấp</span>
-                                    </button>
-                                </DialogTrigger>
-                                <DialogContent className="max-w-md rounded-2xl bg-white p-6 shadow-2xl">
-                                    <DialogHeader>
-                                        <DialogTitle className="text-xl font-bold text-slate-900">Nhập mã vé / Access Code</DialogTitle>
-                                        <DialogDescription className="text-sm text-slate-500">
-                                            Nhập mã ca thi do ban khảo thí hoặc giám thị cung cấp để mở quyền thi trực tiếp.
-                                        </DialogDescription>
-                                    </DialogHeader>
-                                    <div className="space-y-4 py-4">
-                                        <Input
-                                            placeholder="Ví dụ: RIKKEI-EXAM-2026"
-                                            value={accessCode}
-                                            onChange={(e) => setAccessCode(e.target.value.toUpperCase())}
-                                            className="h-12 border-slate-300 text-center font-mono text-lg font-bold focus:border-[#ab1f24]"
-                                        />
-                                    </div>
-                                    <DialogFooter>
-                                        <Button type="button" variant="outline" onClick={() => setIsAccessModalOpen(false)}>
-                                            Hủy
-                                        </Button>
-                                        <Button
-                                            type="button"
-                                            className="bg-[#ab1f24] text-white hover:bg-[#9c1b20]"
-                                            disabled={!accessCode.trim()}
-                                            onClick={() => setIsAccessModalOpen(false)}
-                                        >
-                                            Xác thực & Vào thi
-                                        </Button>
-                                    </DialogFooter>
-                                </DialogContent>
-                            </Dialog>
-
-                            <Link href="/ai-interview/check-device/test-01">
-                                <button
-                                    type="button"
-                                    className="flex cursor-pointer items-center gap-2 rounded-xl border border-slate-200/90 bg-white px-5 py-3.5 text-sm font-semibold text-slate-700 shadow-2xs transition-all hover:bg-slate-50 hover:shadow-xs active:scale-98"
-                                >
-                                    <Video className="h-4 w-4 text-[#ab1f24]" />
-                                    <span>Test thiết bị (Cam/Mic)</span>
-                                </button>
-                            </Link>
-                        </div>
-                    </div>
+        <div className="min-h-screen w-full bg-[#f8fafc] font-sans text-slate-900">
+            <div className="mx-auto max-w-[1440px] space-y-8 px-6 py-8 sm:px-10">
+                {/* Breadcrumb Navigation */}
+                <div className="flex items-center gap-2 text-xs font-semibold text-slate-500 sm:text-sm">
+                    <Link href="/" className="transition-colors hover:text-[#ab1f24]">
+                        Trang chủ
+                    </Link>
+                    <span>/</span>
+                    <span className="font-bold text-slate-900">Khảo thí</span>
                 </div>
 
-                {/* 2. Key Metrics Grid */}
-                <div className="grid grid-cols-2 gap-4 sm:grid-cols-4 sm:gap-5">
-                    <div className="group flex items-center gap-4 rounded-2xl border border-slate-200/80 bg-white p-5 shadow-[0_4px_16px_rgba(0,0,0,0.03)] transition-all hover:-translate-y-0.5 hover:shadow-md">
-                        <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-red-50 text-[#ab1f24] transition-transform group-hover:scale-105">
-                            <FileText className="h-6 w-6" />
-                        </div>
-                        <div>
-                            <div className="text-2xl font-extrabold tracking-tight text-slate-900 sm:text-3xl">5</div>
-                            <div className="text-xs font-semibold text-slate-500">Tổng ca thi</div>
-                        </div>
-                    </div>
-
-                    <div className="group flex items-center gap-4 rounded-2xl border border-slate-200/80 bg-white p-5 shadow-[0_4px_16px_rgba(0,0,0,0.03)] transition-all hover:-translate-y-0.5 hover:shadow-md">
-                        <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-emerald-50 text-emerald-600 transition-transform group-hover:scale-105">
-                            <Radio className="h-6 w-6 animate-pulse" />
-                        </div>
-                        <div>
-                            <div className="text-2xl font-extrabold tracking-tight text-emerald-600 sm:text-3xl">1</div>
-                            <div className="text-xs font-semibold text-slate-500">Đang mở phòng</div>
-                        </div>
-                    </div>
-
-                    <div className="group flex items-center gap-4 rounded-2xl border border-slate-200/80 bg-white p-5 shadow-[0_4px_16px_rgba(0,0,0,0.03)] transition-all hover:-translate-y-0.5 hover:shadow-md">
-                        <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-blue-50 text-blue-600 transition-transform group-hover:scale-105">
-                            <CheckCircle2 className="h-6 w-6" />
-                        </div>
-                        <div>
-                            <div className="text-2xl font-extrabold tracking-tight text-slate-900 sm:text-3xl">4</div>
-                            <div className="text-xs font-semibold text-slate-500">Đã hoàn thành</div>
-                        </div>
-                    </div>
-
-                    <div className="group flex items-center gap-4 rounded-2xl border border-slate-200/80 bg-white p-5 shadow-[0_4px_16px_rgba(0,0,0,0.03)] transition-all hover:-translate-y-0.5 hover:shadow-md">
-                        <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-amber-50 text-amber-600 transition-transform group-hover:scale-105">
-                            <Award className="h-6 w-6" />
-                        </div>
-                        <div>
-                            <div className="text-2xl font-extrabold tracking-tight text-slate-900 sm:text-3xl">
-                                9.0 <span className="text-xs font-semibold text-slate-400">/10</span>
-                            </div>
-                            <div className="text-xs font-semibold text-slate-500">Điểm trung bình</div>
-                        </div>
-                    </div>
+                {/* Header Title Section */}
+                <div className="space-y-3 py-2 text-center">
+                    <h1 className="text-3xl leading-tight font-bold tracking-tight text-[#ab1f24] sm:text-4xl lg:text-[40px]">Luyện thi cùng Rikkei Edu</h1>
+                    <p className="mx-auto max-w-3xl text-sm leading-relaxed font-normal text-slate-600 sm:text-base">
+                        Hệ thống luyện thi thông minh với thời gian, điểm số và phân tích chi tiết giúp bạn biết chính xác năng lực của mình
+                    </p>
                 </div>
 
-                {/* 3. Featured Live Active Exam Card (High Depth & CTA Glow) */}
+                {/* 3. Featured Live Active Exam Banner */}
                 {activeExam && (
-                    <div className="relative overflow-hidden rounded-3xl border-2 border-red-500/30 bg-linear-to-r from-red-600/10 via-white to-red-600/5 p-6 shadow-[0_12px_36px_-10px_rgba(188,34,40,0.18)] sm:p-8">
+                    <div className="relative overflow-hidden rounded-3xl border-2 border-[#ab1f24]/30 bg-linear-to-r from-red-50 via-white to-red-50/40 p-5 shadow-md sm:p-6 md:p-8">
                         <div className="relative z-10 flex flex-col justify-between gap-6 lg:flex-row lg:items-center">
-                            <div className="space-y-3.5">
-                                <div className="flex flex-wrap items-center gap-2.5">
-                                    <span className="inline-flex items-center gap-1.5 rounded-full bg-[#ab1f24] px-3 py-1.5 text-xs font-bold text-white shadow-xs">
-                                        <Radio className="h-3 w-3 animate-pulse" />
-                                        <span>Ca thi đang diễn ra</span>
+                            <div className="space-y-3">
+                                <div className="flex flex-wrap items-center gap-2 sm:gap-2.5">
+                                    <span className="inline-flex shrink-0 items-center gap-1.5 rounded-full bg-[#ab1f24] px-3 py-1 text-xs font-bold whitespace-nowrap text-white shadow-xs">
+                                        <Radio className="h-3.5 w-3.5 animate-pulse" />
+                                        <span>Ca thi đang mở — Vào làm bài ngay</span>
                                     </span>
-                                    <Badge variant="outline" className="border-slate-300 bg-white font-mono text-xs font-bold text-slate-700">
+                                    <Badge
+                                        variant="outline"
+                                        className="shrink-0 border-slate-300 bg-white font-mono text-xs font-bold whitespace-nowrap text-slate-700"
+                                    >
                                         Mã: {activeExam.code}
                                     </Badge>
-                                    <span className="inline-flex items-center gap-1 rounded-full border border-amber-200/80 bg-amber-50 px-2.5 py-1 text-xs font-semibold text-amber-700">
-                                        <Sparkles className="h-3 w-3 text-amber-500" />
-                                        <span>Ưu tiên làm bài</span>
-                                    </span>
+                                    <span className="text-xs font-semibold whitespace-nowrap text-slate-500">{activeExam.subject}</span>
                                 </div>
 
-                                <h2 className="text-2xl font-extrabold tracking-tight text-slate-900 sm:text-3xl">{activeExam.title}</h2>
+                                <h2 className="text-xl font-bold tracking-tight text-slate-900 sm:text-2xl lg:text-3xl">{activeExam.title}</h2>
 
-                                <div className="flex flex-wrap items-center gap-4 text-xs font-medium text-slate-600 sm:gap-6 sm:text-sm">
-                                    <span className="flex items-center gap-1.5 rounded-lg border border-slate-200/60 bg-white/80 px-3 py-1 shadow-2xs">
+                                <div className="flex flex-wrap items-center gap-3 text-xs font-medium text-slate-600 sm:gap-4 md:text-sm">
+                                    <span className="flex shrink-0 items-center gap-1.5 rounded-lg border border-slate-200 bg-white px-3 py-1 whitespace-nowrap shadow-2xs">
                                         <Clock className="h-4 w-4 text-[#ab1f24]" />
                                         <span>
-                                            Bắt đầu: <strong className="text-slate-900">{activeExam.startTime}</strong>
+                                            Thời lượng: <strong className="font-bold text-slate-900">{activeExam.durationMinutes} phút</strong> (
+                                            {activeExam.totalQuestions} câu)
                                         </span>
                                     </span>
-                                    <span className="flex items-center gap-1.5 rounded-lg border border-slate-200/60 bg-white/80 px-3 py-1 shadow-2xs">
+                                    <span className="flex shrink-0 items-center gap-1.5 rounded-lg border border-slate-200 bg-white px-3 py-1 whitespace-nowrap shadow-2xs">
                                         <Calendar className="h-4 w-4 text-[#ab1f24]" />
                                         <span>
-                                            Kết thúc: <strong className="text-slate-900">{activeExam.endTime}</strong>
+                                            Khung giờ:{" "}
+                                            <strong className="text-slate-900">
+                                                {activeExam.startTime} → {activeExam.endTime}
+                                            </strong>
                                         </span>
                                     </span>
-                                    <span className="flex items-center gap-1.5 rounded-lg border border-emerald-200/60 bg-emerald-50 px-3 py-1 font-bold text-emerald-700">
-                                        <ShieldCheck className="h-4 w-4" />
-                                        <span>Có giám sát AI & Ghi hình</span>
-                                    </span>
+                                    {activeExam.isProctored && (
+                                        <span className="flex shrink-0 items-center gap-1.5 rounded-lg border border-emerald-200 bg-emerald-50 px-3 py-1 font-bold whitespace-nowrap text-emerald-700">
+                                            <ShieldCheck className="h-4 w-4" />
+                                            <span>Giám sát AI & Chống gian lận</span>
+                                        </span>
+                                    )}
                                 </div>
                             </div>
 
-                            {/* Action CTAs */}
-                            <div className="flex flex-wrap items-center gap-3">
-                                <Link href={`/exam/${activeExam.examId}`}>
-                                    <button
-                                        type="button"
-                                        className="flex cursor-pointer items-center gap-2 rounded-xl bg-[#ab1f24] px-6 py-4 text-sm font-bold text-white shadow-[0_6px_20px_rgba(188,34,40,0.3)] transition-all hover:bg-[#9c1b20] hover:shadow-[0_8px_25px_rgba(188,34,40,0.45)] active:scale-98"
-                                    >
-                                        <span>Vào làm bài thi ngay</span>
-                                        <ArrowRight className="h-4 w-4" />
-                                    </button>
-                                </Link>
-
-                                {activeExam.hasInterview && (
-                                    <Link href={`/ai-interview/session/${activeExam.interviewId}`}>
-                                        <button
-                                            type="button"
-                                            className="flex cursor-pointer items-center gap-2 rounded-xl bg-[#1b2f4b] px-6 py-4 text-sm font-bold text-white shadow-md transition-all hover:bg-[#122033] active:scale-98"
-                                        >
-                                            <Video className="h-4 w-4" />
-                                            <span>Phỏng vấn AI</span>
-                                        </button>
-                                    </Link>
-                                )}
+                            {/* Primary Action Button -> Open Room Passcode Modal */}
+                            <div className="flex shrink-0 items-center">
+                                <Button
+                                    size="lg"
+                                    onClick={() => handleOpenRoomModal(activeExam)}
+                                    className="h-12 w-full cursor-pointer rounded-xl bg-[#ab1f24] px-6 text-base font-bold whitespace-nowrap text-white shadow-md transition-all hover:bg-[#8b1a1f] hover:shadow-lg active:scale-98 sm:w-auto sm:px-8"
+                                >
+                                    <KeyRound className="mr-2 h-5 w-5 shrink-0" />
+                                    <span>Vào phòng thi</span>
+                                </Button>
                             </div>
                         </div>
                     </div>
                 )}
 
-                {/* 4. Controls Bar: Filter Tabs, Search & View Switcher */}
-                <div className="space-y-4 rounded-2xl border border-slate-200/80 bg-white p-4 shadow-[0_4px_16px_rgba(0,0,0,0.03)] sm:p-6">
-                    <div className="flex flex-col justify-between gap-4 md:flex-row md:items-center">
-                        {/* Status Filter Tabs */}
-                        <div className="flex items-center gap-2 overflow-x-auto pb-2 md:pb-0">
-                            <button
-                                type="button"
-                                onClick={() => setStatusFilter("ALL")}
-                                className={`cursor-pointer rounded-xl px-4 py-2.5 text-sm font-bold transition-all ${
-                                    statusFilter === "ALL"
-                                        ? "bg-[#ab1f24] text-white shadow-[0_4px_12px_rgba(188,34,40,0.25)]"
-                                        : "bg-slate-100 text-slate-700 hover:bg-slate-200"
-                                }`}
-                            >
-                                Tất cả ca thi ({MOCK_EXAM_SESSIONS.length})
-                            </button>
-                            <button
-                                type="button"
-                                onClick={() => setStatusFilter("ACTIVE")}
-                                className={`cursor-pointer rounded-xl px-4 py-2.5 text-sm font-bold transition-all ${
-                                    statusFilter === "ACTIVE"
-                                        ? "bg-[#ab1f24] text-white shadow-[0_4px_12px_rgba(188,34,40,0.25)]"
-                                        : "bg-slate-100 text-slate-700 hover:bg-slate-200"
-                                }`}
-                            >
-                                Đang diễn ra (1)
-                            </button>
-                            <button
-                                type="button"
-                                onClick={() => setStatusFilter("COMPLETED")}
-                                className={`cursor-pointer rounded-xl px-4 py-2.5 text-sm font-bold transition-all ${
-                                    statusFilter === "COMPLETED"
-                                        ? "bg-[#ab1f24] text-white shadow-[0_4px_12px_rgba(188,34,40,0.25)]"
-                                        : "bg-slate-100 text-slate-700 hover:bg-slate-200"
-                                }`}
-                            >
-                                Đã hoàn thành (4)
-                            </button>
+                {/* 4. Controls Bar: Filter Tabs, Search, Quick Room Join & View Mode Switcher */}
+                <div className="flex flex-col justify-between gap-4 rounded-2xl border border-slate-200/80 bg-white p-4 shadow-2xs sm:p-5 xl:flex-row xl:items-center">
+                    {/* Status Filter Tabs */}
+                    <div className="flex items-center gap-2 overflow-x-auto pb-2 xl:pb-0">
+                        <button
+                            type="button"
+                            onClick={() => handleStatusFilterChange("ALL")}
+                            className={`shrink-0 cursor-pointer rounded-xl px-4 py-2.5 text-sm font-bold whitespace-nowrap transition-all ${
+                                statusFilter === "ALL" ? "bg-[#ab1f24] text-white shadow-xs" : "bg-slate-100 text-slate-700 hover:bg-slate-200"
+                            }`}
+                        >
+                            Tất cả ({examList.length})
+                        </button>
+                        <button
+                            type="button"
+                            onClick={() => handleStatusFilterChange("ACTIVE")}
+                            className={`shrink-0 cursor-pointer rounded-xl px-4 py-2.5 text-sm font-bold whitespace-nowrap transition-all ${
+                                statusFilter === "ACTIVE" ? "bg-[#ab1f24] text-white shadow-xs" : "bg-slate-100 text-slate-700 hover:bg-slate-200"
+                            }`}
+                        >
+                            Đang mở thi ({activeCount})
+                        </button>
+                        <button
+                            type="button"
+                            onClick={() => handleStatusFilterChange("UPCOMING")}
+                            className={`shrink-0 cursor-pointer rounded-xl px-4 py-2.5 text-sm font-bold whitespace-nowrap transition-all ${
+                                statusFilter === "UPCOMING" ? "bg-[#ab1f24] text-white shadow-xs" : "bg-slate-100 text-slate-700 hover:bg-slate-200"
+                            }`}
+                        >
+                            Sắp diễn ra ({upcomingCount})
+                        </button>
+                        <button
+                            type="button"
+                            onClick={() => handleStatusFilterChange("COMPLETED")}
+                            className={`shrink-0 cursor-pointer rounded-xl px-4 py-2.5 text-sm font-bold whitespace-nowrap transition-all ${
+                                statusFilter === "COMPLETED" ? "bg-[#ab1f24] text-white shadow-xs" : "bg-slate-100 text-slate-700 hover:bg-slate-200"
+                            }`}
+                        >
+                            Đã hoàn thành ({completedCount})
+                        </button>
+                    </div>
+
+                    {/* Search Input, Quick Room Code Button & View Toggle */}
+                    <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
+                        <button
+                            type="button"
+                            onClick={() => handleOpenRoomModal()}
+                            className="flex shrink-0 cursor-pointer items-center justify-center gap-2 rounded-xl border border-red-200 bg-red-50 px-4 py-2 text-sm font-bold whitespace-nowrap text-[#ab1f24] shadow-2xs transition-all hover:bg-red-100 active:scale-98"
+                        >
+                            <KeyRound className="h-4 w-4 shrink-0" />
+                            <span>Nhập mã phòng thi</span>
+                        </button>
+
+                        <div className="relative w-full sm:w-64 md:w-72">
+                            <Search className="absolute top-1/2 left-3.5 h-4 w-4 -translate-y-1/2 text-slate-400" />
+                            <Input
+                                placeholder="Tìm theo môn thi hoặc mã ca..."
+                                value={searchQuery}
+                                onChange={(e) => handleSearchChange(e.target.value)}
+                                className="h-10 rounded-xl border-slate-200 pr-9 pl-9 text-sm focus:border-[#ab1f24] focus:ring-1 focus:ring-[#ab1f24]"
+                            />
+                            {searchQuery && (
+                                <button
+                                    type="button"
+                                    onClick={() => handleSearchChange("")}
+                                    className="absolute top-1/2 right-3 -translate-y-1/2 text-slate-400 hover:text-slate-600"
+                                >
+                                    <X className="h-4 w-4" />
+                                </button>
+                            )}
                         </div>
 
-                        {/* Search & View Toggle */}
-                        <div className="flex items-center gap-3">
-                            <div className="relative w-full sm:w-80">
-                                <Search className="absolute top-1/2 left-3.5 h-4 w-4 -translate-y-1/2 text-slate-400" />
-                                <Input
-                                    placeholder="Tìm theo tên hoặc mã ca thi..."
-                                    value={searchQuery}
-                                    onChange={(e) => setSearchQuery(e.target.value)}
-                                    className="h-11 rounded-xl border-slate-200 pr-9 pl-9 text-sm focus:border-[#ab1f24] focus:ring-1 focus:ring-[#ab1f24]"
-                                />
-                                {searchQuery && (
-                                    <button
-                                        type="button"
-                                        onClick={() => setSearchQuery("")}
-                                        className="absolute top-1/2 right-3 -translate-y-1/2 text-slate-400 hover:text-slate-600"
-                                    >
-                                        <X className="h-4 w-4" />
-                                    </button>
-                                )}
-                            </div>
-
-                            {/* View Switcher */}
-                            <div className="flex items-center rounded-xl border border-slate-200 bg-slate-100 p-1">
-                                <button
-                                    type="button"
-                                    onClick={() => setViewMode("table")}
-                                    className={`cursor-pointer rounded-lg p-2 transition-all ${
-                                        viewMode === "table" ? "bg-white text-[#ab1f24] shadow-xs" : "text-slate-500 hover:text-slate-900"
-                                    }`}
-                                    aria-label="Xem dạng bảng"
-                                >
-                                    <List className="h-4 w-4" />
-                                </button>
-                                <button
-                                    type="button"
-                                    onClick={() => setViewMode("grid")}
-                                    className={`cursor-pointer rounded-lg p-2 transition-all ${
-                                        viewMode === "grid" ? "bg-white text-[#ab1f24] shadow-xs" : "text-slate-500 hover:text-slate-900"
-                                    }`}
-                                    aria-label="Xem dạng thẻ"
-                                >
-                                    <LayoutGrid className="h-4 w-4" />
-                                </button>
-                            </div>
+                        {/* View Switcher */}
+                        <div className="flex shrink-0 items-center justify-end rounded-xl border border-slate-200 bg-slate-100 p-1">
+                            <button
+                                type="button"
+                                onClick={() => setViewMode("table")}
+                                className={`shrink-0 cursor-pointer rounded-lg p-2 transition-all ${
+                                    viewMode === "table" ? "bg-white text-[#ab1f24] shadow-xs" : "text-slate-500 hover:text-slate-900"
+                                }`}
+                                title="Xem dạng bảng"
+                            >
+                                <List className="h-4 w-4 shrink-0" />
+                            </button>
+                            <button
+                                type="button"
+                                onClick={() => setViewMode("grid")}
+                                className={`shrink-0 cursor-pointer rounded-lg p-2 transition-all ${
+                                    viewMode === "grid" ? "bg-white text-[#ab1f24] shadow-xs" : "text-slate-500 hover:text-slate-900"
+                                }`}
+                                title="Xem dạng thẻ"
+                            >
+                                <LayoutGrid className="h-4 w-4 shrink-0" />
+                            </button>
                         </div>
                     </div>
                 </div>
 
-                {/* 5. Main Content: Table View or Grid View */}
+                {/* 5. Main Content: Table View vs Grid View */}
                 {viewMode === "table" ? (
-                    <div className="overflow-hidden rounded-2xl border border-slate-200/80 bg-white shadow-[0_4px_16px_rgba(0,0,0,0.03)]">
+                    <div className="overflow-hidden rounded-2xl border border-slate-200/80 bg-white shadow-2xs">
                         <div className="overflow-x-auto">
-                            <table className="w-full border-collapse text-left">
+                            <table className="w-full min-w-[800px] border-collapse text-left">
                                 <thead>
-                                    <tr className="border-b border-[#eababc]/50 bg-[#fff6f7]">
-                                        <th className="w-2/5 px-6 py-4 text-[15px] font-bold text-[#ab1f24]">Bài thi</th>
-                                        <th className="w-1/5 px-6 py-4 text-[15px] font-bold text-[#ab1f24]">Giờ bắt đầu</th>
-                                        <th className="w-1/5 px-6 py-4 text-[15px] font-bold text-[#ab1f24]">Giờ kết thúc</th>
-                                        <th className="w-1/5 px-6 py-4 text-right text-[15px] font-bold text-[#ab1f24]">Hành động</th>
+                                    <tr className="border-b border-red-100 bg-[#fff8f8]">
+                                        <th className="w-16 px-4 py-4 text-center text-sm font-bold whitespace-nowrap text-[#ab1f24]">
+                                            <TooltipProvider delayDuration={200}>
+                                                <Tooltip>
+                                                    <TooltipTrigger asChild>
+                                                        <span className="cursor-help underline decoration-dotted underline-offset-4">STT</span>
+                                                    </TooltipTrigger>
+                                                    <TooltipContent side="top">
+                                                        <p>Số thứ tự</p>
+                                                    </TooltipContent>
+                                                </Tooltip>
+                                            </TooltipProvider>
+                                        </th>
+                                        <th className="px-6 py-4 text-sm font-bold whitespace-nowrap text-[#ab1f24]">Bài thi & Ca thi</th>
+                                        <th className="px-6 py-4 text-sm font-bold whitespace-nowrap text-[#ab1f24]">Thời gian & Phòng</th>
+                                        <th className="px-6 py-4 text-sm font-bold whitespace-nowrap text-[#ab1f24]">Trạng thái</th>
+                                        <th className="px-6 py-4 text-right text-sm font-bold whitespace-nowrap text-[#ab1f24]">Hành động</th>
                                     </tr>
                                 </thead>
                                 <tbody className="divide-y divide-slate-100">
-                                    {filteredExams.map((exam) => (
-                                        <tr key={exam.id} className="transition-colors hover:bg-red-50/20">
-                                            {/* Bài thi title & Badge */}
+                                    {paginatedExams.map((exam, index) => (
+                                        <tr key={exam.id} className="transition-colors hover:bg-slate-50/80">
+                                            {/* STT */}
+                                            <td className="px-4 py-4 text-center text-sm font-semibold whitespace-nowrap text-slate-500">
+                                                {(currentPage - 1) * ITEMS_PER_PAGE + index + 1}
+                                            </td>
+
+                                            {/* Exam Title & Subject */}
                                             <td className="px-6 py-4">
-                                                <div className="space-y-1.5">
+                                                <div className="space-y-1">
                                                     <div className="flex items-center gap-2">
-                                                        <span className="text-[17px] font-semibold text-slate-900">{exam.title}</span>
-                                                        {exam.status === "ACTIVE" && (
-                                                            <span className="rounded-full bg-emerald-100 px-2.5 py-0.5 text-[11px] font-bold text-emerald-800 shadow-2xs">
-                                                                Đang mở
+                                                        <span className="text-base font-bold text-slate-900">{exam.title}</span>
+                                                        {exam.isProctored && (
+                                                            <span title="Có giám sát AI" className="shrink-0 text-emerald-600">
+                                                                <ShieldCheck className="inline h-4 w-4" />
                                                             </span>
                                                         )}
                                                     </div>
-                                                    <div className="flex items-center gap-2 text-xs font-medium text-slate-500">
-                                                        <span>
+                                                    <div className="flex flex-wrap items-center gap-2 text-xs font-medium text-slate-500">
+                                                        <span className="whitespace-nowrap">
                                                             Mã: <strong className="font-mono text-slate-700">{exam.code}</strong>
                                                         </span>
                                                         <span>•</span>
-                                                        <span>{exam.category}</span>
-                                                        {exam.score !== undefined && (
-                                                            <>
-                                                                <span>•</span>
-                                                                <span className="font-bold text-[#ab1f24]">
-                                                                    Điểm: {exam.score}/{exam.totalScore}
-                                                                </span>
-                                                            </>
-                                                        )}
+                                                        <span className="whitespace-nowrap">{exam.subject}</span>
+                                                        <span>•</span>
+                                                        <span className="whitespace-nowrap">
+                                                            {exam.durationMinutes} phút ({exam.totalQuestions} câu)
+                                                        </span>
                                                     </div>
                                                 </div>
                                             </td>
 
-                                            {/* Giờ bắt đầu */}
-                                            <td className="px-6 py-4 text-[15px] font-medium text-slate-700">{exam.startTime}</td>
-
-                                            {/* Giờ kết thúc */}
-                                            <td className="px-6 py-4 text-[15px] font-medium text-slate-700">{exam.endTime}</td>
-
-                                            {/* Action Buttons */}
-                                            <td className="px-6 py-4 text-right">
-                                                <div className="flex items-center justify-end gap-2.5">
-                                                    {exam.status === "ACTIVE" && (
-                                                        <>
-                                                            <Link href={`/exam/${exam.examId}`}>
-                                                                <button
-                                                                    type="button"
-                                                                    className="flex cursor-pointer items-center gap-1.5 rounded-xl bg-slate-400 px-4 py-2.5 text-[14px] font-bold text-white shadow-xs transition-all hover:bg-slate-500 active:scale-98"
-                                                                >
-                                                                    <span>Vào thi</span>
-                                                                    <ArrowRight className="h-4 w-4" />
-                                                                </button>
-                                                            </Link>
-
-                                                            {exam.hasInterview && (
-                                                                <Link href={`/ai-interview/session/${exam.interviewId}`}>
-                                                                    <button
-                                                                        type="button"
-                                                                        className="flex cursor-pointer items-center gap-1.5 rounded-xl bg-slate-400 px-4 py-2.5 text-[14px] font-bold text-white shadow-xs transition-all hover:bg-slate-500 active:scale-98"
-                                                                    >
-                                                                        <span>Phỏng vấn</span>
-                                                                        <ArrowRight className="h-4 w-4" />
-                                                                    </button>
-                                                                </Link>
-                                                            )}
-                                                        </>
-                                                    )}
-
-                                                    {exam.status === "COMPLETED" && (
-                                                        <Link href={`/exam/${exam.resultId}/result`}>
-                                                            <button
-                                                                type="button"
-                                                                className="flex cursor-pointer items-center gap-1.5 rounded-xl bg-[#f8e9ea] px-4 py-2.5 text-[14px] font-bold text-[#ab1f24] shadow-2xs transition-all hover:bg-[#f3d4d6] active:scale-98"
-                                                            >
-                                                                <span>Xem kết quả</span>
-                                                                <ArrowRight className="h-4 w-4" />
-                                                            </button>
-                                                        </Link>
-                                                    )}
+                                            {/* Time & Room */}
+                                            <td className="px-6 py-4 whitespace-nowrap">
+                                                <div className="space-y-0.5 text-xs text-slate-600">
+                                                    <p className="font-semibold whitespace-nowrap text-slate-800">{exam.startTime}</p>
+                                                    <p className="whitespace-nowrap text-slate-500">{exam.room}</p>
                                                 </div>
+                                            </td>
+
+                                            {/* Status Badge */}
+                                            <td className="px-6 py-4 whitespace-nowrap">
+                                                {exam.status === "ACTIVE" && (
+                                                    <span className="inline-flex shrink-0 items-center gap-1.5 rounded-full border border-red-200 bg-red-50 px-3 py-1 text-xs font-bold whitespace-nowrap text-[#ab1f24]">
+                                                        <span className="h-2 w-2 animate-ping rounded-full bg-red-600" />
+                                                        <span>Đang mở thi</span>
+                                                    </span>
+                                                )}
+                                                {exam.status === "UPCOMING" && (
+                                                    <span className="inline-flex shrink-0 items-center gap-1 rounded-full border border-amber-300 bg-amber-50 px-3 py-1 text-xs font-semibold whitespace-nowrap text-amber-800">
+                                                        <Clock className="h-3.5 w-3.5 text-amber-600" />
+                                                        <span>Sắp diễn ra</span>
+                                                    </span>
+                                                )}
+                                                {exam.status === "COMPLETED" && (
+                                                    <div className="space-y-0.5 whitespace-nowrap">
+                                                        <span className="inline-flex shrink-0 items-center gap-1 rounded-full border border-emerald-300 bg-emerald-50 px-3 py-1 text-xs font-bold whitespace-nowrap text-emerald-700">
+                                                            <CheckCircle2 className="h-3.5 w-3.5 text-emerald-600" />
+                                                            <span>Đã hoàn thành</span>
+                                                        </span>
+                                                        {exam.score !== undefined && (
+                                                            <p className="pl-1 text-xs font-bold whitespace-nowrap text-emerald-700">
+                                                                Điểm: {exam.score}/{exam.maxScore}
+                                                            </p>
+                                                        )}
+                                                    </div>
+                                                )}
+                                            </td>
+
+                                            {/* Actions */}
+                                            <td className="px-6 py-4 text-right whitespace-nowrap">
+                                                {exam.status === "ACTIVE" && (
+                                                    <Button
+                                                        size="sm"
+                                                        onClick={() => handleOpenRoomModal(exam)}
+                                                        className="shrink-0 rounded-xl bg-[#ab1f24] px-4 py-2 font-bold whitespace-nowrap text-white shadow-xs hover:bg-[#8b1a1f]"
+                                                    >
+                                                        <KeyRound className="mr-1.5 h-3.5 w-3.5 shrink-0" />
+                                                        <span>Vào phòng thi</span>
+                                                    </Button>
+                                                )}
+                                                {exam.status === "UPCOMING" && (
+                                                    <Button
+                                                        size="sm"
+                                                        variant="outline"
+                                                        disabled
+                                                        className="shrink-0 cursor-not-allowed rounded-xl border-slate-200 font-medium whitespace-nowrap text-slate-400 opacity-60"
+                                                    >
+                                                        <span>Chưa mở phòng</span>
+                                                    </Button>
+                                                )}
+                                                {exam.status === "COMPLETED" && (
+                                                    <Link href={`/exam/${exam.resultId || "1"}/result`}>
+                                                        <Button
+                                                            size="sm"
+                                                            className="shrink-0 rounded-xl border border-emerald-200 bg-emerald-50 font-bold whitespace-nowrap text-emerald-700 shadow-2xs hover:bg-emerald-100"
+                                                        >
+                                                            <span>Xem kết quả</span>
+                                                        </Button>
+                                                    </Link>
+                                                )}
                                             </td>
                                         </tr>
                                     ))}
 
-                                    {filteredExams.length === 0 && (
+                                    {paginatedExams.length === 0 && (
                                         <tr>
-                                            <td colSpan={4} className="py-14 text-center text-sm text-slate-500">
-                                                Không có bài thi nào phù hợp với bộ lọc hiện tại.
+                                            <td colSpan={5} className="py-12 text-center text-sm font-medium whitespace-nowrap text-slate-500">
+                                                Không tìm thấy ca thi nào phù hợp với bộ lọc hiện tại.
                                             </td>
                                         </tr>
                                     )}
@@ -524,11 +455,11 @@ export function ExamLobbyView() {
                     </div>
                 ) : (
                     /* Grid Cards View */
-                    <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
-                        {filteredExams.map((exam) => (
+                    <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
+                        {paginatedExams.map((exam) => (
                             <div
                                 key={exam.id}
-                                className="flex flex-col justify-between space-y-4 rounded-2xl border border-slate-200/80 bg-white p-6 shadow-[0_4px_16px_rgba(0,0,0,0.03)] transition-all hover:-translate-y-1 hover:shadow-lg"
+                                className="flex flex-col justify-between space-y-4 rounded-2xl border border-slate-200/80 bg-white p-5 shadow-2xs transition-all hover:-translate-y-1 hover:shadow-md sm:p-6"
                             >
                                 <div className="space-y-3">
                                     <div className="flex items-center justify-between">
@@ -536,77 +467,71 @@ export function ExamLobbyView() {
                                             variant="outline"
                                             className={
                                                 exam.status === "ACTIVE"
-                                                    ? "border-emerald-300 bg-emerald-50 font-bold text-emerald-700"
-                                                    : "border-slate-200 bg-slate-50 font-bold text-slate-600"
+                                                    ? "shrink-0 border-red-300 bg-red-50 font-bold whitespace-nowrap text-[#ab1f24]"
+                                                    : exam.status === "UPCOMING"
+                                                      ? "shrink-0 border-amber-300 bg-amber-50 font-bold whitespace-nowrap text-amber-800"
+                                                      : "shrink-0 border-emerald-300 bg-emerald-50 font-bold whitespace-nowrap text-emerald-700"
                                             }
                                         >
-                                            {exam.status === "ACTIVE" ? "Đang mở thi" : "Đã hoàn thành"}
+                                            {exam.status === "ACTIVE" ? "Đang mở phòng" : exam.status === "UPCOMING" ? "Sắp diễn ra" : "Đã hoàn thành"}
                                         </Badge>
-                                        <span className="font-mono text-xs font-bold text-slate-400">{exam.code}</span>
+                                        <span className="font-mono text-xs font-bold whitespace-nowrap text-slate-400">{exam.code}</span>
                                     </div>
 
-                                    <h3 className="line-clamp-2 text-lg font-bold text-slate-900">{exam.title}</h3>
-                                    <p className="text-xs font-medium text-slate-500">{exam.category}</p>
+                                    <h3 className="line-clamp-2 text-lg leading-snug font-bold text-slate-900">{exam.title}</h3>
+                                    <p className="text-xs font-semibold whitespace-nowrap text-slate-500">{exam.subject}</p>
 
                                     <div className="space-y-2 border-t border-slate-100 pt-3 text-xs font-medium text-slate-600">
                                         <div className="flex items-center justify-between">
-                                            <span>Thời lượng:</span>
-                                            <strong className="font-bold text-slate-900">
-                                                {exam.duration} ({exam.totalQuestions} câu)
+                                            <span className="whitespace-nowrap">Thời lượng:</span>
+                                            <strong className="font-bold whitespace-nowrap text-slate-900">
+                                                {exam.durationMinutes} phút ({exam.totalQuestions} câu)
                                             </strong>
                                         </div>
                                         <div className="flex items-center justify-between">
-                                            <span>Bắt đầu:</span>
-                                            <span>{exam.startTime}</span>
+                                            <span className="whitespace-nowrap">Bắt đầu:</span>
+                                            <span className="whitespace-nowrap">{exam.startTime}</span>
                                         </div>
                                         <div className="flex items-center justify-between">
-                                            <span>Kết thúc:</span>
-                                            <span>{exam.endTime}</span>
+                                            <span className="whitespace-nowrap">Phòng thi:</span>
+                                            <span className="font-medium whitespace-nowrap text-slate-700">{exam.room}</span>
                                         </div>
                                         {exam.score !== undefined && (
-                                            <div className="flex items-center justify-between border-t border-slate-100 pt-2">
-                                                <span className="font-bold text-emerald-700">Kết quả đạt được:</span>
-                                                <strong className="text-base font-extrabold text-[#ab1f24]">
-                                                    {exam.score}/{exam.totalScore} điểm
-                                                </strong>
+                                            <div className="flex items-center justify-between border-t border-slate-100 pt-2 font-bold">
+                                                <span className="whitespace-nowrap text-slate-700">Điểm đạt được:</span>
+                                                <span className="text-base font-bold whitespace-nowrap text-emerald-700">
+                                                    {exam.score}/{exam.maxScore}
+                                                </span>
                                             </div>
                                         )}
                                     </div>
                                 </div>
 
                                 <div className="pt-2">
-                                    {exam.status === "ACTIVE" ? (
-                                        <div className="flex gap-2">
-                                            <Link href={`/exam/${exam.examId}`} className="flex-1">
-                                                <button
-                                                    type="button"
-                                                    className="flex w-full cursor-pointer items-center justify-center gap-1.5 rounded-xl bg-[#ab1f24] py-3 text-sm font-bold text-white shadow-xs transition-all hover:bg-[#9c1b20]"
-                                                >
-                                                    <span>Vào thi</span>
-                                                    <ArrowRight className="h-4 w-4" />
-                                                </button>
-                                            </Link>
-                                            {exam.hasInterview && (
-                                                <Link href={`/ai-interview/session/${exam.interviewId}`}>
-                                                    <button
-                                                        type="button"
-                                                        className="flex cursor-pointer items-center justify-center gap-1 rounded-xl bg-[#1b2f4b] px-3.5 py-3 text-sm font-bold text-white shadow-xs transition-all hover:bg-[#122033]"
-                                                        title="Phỏng vấn AI"
-                                                    >
-                                                        <Video className="h-4 w-4" />
-                                                    </button>
-                                                </Link>
-                                            )}
-                                        </div>
-                                    ) : (
-                                        <Link href={`/exam/${exam.resultId}/result`} className="block w-full">
-                                            <button
-                                                type="button"
-                                                className="flex w-full cursor-pointer items-center justify-center gap-1.5 rounded-xl bg-[#f8e9ea] py-3 text-sm font-bold text-[#ab1f24] shadow-2xs transition-all hover:bg-[#f3d4d6]"
-                                            >
-                                                <span>Xem kết quả & Báo cáo</span>
-                                                <ArrowRight className="h-4 w-4" />
-                                            </button>
+                                    {exam.status === "ACTIVE" && (
+                                        <Button
+                                            onClick={() => handleOpenRoomModal(exam)}
+                                            className="w-full shrink-0 rounded-xl bg-[#ab1f24] py-3 font-bold whitespace-nowrap text-white shadow-xs hover:bg-[#8b1a1f]"
+                                        >
+                                            <KeyRound className="mr-2 h-4 w-4 shrink-0" />
+                                            <span>Vào phòng thi</span>
+                                        </Button>
+                                    )}
+                                    {exam.status === "UPCOMING" && (
+                                        <Button
+                                            variant="outline"
+                                            disabled
+                                            className="w-full shrink-0 cursor-not-allowed rounded-xl border-slate-200 font-medium whitespace-nowrap text-slate-400 opacity-60"
+                                        >
+                                            <span>Chưa mở phòng thi</span>
+                                        </Button>
+                                    )}
+                                    {exam.status === "COMPLETED" && (
+                                        <Link href={`/exam/${exam.resultId || "1"}/result`} className="block w-full">
+                                            <Button className="w-full shrink-0 rounded-xl border border-emerald-200 bg-emerald-50 font-bold whitespace-nowrap text-emerald-700 shadow-2xs hover:bg-emerald-100">
+                                                <span>Xem kết quả bài làm</span>
+                                                <ArrowRight className="ml-1 h-4 w-4 shrink-0" />
+                                            </Button>
                                         </Link>
                                     )}
                                 </div>
@@ -615,54 +540,158 @@ export function ExamLobbyView() {
                     </div>
                 )}
 
-                {/* 6. Important Exam Regulations & Support Notice (Bottom eLearning UX) */}
-                <div className="grid grid-cols-1 gap-6 pt-4 lg:grid-cols-3">
-                    <div className="space-y-4 rounded-2xl border border-slate-200/80 bg-white p-7 shadow-[0_4px_16px_rgba(0,0,0,0.03)] lg:col-span-2">
-                        <div className="flex items-center gap-2 text-[#ab1f24]">
-                            <AlertCircle className="h-5 w-5" />
-                            <h3 className="text-base font-bold text-slate-900">Quy chế & Lưu ý quan trọng khi tham gia khảo thí</h3>
-                        </div>
-                        <ul className="space-y-3 text-sm leading-relaxed font-medium text-slate-600">
-                            <li className="flex items-start gap-2.5">
-                                <span className="mt-0.5 text-base leading-none font-extrabold text-[#ab1f24]">•</span>
-                                <span>Thí sinh cần kiểm tra Camera và Micro trước khi bắt đầu bài thi để đảm bảo tính hợp lệ và ghi hình giám sát.</span>
-                            </li>
-                            <li className="flex items-start gap-2.5">
-                                <span className="mt-0.5 text-base leading-none font-extrabold text-[#ab1f24]">•</span>
-                                <span>
-                                    Hệ thống tự động ghi nhận và đánh dấu vi phạm nếu phát hiện hành vi rời khỏi màn hình thi hoặc chuyển tab sang ứng dụng
-                                    khác.
-                                </span>
-                            </li>
-                            <li className="flex items-start gap-2.5">
-                                <span className="mt-0.5 text-base leading-none font-extrabold text-[#ab1f24]">•</span>
-                                <span>Kết quả thi và phân tích ma trận năng lực sẽ được cập nhật tự động ngay sau khi hoàn tất nộp bài.</span>
-                            </li>
-                        </ul>
-                    </div>
+                {/* 6. Centered Pagination Bar (Displayed when items > 20) */}
+                {filteredExams.length > ITEMS_PER_PAGE && (
+                    <div className="flex items-center justify-center gap-1.5 pt-4 sm:gap-2">
+                        {/* Prev Button */}
+                        <button
+                            type="button"
+                            disabled={currentPage === 1}
+                            onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
+                            className="flex h-10 w-10 shrink-0 cursor-pointer items-center justify-center rounded-xl border border-slate-200 bg-white text-slate-700 shadow-2xs transition-all hover:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-40"
+                            aria-label="Trang trước"
+                        >
+                            <ChevronLeft className="h-4 w-4 shrink-0" />
+                        </button>
 
-                    <div className="flex flex-col justify-between space-y-5 rounded-2xl bg-linear-to-br from-[#1b2f4b] to-[#0f172a] p-7 text-white shadow-[0_10px_25px_-5px_rgba(27,47,75,0.3)]">
-                        <div className="space-y-3">
-                            <div className="flex items-center gap-2 text-amber-400">
-                                <HelpCircle className="h-5 w-5" />
-                                <h3 className="text-base font-bold text-white">Hỗ trợ thí sinh trực ca</h3>
-                            </div>
-                            <p className="text-xs leading-relaxed text-slate-300 sm:text-sm">
-                                Gặp sự cố kết nối, mất điện hoặc lỗi kỹ thuật trong quá trình làm bài? Hãy liên hệ ngay với hội đồng giám thị để được hỗ trợ tức
-                                thì.
-                            </p>
-                        </div>
+                        {/* Page Number Buttons */}
+                        {Array.from({ length: totalPages }, (_, i) => i + 1).map((pageNum) => (
+                            <button
+                                key={pageNum}
+                                type="button"
+                                onClick={() => setCurrentPage(pageNum)}
+                                className={`flex h-10 min-w-10 shrink-0 cursor-pointer items-center justify-center rounded-xl px-3.5 text-sm font-bold whitespace-nowrap transition-all ${
+                                    currentPage === pageNum
+                                        ? "border border-[#ab1f24] bg-[#ab1f24] text-white shadow-xs"
+                                        : "border border-slate-200 bg-white text-slate-700 shadow-2xs hover:bg-slate-50"
+                                }`}
+                            >
+                                {pageNum}
+                            </button>
+                        ))}
 
-                        <div className="space-y-2 border-t border-white/10 pt-4 text-xs sm:text-sm">
-                            <div>
-                                Hotline hỗ trợ: <strong className="font-bold tracking-wide text-white">0862 069 233</strong>
-                            </div>
-                            <div>
-                                Email: <strong className="font-bold text-white">academy@rikkeisoft.com</strong>
-                            </div>
-                        </div>
+                        {/* Next Button */}
+                        <button
+                            type="button"
+                            disabled={currentPage === totalPages}
+                            onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
+                            className="flex h-10 w-10 shrink-0 cursor-pointer items-center justify-center rounded-xl border border-slate-200 bg-white text-slate-700 shadow-2xs transition-all hover:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-40"
+                            aria-label="Trang tiếp"
+                        >
+                            <ChevronRight className="h-4 w-4 shrink-0" />
+                        </button>
                     </div>
-                </div>
+                )}
+
+                {/* 7. Dialog Nhập Mã Phòng Thi → Phòng chờ realtime (đếm ngược + tự vào phòng) */}
+                <Dialog open={isRoomModalOpen} onOpenChange={(open) => (open ? setIsRoomModalOpen(true) : closeRoomModal())}>
+                    <DialogContent size="md" className="max-w-[420px] gap-5 rounded-2xl border-0 bg-white px-6 py-6 shadow-2xl">
+                        {isWaiting ? (
+                            <>
+                                <DialogHeader className="space-y-2 pb-0 text-center sm:text-center">
+                                    <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-2xl bg-red-50 text-[#ab1f24]">
+                                        <Radio className="h-6 w-6 animate-pulse" />
+                                    </div>
+                                    <div>
+                                        <DialogTitle className="text-xl font-bold text-slate-900">{UI_TEXT.waitingRoom.title}</DialogTitle>
+                                        <DialogDescription className="mt-1 text-xs text-slate-500">{UI_TEXT.waitingRoom.subtitle}</DialogDescription>
+                                    </div>
+                                </DialogHeader>
+
+                                <div className="space-y-4">
+                                    {/* Đồng hồ đếm ngược */}
+                                    <div className="rounded-2xl border border-red-100 bg-red-50/50 py-5 text-center">
+                                        <p className="text-[11px] font-semibold tracking-wide text-[#ab1f24]/80 uppercase">
+                                            {UI_TEXT.waitingRoom.countdownLabel}
+                                        </p>
+                                        <p className="mt-1 font-mono text-4xl font-bold text-[#ab1f24] tabular-nums">
+                                            {waitMinutes}:{waitSecs}
+                                        </p>
+                                    </div>
+
+                                    {/* Số thí sinh đã sẵn sàng */}
+                                    <div className="flex items-center justify-center gap-2 text-sm font-semibold text-slate-700">
+                                        <Users className="h-4 w-4 text-slate-500" />
+                                        <span>
+                                            {readyCount}/{WAITING_ROOM.TOTAL_PARTICIPANTS} {UI_TEXT.waitingRoom.readySuffix}
+                                        </span>
+                                    </div>
+
+                                    {/* Trạng thái */}
+                                    <div className="flex items-center justify-center gap-2 text-xs text-slate-500">
+                                        <Loader2 className="h-3.5 w-3.5 animate-spin" />
+                                        <span>{waitSeconds <= 1 ? UI_TEXT.waitingRoom.entering : UI_TEXT.waitingRoom.waitingProctor}</span>
+                                    </div>
+
+                                    <div className="flex items-center justify-center gap-1.5 text-[11px] font-medium text-emerald-600">
+                                        <CheckCircle2 className="h-3.5 w-3.5" />
+                                        <span>{UI_TEXT.waitingRoom.connected}</span>
+                                    </div>
+
+                                    <Button
+                                        type="button"
+                                        variant="outline"
+                                        onClick={closeRoomModal}
+                                        className="h-11 w-full rounded-xl border-slate-200 text-xs font-semibold text-slate-700 hover:bg-slate-50 sm:text-sm"
+                                    >
+                                        {UI_TEXT.waitingRoom.cancel}
+                                    </Button>
+                                </div>
+                            </>
+                        ) : (
+                            <>
+                                <DialogHeader className="space-y-2 pb-0 text-center sm:text-center">
+                                    <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-2xl bg-red-50 text-[#ab1f24]">
+                                        <KeyRound className="h-6 w-6" />
+                                    </div>
+                                    <div>
+                                        <DialogTitle className="text-xl font-bold text-slate-900">Nhập mã phòng thi</DialogTitle>
+                                        <DialogDescription className="mt-1 line-clamp-1 text-xs text-slate-500">
+                                            {selectedExamForEntry ? selectedExamForEntry.title : "Khảo thí trực tuyến RikkeiEdu"}
+                                        </DialogDescription>
+                                    </div>
+                                </DialogHeader>
+
+                                <form onSubmit={handleVerifyAndEnterRoom} className="space-y-4">
+                                    <div className="space-y-2">
+                                        <div className="relative">
+                                            <Input
+                                                type="text"
+                                                placeholder="Nhập mã do giám thị cấp..."
+                                                value={roomCodeInput}
+                                                onChange={(e) => {
+                                                    setRoomCodeInput(e.target.value);
+                                                    if (roomCodeError) setRoomCodeError("");
+                                                }}
+                                                autoFocus
+                                                className="h-13 rounded-xl border-slate-200 bg-slate-50/70 text-center font-mono text-lg font-bold tracking-widest text-slate-900 uppercase transition-all placeholder:font-sans placeholder:text-xs placeholder:font-normal placeholder:tracking-normal placeholder:text-slate-400 focus:border-[#ab1f24] focus:bg-white focus:ring-1 focus:ring-[#ab1f24]"
+                                            />
+                                        </div>
+                                        {roomCodeError && <p className="text-center text-xs font-semibold text-red-600">{roomCodeError}</p>}
+                                    </div>
+
+                                    <DialogFooter className="flex-row items-center justify-center gap-2 pt-2 sm:justify-center">
+                                        <Button
+                                            type="button"
+                                            variant="outline"
+                                            onClick={closeRoomModal}
+                                            className="h-11 flex-1 rounded-xl border-slate-200 text-xs font-semibold text-slate-700 hover:bg-slate-50 sm:text-sm"
+                                        >
+                                            Hủy
+                                        </Button>
+                                        <Button
+                                            type="submit"
+                                            className="h-11 flex-1 rounded-xl bg-[#ab1f24] text-xs font-bold text-white shadow-xs hover:bg-[#8b1a1f] sm:text-sm"
+                                        >
+                                            <span>Vào thi</span>
+                                            <ArrowRight className="ml-1.5 h-4 w-4" />
+                                        </Button>
+                                    </DialogFooter>
+                                </form>
+                            </>
+                        )}
+                    </DialogContent>
+                </Dialog>
             </div>
         </div>
     );

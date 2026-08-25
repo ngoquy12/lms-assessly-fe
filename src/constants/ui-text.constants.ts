@@ -1,6 +1,16 @@
 export const UI_TEXT = {
+    waitingRoom: {
+        title: "Phòng chờ vào thi",
+        subtitle: "Xác thực thành công. Vui lòng chờ giám thị mở ca thi.",
+        countdownLabel: "Ca thi sẽ bắt đầu sau",
+        waitingProctor: "Đang chờ giám thị mở phòng…",
+        readySuffix: "thí sinh đã sẵn sàng",
+        entering: "Đang vào phòng thi…",
+        cancel: "Rời phòng chờ",
+        connected: "Đã kết nối máy chủ thời gian thực",
+    },
     common: {
-        appName: "LMS Assessly",
+        appName: "RikkeiEdu",
         loading: "Đang tải...",
         genericError: "Đã xảy ra lỗi. Vui lòng thử lại.",
         save: "Lưu",
@@ -125,21 +135,21 @@ export const UI_TEXT = {
     },
     metadata: {
         layout: {
-            titleDefault: "LMS Assessly",
-            description: "Hệ thống khảo thí và đánh giá năng lực",
-            twitterTitle: "LMS Assessly",
-            twitterDescription: "Hệ thống khảo thí và đánh giá năng lực",
+            titleDefault: "RikkeiEdu",
+            description: "Hệ thống khảo thí và đánh giá năng lực RikkeiEdu",
+            twitterTitle: "RikkeiEdu",
+            twitterDescription: "Hệ thống khảo thí và đánh giá năng lực RikkeiEdu",
         },
         home: {
-            description: "Chào mừng đến với LMS Assessly",
+            description: "Chào mừng đến với RikkeiEdu",
         },
         login: {
             title: "Đăng nhập",
-            description: "Đăng nhập vào LMS Assessly",
+            description: "Đăng nhập vào RikkeiEdu",
         },
     },
     home: {
-        title: "LMS Assessly",
+        title: "RikkeiEdu",
         subtitle: "Hệ thống khảo thí và đánh giá năng lực — sẵn sàng để phát triển tính năng mới.",
         loginButton: "Đăng nhập",
         greetingMorning: "Chào buổi sáng,",

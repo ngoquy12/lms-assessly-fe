@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { queryKeys } from "@/config/query-keys";
-import { getPracticeById, getPracticeList, getTopicById, getTopicsList } from "@/services/practice.service";
+import { getPracticeById, getPracticeCriteria, getPracticeList, getPracticeQuestionReviews, getTopicById, getTopicsList } from "@/services/practice.service";
 
 export function usePracticeList() {
     return useQuery({ queryKey: queryKeys.practice.list, queryFn: getPracticeList });
@@ -8,6 +8,14 @@ export function usePracticeList() {
 
 export function usePracticeDetail(id: string) {
     return useQuery({ queryKey: queryKeys.practice.detail(id), queryFn: () => getPracticeById(id) });
+}
+
+export function usePracticeCriteria() {
+    return useQuery({ queryKey: queryKeys.practice.criteria, queryFn: getPracticeCriteria });
+}
+
+export function usePracticeQuestionReviews() {
+    return useQuery({ queryKey: queryKeys.practice.reviews, queryFn: getPracticeQuestionReviews });
 }
 
 export function useTopicsList() {

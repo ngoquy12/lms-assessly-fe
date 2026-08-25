@@ -1,6 +1,6 @@
 "use client";
 
-import { ArrowLeft, Play } from "lucide-react";
+import { Play } from "lucide-react";
 import Link from "next/link";
 import { QueryStateBoundary } from "@/components/shared/query-state";
 import { Badge } from "@/components/ui/badge";
@@ -13,11 +13,15 @@ export function TopicDetailView({ topicId }: { topicId: string }) {
     const { data: topic, isLoading, isError, refetch } = useTopicDetail(topicId);
 
     return (
-        <div className="mx-auto max-w-4xl space-y-6">
-            <Link href="/topics" className="inline-flex items-center gap-1.5 text-xs text-gray-500 hover:text-brand-600">
-                <ArrowLeft className="h-3.5 w-3.5" />
-                <span>Quay lại cây chủ đề kiến thức</span>
-            </Link>
+        <div className="mx-auto max-w-[1440px] space-y-6 px-6 py-8 font-sans text-slate-900 sm:px-10">
+            {/* Breadcrumb Navigation */}
+            <div className="flex items-center gap-2 text-xs font-semibold text-slate-500 sm:text-sm">
+                <Link href="/topics" className="transition-colors hover:text-[#ab1f24]">
+                    Chủ đề kiến thức
+                </Link>
+                <span>/</span>
+                <span className="font-bold text-slate-900">{topic?.name || "Chi tiết chủ đề"}</span>
+            </div>
 
             <QueryStateBoundary isLoading={isLoading} isError={isError} onRetry={refetch}>
                 {topic ? (

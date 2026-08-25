@@ -1,0 +1,264 @@
+{
+    "common": {
+        "appName": "RikkeiEdu",
+        "loading": "Loading...",
+        "genericError": "An error occurred. Please try again.",
+        "save": "Save",
+        "cancel": "Cancel",
+        "delete": "Delete",
+        "close": "Close",
+        "noData": "No data available",
+        "retry": "Retry",
+        "today": "Today",
+        "status": "Status",
+        "actions": "Actions",
+        "confirm": "Confirm",
+        "back": "Back",
+        "next": "Next",
+        "previous": "Previous",
+        "search": "Search",
+        "filter": "Filter",
+        "all": "All",
+        "submit": "Submit",
+        "start": "Start",
+        "finish": "Finish",
+        "duration": "Duration",
+        "minutes": "minutes",
+        "seconds": "seconds",
+        "questions": "questions",
+        "score": "Score",
+        "points": "points",
+        "language": "Language",
+        "vietnamese": "Tiếng Việt",
+        "english": "English",
+        "pagination": {
+            "page": "Page",
+            "of": "of",
+            "perPage": "/page",
+            "totalRecords": "Total records"
+        }
+    },
+    "auth": {
+        "title": "Login",
+        "subtitle": "Online Assessment & Competency Testing System",
+        "emailLabel": "Student / Candidate Email",
+        "emailPlaceholder": "candidate@rikkei.edu.vn",
+        "passwordLabel": "Password",
+        "passwordPlaceholder": "••••••••",
+        "submitButton": "Sign In",
+        "submitting": "Signing in...",
+        "logout": "Log out",
+        "logoutSuccess": "Logged out successfully.",
+        "loginSuccess": "Signed in successfully!",
+        "rememberMe": "Remember me",
+        "forgotPassword": "Forgot password?",
+        "errors": {
+            "emailRequired": "Email is required",
+            "emailInvalid": "Invalid email address",
+            "passwordRequired": "Password is required",
+            "loginFailed": "Incorrect email or password. Please try again."
+        }
+    },
+    "home": {
+        "hero": {
+            "titlePart1": "Every",
+            "titleHighlight1": "Assessment",
+            "titlePart2": "helps you evaluate and boost",
+            "titleHighlight2": "Your Competencies!",
+            "description": "Professional online examination platform designed to accurately assess your knowledge and skills. Start testing now to discover your true potential!",
+            "viewGuide": "View Guide",
+            "badgeDaily": "Fresh tests daily",
+            "badgeDailySub": "Continuously updated - don't miss out!",
+            "badgeEasy": "Seamless Learning",
+            "badgeEasySub": "Complete exams. Achieve excellence!"
+        },
+        "topicsSection": {
+            "title": "Topic-Based Assessments:",
+            "titleHighlight": "Evaluate Competencies",
+            "titleSuffix": "Accurately",
+            "description": "Explore exams categorized by topic to measure your expertise and mastery across diverse fields.",
+            "allTopics": "All Topics"
+        },
+        "quickLinks": {
+            "officialExam": "Official Exams",
+            "practice": "Free Practice",
+            "toeic": "Language Tests",
+            "competency": "Competency Assessment",
+            "interview": "AI Interview"
+        }
+    },
+    "exam": {
+        "lobby": {
+            "title": "Official Exam Lobby",
+            "subtitle": "Upcoming examination sessions and access ticket verification",
+            "ticketCodeLabel": "Enter Ticket Access Code",
+            "ticketCodePlaceholder": "E.g. EXAM-2026-X99",
+            "verifyTicketButton": "Verify Ticket",
+            "scheduledExams": "Scheduled Exam Sessions",
+            "noExams": "No active exam sessions available right now."
+        },
+        "taking": {
+            "title": "Online Examination Room",
+            "remainingTime": "Time Remaining",
+            "questionPaletteTitle": "Question Palette",
+            "answeredProgress": "Completed {answered}/{total}",
+            "legendCurrent": "Current Question",
+            "legendAnswered": "Answered",
+            "legendFlagged": "Flagged for Review",
+            "legendUnanswered": "Unanswered",
+            "flagQuestion": "Flag Question",
+            "unflagQuestion": "Remove Flag",
+            "singleChoiceHint": "Select the best single answer:",
+            "multipleChoiceHint": "Select all correct answers:",
+            "fillBlanksHint": "Type your answer into the blank:",
+            "matchingHint": "Match each item on the left with the correct option on the right:",
+            "essayHint": "Write your detailed essay answer in the box below:",
+            "codingHint": "Write the executable source code according to the problem requirements:",
+            "submitPromptTitle": "Confirm Exam Submission?",
+            "submitPromptDescription": "You have unanswered questions. Are you sure you want to submit your exam now?",
+            "confirmSubmit": "Submit Now",
+            "continueExam": "Continue Exam",
+            "submitting": "Submitting exam...",
+            "autoSubmitNotice": "Time is up! Your exam has been automatically submitted."
+        },
+        "result": {
+            "title": "Exam Results",
+            "passed": "Passed",
+            "failed": "Failed",
+            "pendingGrading": "Pending essay grading",
+            "totalScore": "Total Score",
+            "correctAnswers": "Correct Answers",
+            "wrongAnswers": "Incorrect Answers",
+            "skippedAnswers": "Skipped Questions",
+            "completionTime": "Time Spent",
+            "feedback": "Examiner Feedback",
+            "backToHome": "Back to Home",
+            "reviewExam": "Review Submission",
+            "history": "Exam History"
+        }
+    },
+    "toeic": {
+        "list": {
+            "title": "Language Proficiency & Certification Tests",
+            "subtitle": "Listening & Reading practice tests following international CBT standards",
+            "allParts": "All Parts",
+            "startTest": "Start Test"
+        },
+        "exam": {
+            "title": "TOEIC / IELTS Exam Room",
+            "splitViewNotice": "Split Screen: Reading Passage / Audio Player on the left, Questions on the right",
+            "readingPassage": "Reading Passage",
+            "audioListening": "Listening Audio",
+            "playAudio": "Play Audio",
+            "pauseAudio": "Pause Audio",
+            "part": "Part"
+        },
+        "result": {
+            "title": "Language Score Report",
+            "listeningScore": "Listening Score",
+            "readingScore": "Reading Score",
+            "totalScore": "Total Score",
+            "bandEstimate": "Estimated Band Score"
+        }
+    },
+    "competency": {
+        "list": {
+            "title": "Cognitive & Competency Assessment",
+            "subtitle": "Logic, EQ, IQ, and technical problem-solving evaluation"
+        },
+        "radarChart": {
+            "title": "Competency Radar Polygon Chart",
+            "logic": "Logical Thinking",
+            "technical": "Technical Skill",
+            "problemSolving": "Problem Solving",
+            "communication": "Communication",
+            "speed": "Processing Speed"
+        },
+        "result": {
+            "title": "Competency Evaluation Report",
+            "overallScore": "Overall Index",
+            "strengths": "Key Strengths",
+            "improvements": "Areas for Improvement",
+            "recommendation": "Development Roadmap"
+        }
+    },
+    "interview": {
+        "checkDevice": {
+            "title": "Interview Device Check",
+            "subtitle": "Ensure your Camera, Microphone, and Audio output are fully operational",
+            "cameraStatus": "Camera",
+            "micStatus": "Microphone",
+            "speakerStatus": "Speakers / Headphones",
+            "networkStatus": "Network Connection",
+            "readyButton": "All Devices Ready — Enter Interview Room",
+            "testAudio": "Test Audio",
+            "permissionDenied": "Please allow Camera and Microphone permissions in your browser."
+        },
+        "session": {
+            "title": "AI Voice Interviewer",
+            "subtitle": "Real-time interactive technical simulation session",
+            "aiSpeaking": "AI Interviewer is speaking...",
+            "listeningCandidate": "Listening to your response...",
+            "pressToSpeak": "Click to Answer",
+            "pressToStop": "Speaking (Click to Stop)",
+            "endInterview": "End Interview",
+            "webrtcActive": "Realtime WebRTC Audio Stream Active",
+            "sessionId": "Session ID"
+        },
+        "result": {
+            "title": "AI Interview Performance Report",
+            "fluencyScore": "Fluency & Confidence",
+            "vocabularyScore": "Vocabulary & Technical Terms",
+            "logicScore": "Logic & Structure",
+            "aiFeedback": "Comprehensive AI Examiner Feedback"
+        }
+    },
+    "practice": {
+        "title": "Practice & Self-Paced Learning",
+        "subtitle": "Hundreds of practice tests organized by skill and difficulty",
+        "difficulty": "Difficulty",
+        "easy": "Easy",
+        "medium": "Medium",
+        "hard": "Advanced",
+        "startPractice": "Practice Now",
+        "viewDetail": "View Details"
+    },
+    "ranking": {
+        "title": "Candidate Leaderboard",
+        "subtitle": "Honoring top-performing candidates across tests and seasons",
+        "weekly": "This Week",
+        "monthly": "This Month",
+        "allTime": "All Time",
+        "rank": "Rank",
+        "candidate": "Candidate",
+        "score": "Score",
+        "examsCount": "Exams Taken"
+    },
+    "profile": {
+        "title": "Candidate Profile",
+        "subtitle": "Personal info, examination records, and earned credentials",
+        "fullName": "Full Name",
+        "studentCode": "Candidate / Student ID",
+        "email": "Email",
+        "phone": "Phone Number",
+        "certificates": "Issued Certificates",
+        "changePassword": "Change Password",
+        "saveChanges": "Save Changes"
+    },
+    "guide": {
+        "title": "Exam Regulations & Guidelines",
+        "subtitle": "Examination rules, navigation guide, and Anti-cheat proctoring policy",
+        "rulesTitle": "Examination Room Rules",
+        "antiCheatTitle": "Anti-cheat Monitoring System",
+        "instructionsTitle": "How to Take an Exam"
+    },
+    "errors": {
+        "title": "An Error Occurred",
+        "somethingWentWrong": "Something went wrong during processing. Please try again later.",
+        "forbiddenTitle": "Access Denied",
+        "forbiddenDescription": "You need to log in or have a valid exam ticket to access this page.",
+        "notFoundTitle": "404 - Page Not Found",
+        "notFoundDescription": "The page you are looking for does not exist or has been moved.",
+        "goHome": "Back to Home"
+    }
+}

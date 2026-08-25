@@ -2,6 +2,7 @@
 
 import { Trophy } from "lucide-react";
 import Image from "next/image";
+import Link from "next/link";
 import { QueryStateBoundary } from "@/components/shared/query-state";
 import { Badge } from "@/components/ui/badge";
 import { Card } from "@/components/ui/card";
@@ -12,8 +13,17 @@ export function RankingView() {
     const leaderboard = data ?? [];
 
     return (
-        <div className="min-h-screen w-full bg-[#f8fafc] px-4 py-10 font-sans text-slate-900 sm:px-8 lg:px-12">
-            <div className="mx-auto max-w-[1440px] space-y-8">
+        <div className="min-h-screen w-full bg-[#f8fafc] font-sans text-slate-900">
+            <div className="mx-auto max-w-[1440px] space-y-8 px-6 py-8 sm:px-10">
+                {/* Breadcrumb Navigation */}
+                <div className="flex items-center gap-2 text-xs font-semibold text-slate-500 sm:text-sm">
+                    <Link href="/" className="transition-colors hover:text-[#ab1f24]">
+                        Trang chủ
+                    </Link>
+                    <span>/</span>
+                    <span className="font-bold text-slate-900">Bảng xếp hạng</span>
+                </div>
+
                 {/* 1. Header Banner */}
                 <div className="rounded-3xl bg-linear-to-r from-[#ab1f24] via-[#90171b] to-slate-900 p-8 text-white shadow-lg">
                     <div className="max-w-2xl space-y-2">

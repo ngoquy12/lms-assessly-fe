@@ -36,7 +36,7 @@ export function VerifyTicketView() {
                     <Badge variant="success" size="md" className="border-emerald-200 bg-emerald-50 text-emerald-700">
                         Vé thi hợp lệ
                     </Badge>
-                    <h1 className="text-[28px] font-extrabold tracking-tight text-[#ab1f24] sm:text-[34px]">Xác Thực Thông Tin Thí Sinh & Phòng Thi</h1>
+                    <h1 className="text-[26px] font-bold tracking-tight text-[#ab1f24] sm:text-[32px]">Xác Thực Thông Tin Thí Sinh & Phòng Thi</h1>
                     <p className="text-sm text-slate-600">Vui lòng kiểm tra lại thông tin cá nhân và ca thi trước khi hệ thống bắt đầu bấm giờ</p>
                 </div>
 

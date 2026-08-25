@@ -1,0 +1,264 @@
+{
+    "common": {
+        "appName": "RikkeiEdu",
+        "loading": "Đang tải...",
+        "genericError": "Đã xảy ra lỗi. Vui lòng thử lại.",
+        "save": "Lưu",
+        "cancel": "Hủy",
+        "delete": "Xóa",
+        "close": "Đóng",
+        "noData": "Không có dữ liệu",
+        "retry": "Thử lại",
+        "today": "Hôm nay",
+        "status": "Trạng thái",
+        "actions": "Hành động",
+        "confirm": "Xác nhận",
+        "back": "Quay lại",
+        "next": "Tiếp theo",
+        "previous": "Trước đó",
+        "search": "Tìm kiếm",
+        "filter": "Bộ lọc",
+        "all": "Tất cả",
+        "submit": "Nộp bài",
+        "start": "Bắt đầu",
+        "finish": "Hoàn tất",
+        "duration": "Thời gian",
+        "minutes": "phút",
+        "seconds": "giây",
+        "questions": "câu hỏi",
+        "score": "Điểm số",
+        "points": "điểm",
+        "language": "Ngôn ngữ",
+        "vietnamese": "Tiếng Việt",
+        "english": "English",
+        "pagination": {
+            "page": "Trang",
+            "of": "trên",
+            "perPage": "/trang",
+            "totalRecords": "Tổng số bản ghi"
+        }
+    },
+    "auth": {
+        "title": "Đăng nhập",
+        "subtitle": "Hệ thống Khảo thí & Đánh giá Năng lực",
+        "emailLabel": "Email sinh viên / Thí sinh",
+        "emailPlaceholder": "hocvien@rikkei.edu.vn",
+        "passwordLabel": "Mật khẩu",
+        "passwordPlaceholder": "••••••••",
+        "submitButton": "Đăng nhập",
+        "submitting": "Đang đăng nhập...",
+        "logout": "Đăng xuất",
+        "logoutSuccess": "Đã đăng xuất thành công.",
+        "loginSuccess": "Đăng nhập thành công!",
+        "rememberMe": "Ghi nhớ đăng nhập",
+        "forgotPassword": "Quên mật khẩu?",
+        "errors": {
+            "emailRequired": "Email không được để trống",
+            "emailInvalid": "Email không đúng định dạng",
+            "passwordRequired": "Mật khẩu không được để trống",
+            "loginFailed": "Email hoặc mật khẩu không chính xác. Vui lòng thử lại."
+        }
+    },
+    "home": {
+        "hero": {
+            "titlePart1": "Mỗi",
+            "titleHighlight1": "Bài Thi",
+            "titlePart2": "giúp bạn đánh giá và nâng cao",
+            "titleHighlight2": "Năng Lực Của Mình!",
+            "description": "Hệ thống khảo thí trực tuyến chuyên nghiệp giúp bạn đánh giá chính xác kiến thức và kỹ năng. Hãy bắt đầu thi ngay để khám phá năng lực thực sự của bạn!",
+            "viewGuide": "Xem hướng dẫn",
+            "badgeDaily": "Đề thi mới mỗi ngày",
+            "badgeDailySub": "Cập nhật liên tục - đừng bỏ lỡ!",
+            "badgeEasy": "Học dễ dàng",
+            "badgeEasySub": "Hoàn thành bài thi. Kết quả xuất sắc!"
+        },
+        "topicsSection": {
+            "title": "Đề Thi Theo Chủ Đề:",
+            "titleHighlight": "Đánh Giá Năng Lực",
+            "titleSuffix": "Chính Xác",
+            "description": "Khám phá các đề thi được phân loại theo chủ đề, giúp bạn đánh giá chính xác kiến thức và kỹ năng của mình ở từng lĩnh vực.",
+            "allTopics": "Tất cả chủ đề"
+        },
+        "quickLinks": {
+            "officialExam": "Thi chính thức",
+            "practice": "Luyện tập tự do",
+            "toeic": "Khảo thí Ngoại ngữ",
+            "competency": "Đánh giá Năng lực",
+            "interview": "Phỏng vấn AI"
+        }
+    },
+    "exam": {
+        "lobby": {
+            "title": "Sảnh Ca Thi Trực Tuyến",
+            "subtitle": "Danh sách các ca thi chính thức và kiểm tra mã vé thi",
+            "ticketCodeLabel": "Nhập mã vé thi (Access Code)",
+            "ticketCodePlaceholder": "VD: EXAM-2026-X99",
+            "verifyTicketButton": "Xác thực vé thi",
+            "scheduledExams": "Ca thi sắp diễn ra",
+            "noExams": "Hiện tại không có ca thi nào đang mở."
+        },
+        "taking": {
+            "title": "Phòng Thi Trực Tuyến",
+            "remainingTime": "Thời gian còn lại",
+            "questionPaletteTitle": "Danh sách câu hỏi",
+            "answeredProgress": "Đã làm {answered}/{total}",
+            "legendCurrent": "Đang làm hiện tại",
+            "legendAnswered": "Đã hoàn thành câu trả lời",
+            "legendFlagged": "Đã gắn cờ xem lại",
+            "legendUnanswered": "Chưa trả lời",
+            "flagQuestion": "Gắn cờ xem lại",
+            "unflagQuestion": "Bỏ gắn cờ",
+            "singleChoiceHint": "Chọn một đáp án đúng nhất:",
+            "multipleChoiceHint": "Chọn tất cả các đáp án đúng:",
+            "fillBlanksHint": "Điền câu trả lời vào chỗ trống:",
+            "matchingHint": "Ghép nối các mục tương ứng:",
+            "essayHint": "Nhập nội dung bài luận của bạn vào khung bên dưới:",
+            "codingHint": "Viết mã nguồn thực thi theo yêu cầu đề bài:",
+            "submitPromptTitle": "Xác nhận nộp bài thi?",
+            "submitPromptDescription": "Bạn còn câu hỏi chưa hoàn thành. Bạn có chắc chắn muốn nộp bài ngay bây giờ?",
+            "confirmSubmit": "Nộp bài ngay",
+            "continueExam": "Tiếp tục làm bài",
+            "submitting": "Đang nộp bài...",
+            "autoSubmitNotice": "Hết giờ làm bài! Hệ thống tự động nộp bài thi của bạn."
+        },
+        "result": {
+            "title": "Kết Quả Bài Thi",
+            "passed": "Đạt yêu cầu",
+            "failed": "Chưa đạt",
+            "pendingGrading": "Chờ chấm điểm tự luận",
+            "totalScore": "Tổng điểm",
+            "correctAnswers": "Số câu đúng",
+            "wrongAnswers": "Số câu sai",
+            "skippedAnswers": "Số câu bỏ qua",
+            "completionTime": "Thời gian hoàn thành",
+            "feedback": "Nhận xét & Đánh giá",
+            "backToHome": "Về trang chủ",
+            "reviewExam": "Xem lại bài làm",
+            "history": "Lịch sử khảo thí"
+        }
+    },
+    "toeic": {
+        "list": {
+            "title": "Khảo Thí & Luyện Thi Ngoại Ngữ",
+            "subtitle": "Đề thi Listening & Reading theo chuẩn khảo thí quốc tế",
+            "allParts": "Tất cả các Part",
+            "startTest": "Bắt đầu làm bài"
+        },
+        "exam": {
+            "title": "Phòng Thi TOEIC / IELTS",
+            "splitViewNotice": "Màn hình chia đôi: Bài đọc / Audio ở bên trái, câu hỏi ở bên phải",
+            "readingPassage": "Đoạn văn đọc hiểu",
+            "audioListening": "Phần thi Nghe",
+            "playAudio": "Phát âm thanh",
+            "pauseAudio": "Tạm dừng",
+            "part": "Phần thi"
+        },
+        "result": {
+            "title": "Báo Cáo Điểm Ngoại Ngữ",
+            "listeningScore": "Điểm Listening",
+            "readingScore": "Điểm Reading",
+            "totalScore": "Tổng điểm TOEIC",
+            "bandEstimate": "Band điểm ước tính"
+        }
+    },
+    "competency": {
+        "list": {
+            "title": "Đánh Giá Năng Lực & Tư Duy",
+            "subtitle": "Bài kiểm tra tư duy logic, EQ, IQ và năng lực chuyên môn"
+        },
+        "radarChart": {
+            "title": "Biểu Đồ Radar Đa Giác Năng Lực",
+            "logic": "Tư duy Logic",
+            "technical": "Chuyên môn",
+            "problemSolving": "Giải quyết vấn đề",
+            "communication": "Giao tiếp",
+            "speed": "Tốc độ phản xạ"
+        },
+        "result": {
+            "title": "Báo Cáo Đánh Giá Năng Lực",
+            "overallScore": "Chỉ số tổng hợp",
+            "strengths": "Điểm mạnh",
+            "improvements": "Điểm cần cải thiện",
+            "recommendation": "Định hướng phát triển"
+        }
+    },
+    "interview": {
+        "checkDevice": {
+            "title": "Kiểm Tra Thiết Bị Phỏng Vấn",
+            "subtitle": "Đảm bảo Camera, Microphone và Loa hoạt động ổn định",
+            "cameraStatus": "Camera",
+            "micStatus": "Microphone",
+            "speakerStatus": "Loa / Tai nghe",
+            "networkStatus": "Đường truyền mạng",
+            "readyButton": "Thiết bị sẵn sàng — Vào phòng phỏng vấn",
+            "testAudio": "Thử âm thanh",
+            "permissionDenied": "Vui lòng cấp quyền truy cập Microphone và Camera trên trình duyệt."
+        },
+        "session": {
+            "title": "AI Voice Interviewer",
+            "subtitle": "Phiên phỏng vấn mô phỏng kỹ thuật thời gian thực",
+            "aiSpeaking": "AI Interviewer đang đặt câu hỏi...",
+            "listeningCandidate": "Đang lắng nghe câu trả lời của bạn...",
+            "pressToSpeak": "Nhấn để trả lời",
+            "pressToStop": "Đang nói (Nhấn để dừng)",
+            "endInterview": "Kết thúc phỏng vấn",
+            "webrtcActive": "Realtime WebRTC Audio Stream Active",
+            "sessionId": "Mã phiên"
+        },
+        "result": {
+            "title": "Báo Cáo Đánh Giá Phỏng Vấn AI",
+            "fluencyScore": "Độ lưu loát & Tự tin",
+            "vocabularyScore": "Vốn từ vựng & Thuật ngữ",
+            "logicScore": "Tính logic & Cấu trúc câu trả lời",
+            "aiFeedback": "Nhận xét chi tiết từ AI Interviewer"
+        }
+    },
+    "practice": {
+        "title": "Luyện Tập & Ôn Thi Tự Do",
+        "subtitle": "Hàng trăm bộ đề ôn luyện phân theo kỹ năng và độ khó",
+        "difficulty": "Độ khó",
+        "easy": "Dễ",
+        "medium": "Trung bình",
+        "hard": "Nâng cao",
+        "startPractice": "Luyện tập ngay",
+        "viewDetail": "Xem chi tiết"
+    },
+    "ranking": {
+        "title": "Bảng Xếp Hạng Thí Sinh",
+        "subtitle": "Vinh danh những thí sinh có thành tích xuất sắc nhất",
+        "weekly": "Tuần này",
+        "monthly": "Tháng này",
+        "allTime": "Toàn thời gian",
+        "rank": "Hạng",
+        "candidate": "Thí sinh",
+        "score": "Điểm",
+        "examsCount": "Số bài thi"
+    },
+    "profile": {
+        "title": "Hồ Sơ Thí Sinh",
+        "subtitle": "Thông tin cá nhân, lịch sử thi cử và chứng chỉ đạt được",
+        "fullName": "Họ và tên",
+        "studentCode": "Mã thí sinh / SV",
+        "email": "Email",
+        "phone": "Số điện thoại",
+        "certificates": "Chứng chỉ đã cấp",
+        "changePassword": "Đổi mật khẩu",
+        "saveChanges": "Lưu thay đổi"
+    },
+    "guide": {
+        "title": "Quy Chế & Hướng Dẫn Khảo Thí",
+        "subtitle": "Quy định làm bài, hướng dẫn thao tác và chính sách chống gian lận (Anti-cheat)",
+        "rulesTitle": "Quy định phòng thi",
+        "antiCheatTitle": "Cơ chế giám sát Anti-cheat",
+        "instructionsTitle": "Hướng dẫn thao tác làm bài"
+    },
+    "errors": {
+        "title": "Đã xảy ra lỗi",
+        "somethingWentWrong": "Có lỗi xảy ra trong quá trình xử lý. Vui lòng thử lại sau.",
+        "forbiddenTitle": "Không có quyền truy cập",
+        "forbiddenDescription": "Bạn cần đăng nhập hoặc có vé thi hợp lệ để truy cập trang này.",
+        "notFoundTitle": "404 - Không tìm thấy trang",
+        "notFoundDescription": "Trang bạn đang tìm kiếm không tồn tại hoặc đã được di chuyển.",
+        "goHome": "Quay về trang chủ"
+    }
+}

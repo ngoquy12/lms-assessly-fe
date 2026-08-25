@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import { ArrowLeft } from "lucide-react";
 import type { Route } from "next";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
@@ -93,19 +92,20 @@ export function ExamGuideView() {
     const currentSection = EXAM_GUIDE_SECTIONS.find((s) => s.key === activeTabKey) || EXAM_GUIDE_SECTIONS[0];
 
     return (
-        <div className="min-h-screen w-full bg-[#f8fafc] px-4 py-8 font-sans text-slate-900 sm:px-8 lg:px-12">
-            <div className="mx-auto max-w-[1140px] space-y-6">
-                {/* 1. Back to Home Navigation */}
-                <div>
-                    <Link href="/" className="inline-flex cursor-pointer items-center gap-1.5 text-sm font-semibold text-[#ab1f24] hover:underline">
-                        <ArrowLeft className="h-4 w-4" />
-                        <span>Trang chủ</span>
+        <div className="min-h-screen w-full bg-[#f8fafc] font-sans text-slate-900">
+            <div className="mx-auto max-w-[1440px] space-y-6 px-6 py-8 sm:px-10">
+                {/* Breadcrumb Navigation */}
+                <div className="flex items-center gap-2 text-xs font-semibold text-slate-500 sm:text-sm">
+                    <Link href="/" className="transition-colors hover:text-[#ab1f24]">
+                        Trang chủ
                     </Link>
+                    <span>/</span>
+                    <span className="font-bold text-slate-900">Hướng dẫn thi</span>
                 </div>
 
                 {/* 2. Page Title & Subtitle */}
                 <div className="space-y-1">
-                    <h1 className="text-[32px] font-bold tracking-tight text-[#1e2328]">Hướng dẫn thi</h1>
+                    <h1 className="text-[32px] font-bold tracking-tight text-[#ab1f24]">Hướng dẫn thi</h1>
                     <p className="text-[15px] text-slate-600">Chọn loại hình thi để xem các bước và lưu ý trước khi vào phòng.</p>
                 </div>
 

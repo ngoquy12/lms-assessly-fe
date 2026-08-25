@@ -1,7 +1,9 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Bot, Clock, Mic, PhoneOff, Wifi } from "lucide-react";
+import { Bot, Clock, Mic, MicOff, PhoneOff, Wifi } from "lucide-react";
+import Image from "next/image";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -27,49 +29,64 @@ export function VoiceInterviewView({ sessionId }: { sessionId: string }) {
     };
 
     return (
-        <div className="flex min-h-screen flex-col justify-between bg-slate-950 p-4 text-white select-none sm:p-6">
+        <div className="flex min-h-screen flex-col justify-between bg-[#0f172a] font-sans text-white select-none">
             {/* Top Bar */}
-            <div className="flex items-center justify-between border-b border-slate-800 pb-4">
-                <div className="flex items-center gap-3">
-                    <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-brand-600 font-bold text-white shadow-xs">A</div>
-                    <div>
-                        <h1 className="text-sm font-bold text-slate-100">AI Voice Interviewer — Frontend React / Next.js</h1>
-                        <p className="text-xs text-slate-400">Phiên phỏng vấn mô phỏng kỹ thuật thời gian thực</p>
+            <header className="border-b border-slate-800 bg-slate-900/80 px-6 py-4 backdrop-blur-md">
+                <div className="mx-auto flex max-w-[1440px] items-center justify-between">
+                    <div className="flex items-center gap-4">
+                        <Link href="/" className="flex items-center">
+                            <Image
+                                src="/images/header/logo-rikkei2 1.png"
+                                alt="RikkeiEdu"
+                                width={110}
+                                height={38}
+                                className="h-9 w-auto object-contain brightness-0 invert"
+                                priority
+                            />
+                        </Link>
+                        <div className="hidden border-l border-slate-700 pl-4 sm:block">
+                            <h1 className="text-sm font-bold text-slate-100">AI Voice Interviewer — Frontend React / Next.js</h1>
+                            <p className="text-xs text-slate-400">Phiên phỏng vấn mô phỏng kỹ thuật thời gian thực</p>
+                        </div>
+                    </div>
+
+                    <div className="flex items-center gap-4">
+                        <div className="flex items-center gap-2 rounded-xl border border-slate-700 bg-slate-800 px-3.5 py-1.5 font-mono text-sm font-bold text-white shadow-2xs">
+                            <Clock className="h-4 w-4 text-red-400" />
+                            <span>{timeDisplay}</span>
+                        </div>
+
+                        <Button
+                            onClick={handleEndInterview}
+                            className="h-10 gap-1.5 rounded-xl bg-[#ab1f24] px-4 text-xs font-bold text-white shadow-md hover:bg-[#8b1a1f] sm:text-sm"
+                        >
+                            <PhoneOff className="h-4 w-4" />
+                            <span>Kết thúc phỏng vấn</span>
+                        </Button>
                     </div>
                 </div>
-
-                <div className="flex items-center gap-4">
-                    <div className="flex items-center gap-2 rounded-xl border border-slate-800 bg-slate-900 px-3 py-1.5 font-mono text-xs font-bold text-brand-300">
-                        <Clock className="h-3.5 w-3.5 text-brand-400" />
-                        <span>{timeDisplay}</span>
-                    </div>
-
-                    <Button variant="destructive" size="sm" onClick={handleEndInterview} className="gap-1.5">
-                        <PhoneOff className="h-4 w-4" />
-                        <span>Kết thúc phỏng vấn</span>
-                    </Button>
-                </div>
-            </div>
+            </header>
 
             {/* Main Interactive Stage */}
-            <div className="mx-auto flex w-full max-w-2xl flex-1 flex-col items-center justify-center space-y-8 py-8">
+            <main className="mx-auto flex w-full max-w-2xl flex-1 flex-col items-center justify-center space-y-8 px-4 py-8">
                 {/* AI Avatar Pulse Animation */}
                 <div className="relative flex items-center justify-center">
-                    <div className="absolute h-48 w-48 animate-ping rounded-full bg-brand-600/20 opacity-60" />
-                    <div className="absolute h-36 w-36 animate-pulse rounded-full bg-brand-500/30" />
-                    <div className="relative flex h-28 w-28 items-center justify-center rounded-full border-2 border-brand-400/40 bg-linear-to-tr from-brand-700 to-indigo-600 text-white shadow-2xl">
+                    <div className="absolute h-48 w-48 animate-ping rounded-full bg-red-600/20 opacity-60" />
+                    <div className="absolute h-36 w-36 animate-pulse rounded-full bg-red-500/30" />
+                    <div className="relative flex h-28 w-28 items-center justify-center rounded-full border-2 border-red-400/40 bg-linear-to-tr from-[#ab1f24] to-red-800 text-white shadow-2xl">
                         <Bot className="h-12 w-12 text-white" />
                     </div>
                 </div>
 
                 {/* Subtitle / Question Box */}
-                <Card size="md" className="w-full border-slate-800 bg-slate-900/90 text-center shadow-2xl backdrop-blur-md">
-                    <CardContent className="space-y-2 p-6">
-                        <Badge variant="primary" className="mb-1 border-brand-500/40 bg-brand-500/20 text-brand-300">
+                <Card className="w-full rounded-2xl border-slate-800 bg-slate-900/90 text-center shadow-2xl backdrop-blur-md">
+                    <CardContent className="space-y-3 p-6">
+                        <Badge variant="outline" className="border-red-400/40 bg-red-500/20 px-3 py-0.5 text-xs font-semibold text-red-300">
                             {isAiSpeaking ? "AI Interviewer đang đặt câu hỏi..." : "Đang lắng nghe câu trả lời của bạn..."}
                         </Badge>
-                        <p className="text-base leading-relaxed font-semibold text-slate-100">
-                            &quot;Bạn có thể giải thích sự khác biệt cốt lõi giữa Server Components và Client Components trong Next.js 16 không?&quot;
+                        <p className="text-base leading-relaxed font-semibold text-slate-100 sm:text-lg">
+                            &quot;Bạn có thể giải thích sự khác biệt cốt lõi giữa Server Components và Client Components trong Next.js không? Khi nào nên chọn
+                            từng loại?&quot;
                         </p>
                     </CardContent>
                 </Card>
@@ -77,35 +94,47 @@ export function VoiceInterviewView({ sessionId }: { sessionId: string }) {
                 {/* Audio Waveform visualization mockup */}
                 <div className="flex h-10 items-center gap-1.5">
                     {[16, 28, 44, 20, 36, 48, 24, 40, 16, 32, 44, 20].map((h, i) => (
-                        <div key={i} className="w-1.5 animate-pulse rounded-full bg-brand-400" style={{ height: `${h}px`, animationDelay: `${i * 100}ms` }} />
+                        <div key={i} className="w-1.5 animate-pulse rounded-full bg-red-400" style={{ height: `${h}px`, animationDelay: `${i * 100}ms` }} />
                     ))}
                 </div>
-            </div>
+            </main>
 
             {/* Bottom Controls */}
-            <div className="flex items-center justify-between border-t border-slate-800 pt-4 text-xs text-slate-400">
-                <div className="flex items-center gap-2 text-emerald-400">
-                    <Wifi className="h-4 w-4" />
-                    <span>Realtime WebRTC Audio Stream Active</span>
-                </div>
+            <footer className="border-t border-slate-800 bg-slate-900/80 px-6 py-4">
+                <div className="mx-auto flex max-w-[1440px] flex-wrap items-center justify-between gap-4 text-xs text-slate-400">
+                    <div className="flex items-center gap-2 font-medium text-emerald-400">
+                        <Wifi className="h-4 w-4" />
+                        <span>Realtime WebRTC Audio Stream Active (Độ trễ: 32ms)</span>
+                    </div>
 
-                <div className="flex items-center gap-3">
-                    <Button
-                        size="md"
-                        variant={isListeningCandidate ? "default" : "secondary"}
-                        className="gap-2 rounded-full px-6"
-                        onClick={() => {
-                            setIsListeningCandidate(!isListeningCandidate);
-                            setIsAiSpeaking(isListeningCandidate);
-                        }}
-                    >
-                        <Mic className="h-4 w-4" />
-                        <span>{isListeningCandidate ? "Đang nói (Nhấn để dừng)" : "Nhấn để trả lời"}</span>
-                    </Button>
-                </div>
+                    <div className="flex items-center gap-3">
+                        <Button
+                            size="lg"
+                            className={`h-11 gap-2 rounded-xl px-6 font-bold shadow-md transition-all ${
+                                isListeningCandidate ? "bg-emerald-600 text-white hover:bg-emerald-700" : "bg-[#ab1f24] text-white hover:bg-[#8b1a1f]"
+                            }`}
+                            onClick={() => {
+                                setIsListeningCandidate(!isListeningCandidate);
+                                setIsAiSpeaking(isListeningCandidate);
+                            }}
+                        >
+                            {isListeningCandidate ? (
+                                <>
+                                    <MicOff className="h-4 w-4" />
+                                    <span>Đang thu âm (Bấm để gửi câu trả lời)</span>
+                                </>
+                            ) : (
+                                <>
+                                    <Mic className="h-4 w-4" />
+                                    <span>Bật mic trả lời</span>
+                                </>
+                            )}
+                        </Button>
+                    </div>
 
-                <span>Mã phiên: {sessionId}</span>
-            </div>
+                    <span className="font-mono text-slate-500">Mã phiên: {sessionId}</span>
+                </div>
+            </footer>
         </div>
     );
 }
