@@ -149,6 +149,7 @@ export const UI_TEXT = {
         streak: "Streak",
         rankPrefix: "#",
         startTour: "Xem hướng dẫn",
+        startPractice: "Bắt đầu luyện tập ngay",
         announceTitle: "Thông báo quan trọng",
         announceNewSuffix: "mới",
         viewAllAnnounce: "Xem tất cả →",

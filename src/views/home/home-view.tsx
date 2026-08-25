@@ -6,6 +6,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { QueryStateBoundary } from "@/components/shared/query-state";
 import { Badge } from "@/components/ui/badge";
+import { UI_TEXT } from "@/constants/ui-text.constants";
 import { usePracticeList } from "@/hooks/queries/use-practice";
 
 export function HomeView() {
@@ -33,7 +34,15 @@ export function HomeView() {
                             lực thực sự của bạn!
                         </p>
 
-                        <div className="flex items-center gap-4 pt-2">
+                        <div className="flex flex-wrap items-center gap-4 pt-2">
+                            <Link href="/practice">
+                                <button
+                                    type="button"
+                                    className="cursor-pointer rounded-full bg-brand-500 px-8 py-3.5 text-base font-medium text-white shadow-xs transition-all hover:bg-brand-600"
+                                >
+                                    {UI_TEXT.home.startPractice}
+                                </button>
+                            </Link>
                             <Link href="/huong-dan">
                                 <button
                                     type="button"
