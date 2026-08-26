@@ -4,7 +4,9 @@ import createNextIntlPlugin from "next-intl/plugin";
 const withNextIntl = createNextIntlPlugin("./src/i18n/request.ts");
 
 const nextConfig: NextConfig = {
-    output: "standalone",
+    // "standalone" cho build Docker/VPS (self-hosting). Trên Vercel (VERCEL=1) phải
+    // tắt để Vercel tự xử lý output — nếu để standalone sẽ lỗi next-server.js.nft.json.
+    output: process.env.VERCEL ? undefined : "standalone",
     reactStrictMode: true,
     poweredByHeader: false,
     typedRoutes: true,
