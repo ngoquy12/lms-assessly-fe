@@ -100,11 +100,11 @@ export function NotificationListView() {
     };
 
     return (
-        <div className="min-h-screen bg-[#f8fafc] pt-6 pb-16 text-slate-900">
+        <div className="min-h-screen bg-slate-50 pt-6 pb-16 text-slate-900">
             <div className="mx-auto max-w-[1200px] space-y-5 px-4 sm:px-6 lg:px-8">
                 {/* 1. Breadcrumbs */}
                 <div className="flex items-center gap-2 text-xs font-semibold text-slate-500">
-                    <Link href={"/" as unknown as Route} className="transition-colors hover:text-[#ab1f24]">
+                    <Link href={"/" as unknown as Route} className="transition-colors hover:text-brand-600">
                         Trang chủ
                     </Link>
                     <span>/</span>
@@ -126,9 +126,9 @@ export function NotificationListView() {
                                 variant="outline"
                                 size="sm"
                                 onClick={handleMarkAllAsRead}
-                                className="h-9 cursor-pointer gap-1.5 rounded-lg border-slate-200 bg-white px-3 text-xs font-semibold text-slate-700 shadow-2xs hover:border-[#ab1f24] hover:bg-red-50/40 hover:text-[#ab1f24]"
+                                className="h-9 cursor-pointer gap-1.5 rounded-lg border-slate-200 bg-white px-3 text-xs font-semibold text-slate-700 shadow-2xs hover:border-brand-500 hover:bg-brand-50/40 hover:text-brand-700"
                             >
-                                <CheckCheck className="h-3.5 w-3.5 text-[#ab1f24]" />
+                                <CheckCheck className="h-3.5 w-3.5 text-brand-600" />
                                 <span>Đã đọc tất cả</span>
                             </Button>
                         )}
@@ -169,7 +169,7 @@ export function NotificationListView() {
                                     }}
                                     className={cn(
                                         "flex cursor-pointer items-center gap-1.5 rounded-lg px-2.5 py-1.5 text-xs font-medium transition-all select-none",
-                                        isSelected ? "bg-[#ab1f24] font-bold text-white shadow-2xs" : "text-slate-600 hover:bg-slate-100 hover:text-slate-900",
+                                        isSelected ? "bg-brand-600 font-bold text-white shadow-2xs" : "text-slate-600 hover:bg-slate-100 hover:text-slate-900",
                                     )}
                                 >
                                     <span>{tab.label}</span>
@@ -197,7 +197,7 @@ export function NotificationListView() {
                                 setSearchQuery(e.target.value);
                                 setCurrentPage(1);
                             }}
-                            className="h-8.5 rounded-lg border-slate-200 bg-slate-50/50 pr-7 pl-8 text-xs font-normal transition-all placeholder:text-slate-400 focus:border-[#ab1f24] focus:bg-white focus:ring-1 focus:ring-[#ab1f24]"
+                            className="h-8.5 rounded-lg border-slate-200 bg-slate-50/50 pr-7 pl-8 text-xs font-normal transition-all placeholder:text-slate-400 focus:border-brand-500 focus:bg-white focus:ring-1 focus:ring-brand-500"
                         />
                         {searchQuery && (
                             <button
@@ -236,18 +236,18 @@ export function NotificationListView() {
                                         onClick={() => handleItemClick(item)}
                                         className={cn(
                                             "group relative flex cursor-pointer items-start gap-3.5 px-4 py-3 transition-colors sm:px-5 sm:py-3.5",
-                                            isUnread ? "bg-red-50/20 hover:bg-red-50/40" : "bg-white hover:bg-slate-50/70",
+                                            isUnread ? "bg-brand-50/30 hover:bg-brand-50/50" : "bg-white hover:bg-slate-50/70",
                                         )}
                                     >
                                         {/* Unread Left Border Accent */}
-                                        {isUnread && <span className="absolute top-0 bottom-0 left-0 w-1 bg-[#ab1f24]" />}
+                                        {isUnread && <span className="absolute top-0 bottom-0 left-0 w-1 bg-brand-600" />}
 
                                         {/* Icon */}
                                         <div
                                             className={cn(
                                                 "mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-xl transition-transform group-hover:scale-105",
                                                 item.category === "exam"
-                                                    ? "bg-red-100 text-[#ab1f24]"
+                                                    ? "bg-brand-100 text-brand-700"
                                                     : item.category === "interview"
                                                       ? "bg-emerald-100 text-emerald-700"
                                                       : item.category === "competency"
@@ -271,7 +271,7 @@ export function NotificationListView() {
                                                     className={cn(
                                                         "inline-flex items-center rounded-md px-1.5 py-0.5 text-[10.5px] font-bold",
                                                         item.category === "exam"
-                                                            ? "border border-red-200/60 bg-red-50 text-[#ab1f24]"
+                                                            ? "border border-brand-200/60 bg-brand-50 text-brand-700"
                                                             : item.category === "interview"
                                                               ? "border border-emerald-200/60 bg-emerald-50 text-emerald-700"
                                                               : item.category === "competency"
@@ -293,7 +293,7 @@ export function NotificationListView() {
                                                     {item.title}
                                                 </h3>
 
-                                                {isUnread && <span className="h-2 w-2 shrink-0 rounded-full bg-[#ab1f24]" />}
+                                                {isUnread && <span className="h-2 w-2 shrink-0 rounded-full bg-brand-600" />}
                                             </div>
 
                                             <p className="line-clamp-2 text-xs leading-relaxed text-slate-600">{item.description}</p>
@@ -315,7 +315,7 @@ export function NotificationListView() {
                                                     type="button"
                                                     size="sm"
                                                     onClick={() => handleItemClick(item)}
-                                                    className="h-8 cursor-pointer gap-1 rounded-lg bg-[#ab1f24] px-2.5 text-xs font-semibold text-white shadow-2xs hover:bg-[#8b1a1f]"
+                                                    className="h-8 cursor-pointer gap-1 rounded-lg bg-brand-600 px-2.5 text-xs font-semibold text-white shadow-2xs hover:bg-brand-700"
                                                 >
                                                     <span>{item.actionLabel}</span>
                                                     <ArrowRight className="h-3 w-3" />
@@ -371,7 +371,7 @@ export function NotificationListView() {
                                             className={cn(
                                                 "flex h-7.5 min-w-7.5 cursor-pointer items-center justify-center rounded-md px-2 text-xs font-semibold transition-all",
                                                 currentPage === pageNum
-                                                    ? "bg-[#ab1f24] text-white shadow-2xs"
+                                                    ? "bg-brand-600 text-white shadow-2xs"
                                                     : "border border-slate-200 bg-white text-slate-700 hover:bg-slate-50",
                                             )}
                                         >

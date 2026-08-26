@@ -92,11 +92,11 @@ export function ExamGuideView() {
     const currentSection = EXAM_GUIDE_SECTIONS.find((s) => s.key === activeTabKey) || EXAM_GUIDE_SECTIONS[0];
 
     return (
-        <div className="min-h-screen w-full bg-[#f8fafc] font-sans text-slate-900">
+        <div className="min-h-screen w-full bg-slate-50 font-sans text-slate-900">
             <div className="mx-auto max-w-[1440px] space-y-6 px-6 py-8 sm:px-10">
                 {/* Breadcrumb Navigation */}
                 <div className="flex items-center gap-2 text-xs font-semibold text-slate-500 sm:text-sm">
-                    <Link href="/" className="transition-colors hover:text-[#ab1f24]">
+                    <Link href="/" className="transition-colors hover:text-brand-600">
                         Trang chủ
                     </Link>
                     <span>/</span>
@@ -105,7 +105,7 @@ export function ExamGuideView() {
 
                 {/* 2. Page Title & Subtitle */}
                 <div className="space-y-1">
-                    <h1 className="text-[32px] font-bold tracking-tight text-[#ab1f24]">Hướng dẫn thi</h1>
+                    <h1 className="text-[32px] font-bold tracking-tight text-brand-700">Hướng dẫn thi</h1>
                     <p className="text-[15px] text-slate-600">Chọn loại hình thi để xem các bước và lưu ý trước khi vào phòng.</p>
                 </div>
 
@@ -120,11 +120,11 @@ export function ExamGuideView() {
                                 onClick={() => setActiveTabKey(section.key)}
                                 className={`cursor-pointer rounded-2xl p-5 text-left transition-all ${
                                     isActive
-                                        ? "border-2 border-[#ab1f24] bg-[#fff6f7]/60 shadow-2xs"
+                                        ? "border-2 border-brand-600 bg-brand-50/60 shadow-2xs"
                                         : "border border-slate-200 bg-white shadow-2xs hover:border-slate-300"
                                 }`}
                             >
-                                <span className={`block text-[17px] font-bold ${isActive ? "text-[#1e2328]" : "text-slate-700"}`}>{section.title}</span>
+                                <span className={`block text-[17px] font-bold ${isActive ? "text-slate-900" : "text-slate-700"}`}>{section.title}</span>
                                 {section.statusBadge && <span className="mt-1 block text-xs text-slate-500">{section.statusBadge}</span>}
                             </button>
                         );
@@ -135,23 +135,23 @@ export function ExamGuideView() {
                 <div className="space-y-8 rounded-3xl border border-slate-200/80 bg-white p-8 shadow-xs sm:p-10">
                     {/* Section Header */}
                     <div className="space-y-2 border-b border-slate-100 pb-6">
-                        <h2 className="text-[26px] font-bold text-[#1e2328]">{currentSection.title}</h2>
+                        <h2 className="text-[26px] font-bold text-slate-900">{currentSection.title}</h2>
                         <p className="text-[15px] leading-relaxed text-slate-600">{currentSection.summary}</p>
                     </div>
 
                     {/* Section Steps */}
                     <div className="space-y-4">
-                        <h3 className="text-[17px] font-bold text-[#1e2328]">Các bước</h3>
+                        <h3 className="text-[17px] font-bold text-slate-900">Các bước</h3>
                         <div className="space-y-3">
                             {currentSection.steps.map((step, idx) => (
                                 <div
                                     key={idx}
-                                    className="flex items-center gap-4 rounded-xl border border-slate-200/60 bg-[#f9fafb] p-4 transition-all hover:bg-slate-50"
+                                    className="flex items-center gap-4 rounded-xl border border-slate-200/60 bg-slate-50 p-4 transition-all hover:bg-slate-100/70"
                                 >
-                                    <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[#ab1f24] text-xs font-bold text-white shadow-2xs">
+                                    <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-brand-600 text-xs font-bold text-white shadow-2xs">
                                         {idx + 1}
                                     </div>
-                                    <span className="text-[15px] font-medium text-[#1e2328]">{step}</span>
+                                    <span className="text-[15px] font-medium text-slate-900">{step}</span>
                                 </div>
                             ))}
                         </div>
@@ -159,7 +159,7 @@ export function ExamGuideView() {
 
                     {/* Section Notes */}
                     <div className="space-y-3 pt-2">
-                        <h3 className="text-[17px] font-bold text-[#1e2328]">Lưu ý</h3>
+                        <h3 className="text-[17px] font-bold text-slate-900">Lưu ý</h3>
                         <div className="space-y-2.5 text-[15px] leading-relaxed text-slate-700">
                             {currentSection.notes.map((note, idx) => (
                                 <p key={idx} className="flex items-start gap-2">
@@ -175,7 +175,7 @@ export function ExamGuideView() {
                         <Link href={currentSection.path}>
                             <Button
                                 type="button"
-                                className="h-11 cursor-pointer rounded-xl bg-[#1e2328] px-7 text-sm font-bold text-white shadow-xs hover:bg-black"
+                                className="h-11 cursor-pointer rounded-xl bg-slate-900 px-7 text-sm font-bold text-white shadow-xs hover:bg-black"
                             >
                                 Vào {currentSection.title}
                             </Button>

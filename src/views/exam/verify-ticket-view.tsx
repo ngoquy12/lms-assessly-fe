@@ -29,14 +29,14 @@ export function VerifyTicketView() {
     };
 
     return (
-        <div className="min-h-screen w-full bg-[#f8fafc] px-4 py-10 font-sans text-slate-900 sm:px-8 lg:px-12">
+        <div className="min-h-screen w-full bg-slate-50 px-4 py-10 font-sans text-slate-900 sm:px-8 lg:px-12">
             <div className="mx-auto max-w-3xl space-y-6">
                 {/* Header */}
                 <div className="space-y-2 text-center">
                     <Badge variant="success" size="md" className="border-emerald-200 bg-emerald-50 text-emerald-700">
                         Vé thi hợp lệ
                     </Badge>
-                    <h1 className="text-[26px] font-bold tracking-tight text-[#ab1f24] sm:text-[32px]">Xác Thực Thông Tin Thí Sinh & Phòng Thi</h1>
+                    <h1 className="text-[26px] font-bold tracking-tight text-brand-700 sm:text-[32px]">Xác Thực Thông Tin Thí Sinh & Phòng Thi</h1>
                     <p className="text-sm text-slate-600">Vui lòng kiểm tra lại thông tin cá nhân và ca thi trước khi hệ thống bắt đầu bấm giờ</p>
                 </div>
 
@@ -51,13 +51,13 @@ export function VerifyTicketView() {
                 >
                     {exam && user ? (
                         <Card size="md" className="overflow-hidden rounded-2xl border-slate-200/80 bg-white shadow-xs">
-                            <CardHeader className="border-b border-red-100 bg-[#fff6f7] p-6">
+                            <CardHeader className="border-b border-brand-100 bg-brand-50 p-6">
                                 <div className="flex items-center justify-between">
                                     <div>
                                         <CardTitle className="text-lg font-bold text-slate-900">{exam.title}</CardTitle>
                                         <CardDescription className="mt-0.5 text-sm text-slate-600">{exam.subjectName}</CardDescription>
                                     </div>
-                                    <Badge variant="primary" className="bg-[#ab1f24] text-white">
+                                    <Badge variant="primary" className="bg-brand-600 text-white">
                                         {exam.code}
                                     </Badge>
                                 </div>
@@ -115,7 +115,7 @@ export function VerifyTicketView() {
                                 <div className="flex flex-col items-center gap-3 pt-2">
                                     <Button
                                         size="lg"
-                                        className="h-12 w-full gap-2 rounded-xl bg-[#ab1f24] px-8 font-bold text-white shadow-xs hover:bg-[#90171b] sm:w-auto"
+                                        className="h-12 w-full gap-2 rounded-xl bg-brand-600 px-8 font-bold text-white shadow-xs hover:bg-brand-700 sm:w-auto"
                                         onClick={handleStartExam}
                                         disabled={isVerifying}
                                     >

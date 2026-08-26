@@ -107,7 +107,7 @@ const config: Config = {
             boxShadow: {
                 "card-sm": "0 8px 30px rgba(15, 23, 42, 0.06)",
                 "card-lg": "0 24px 60px rgba(15, 23, 42, 0.08)",
-                "brand-hover": "0 4px 16px 4px rgba(210, 107, 111, 0.4)",
+                "brand-hover": "0 4px 16px 4px rgba(75, 81, 196, 0.4)",
             },
         },
     },

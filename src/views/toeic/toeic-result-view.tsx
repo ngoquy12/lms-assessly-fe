@@ -9,6 +9,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
+import { UI_TEXT } from "@/constants/ui-text.constants";
 import { useToeicResult } from "@/hooks/queries/use-toeic";
 import type { ToeicResult } from "@/types/toeic.types";
 
@@ -29,7 +30,7 @@ export function ToeicResultView({ examId: _examId }: { examId: string }) {
     const { totalScore, maxScore, listeningScore, readingScore, percentage, durationSpentSeconds, avgSecondsPerQuestion } = result;
 
     return (
-        <div className="min-h-screen w-full bg-[#f8fafc] font-sans text-slate-900">
+        <div className="min-h-screen w-full bg-slate-50 font-sans text-slate-900">
             {/* 1. Header (Brand Logo + 5 Navigation Tabs + Candidate Avatar) */}
             <header className="sticky top-0 z-50 w-full border-b border-slate-200/80 bg-white shadow-2xs">
                 <div className="relative mx-auto flex h-18 max-w-[1440px] items-center justify-between px-6 sm:px-10">
@@ -38,7 +39,7 @@ export function ToeicResultView({ examId: _examId }: { examId: string }) {
                         <Link href="/" className="flex items-center">
                             <Image
                                 src="/images/header/logo-rikkei2 1.png"
-                                alt="RikkeiEdu"
+                                alt={UI_TEXT.common.appName}
                                 width={114}
                                 height={40}
                                 className="h-10 w-auto cursor-pointer object-contain"
@@ -60,11 +61,11 @@ export function ToeicResultView({ examId: _examId }: { examId: string }) {
                 <div className="space-y-6">
                     {/* Breadcrumb Navigation */}
                     <div className="flex items-center gap-2 text-xs font-semibold text-slate-500 sm:text-sm">
-                        <Link href="/toeic" className="transition-colors hover:text-[#ab1f24]">
-                            TOEIC
+                        <Link href="/toeic" className="transition-colors hover:text-brand-600">
+                            Ngoại ngữ
                         </Link>
                         <span>/</span>
-                        <span className="font-bold text-slate-900">Báo cáo kết quả bài thi TOEIC</span>
+                        <span className="font-bold text-slate-900">Báo cáo kết quả bài thi Ngoại ngữ</span>
                     </div>
 
                     {/* 1. Hero Score Banner Card */}
@@ -99,11 +100,11 @@ export function ToeicResultView({ examId: _examId }: { examId: string }) {
                             </div>
 
                             {/* Right: Big Score Box */}
-                            <div className="flex shrink-0 items-center gap-4 rounded-2xl border border-red-100 bg-linear-to-br from-red-50/70 via-white to-red-50/30 p-4 shadow-2xs sm:p-5">
+                            <div className="flex shrink-0 items-center gap-4 rounded-2xl border border-brand-100 bg-linear-to-br from-brand-50/70 via-white to-brand-50/30 p-4 shadow-2xs sm:p-5">
                                 <div className="text-center sm:text-right">
                                     <p className="text-xs font-medium text-slate-500">Tổng điểm TOEIC đạt được</p>
                                     <div className="mt-0.5 flex items-baseline justify-center gap-1 sm:justify-end">
-                                        <span className="text-3xl font-bold tracking-tight text-[#ab1f24] sm:text-4xl">{totalScore}</span>
+                                        <span className="text-3xl font-bold tracking-tight text-brand-700 sm:text-4xl">{totalScore}</span>
                                         <span className="text-base font-semibold text-slate-400">/{maxScore}</span>
                                     </div>
                                     <p className="mt-0.5 text-xs font-semibold text-emerald-700">Tỷ lệ hoàn thành: {percentage}%</p>
@@ -167,7 +168,7 @@ export function ToeicResultView({ examId: _examId }: { examId: string }) {
                             <div className="flex items-center justify-between">
                                 <span className="text-xs font-semibold text-slate-600">Tốc độ trung bình</span>
                                 <div className="flex h-8 w-8 items-center justify-center rounded-xl bg-slate-100 text-slate-700 shadow-2xs">
-                                    <Zap className="h-4 w-4 text-[#ab1f24]" />
+                                    <Zap className="h-4 w-4 text-brand-600" />
                                 </div>
                             </div>
                             <div>
@@ -185,7 +186,7 @@ export function ToeicResultView({ examId: _examId }: { examId: string }) {
                         <Card className="space-y-4 rounded-2xl border border-slate-200/80 bg-white p-5 shadow-2xs">
                             <CardHeader className="flex flex-row items-center justify-between space-y-0 border-b border-slate-100 p-0 pb-3">
                                 <div className="flex items-center gap-2.5">
-                                    <div className="rounded-xl bg-red-50 p-2 text-[#ab1f24]">
+                                    <div className="rounded-xl bg-brand-50 p-2 text-brand-700">
                                         <Headphones className="h-4 w-4" />
                                     </div>
                                     <div>
@@ -194,7 +195,7 @@ export function ToeicResultView({ examId: _examId }: { examId: string }) {
                                     </div>
                                 </div>
                                 <div className="text-right">
-                                    <span className="font-mono text-lg font-bold text-[#ab1f24]">{listeningScore}</span>
+                                    <span className="font-mono text-lg font-bold text-brand-700">{listeningScore}</span>
                                     <span className="text-xs text-slate-400">/495</span>
                                 </div>
                             </CardHeader>
@@ -203,14 +204,14 @@ export function ToeicResultView({ examId: _examId }: { examId: string }) {
                                 <div className="space-y-1">
                                     <div className="flex justify-between text-xs font-medium text-slate-700">
                                         <span>Part 1 & 2: Mô tả tranh & Hỏi đáp nhanh</span>
-                                        <span className="font-semibold text-[#ab1f24]">28/31 câu (90%)</span>
+                                        <span className="font-semibold text-brand-700">28/31 câu (90%)</span>
                                     </div>
                                     <Progress value={90} className="h-2" />
                                 </div>
                                 <div className="space-y-1">
                                     <div className="flex justify-between text-xs font-medium text-slate-700">
                                         <span>Part 3 & 4: Đoạn hội thoại & Bài nói ngắn</span>
-                                        <span className="font-semibold text-[#ab1f24]">61/69 câu (88%)</span>
+                                        <span className="font-semibold text-brand-700">61/69 câu (88%)</span>
                                     </div>
                                     <Progress value={88} className="h-2" />
                                 </div>
@@ -291,7 +292,7 @@ export function ToeicResultView({ examId: _examId }: { examId: string }) {
                                 <div className="space-y-1">
                                     <span className="text-xs font-normal text-slate-500">Tên phòng thi / Địa điểm:</span>
                                     <p className="flex items-center gap-1.5 font-semibold text-slate-900">
-                                        <MapPin className="h-3.5 w-3.5 text-[#ab1f24]" />
+                                        <MapPin className="h-3.5 w-3.5 text-brand-600" />
                                         <span>Phòng Khảo thí TOEIC 01</span>
                                     </p>
                                 </div>
@@ -340,7 +341,7 @@ export function ToeicResultView({ examId: _examId }: { examId: string }) {
                         </Link>
 
                         <Link href="/">
-                            <Button className="h-10 gap-2 rounded-xl bg-[#ab1f24] px-5 text-xs font-semibold text-white shadow-xs hover:bg-[#8b1a1f] sm:text-sm">
+                            <Button className="h-10 gap-2 rounded-xl bg-brand-600 px-5 text-xs font-semibold text-white shadow-xs hover:bg-brand-700 sm:text-sm">
                                 <span>Về trang chủ</span>
                                 <ArrowRight className="h-4 w-4" />
                             </Button>

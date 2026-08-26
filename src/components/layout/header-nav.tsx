@@ -77,13 +77,13 @@ export function HeaderNav({ activeHref, className }: HeaderNavProps) {
                         }}
                         href={item.href}
                         className={cn(
-                            "relative flex h-full cursor-pointer items-center text-[16px] transition-colors hover:text-[#ab1f24]",
-                            isActive ? "font-bold text-[#ab1f24]" : "font-medium text-[#1e2328]",
+                            "relative flex h-full cursor-pointer items-center text-[16px] transition-colors hover:text-brand-600",
+                            isActive ? "font-bold text-brand-600" : "font-medium text-slate-800",
                         )}
                     >
                         <span>{item.label}</span>
                         {item.tag && (
-                            <span className="absolute top-5 -right-5.5 rounded bg-[#ab1f24] px-1 py-0.5 text-[8px] leading-none font-semibold text-white">
+                            <span className="absolute top-5 -right-5.5 rounded bg-brand-600 px-1 py-0.5 text-[8px] leading-none font-semibold text-white">
                                 {item.tag}
                             </span>
                         )}
@@ -91,9 +91,9 @@ export function HeaderNav({ activeHref, className }: HeaderNavProps) {
                 );
             })}
 
-            {/* Sliding Bottom Active Indicator (Hơi dày h-[3.5px], dính sát đáy border dưới của header, chuyển động mượt mà) */}
+            {/* Sliding Bottom Active Indicator */}
             <span
-                className="pointer-events-none absolute bottom-0 h-[3.5px] rounded-t-full bg-[#ab1f24] transition-all duration-300 ease-out"
+                className="pointer-events-none absolute bottom-0 h-[3.5px] rounded-t-full bg-brand-600 transition-all duration-300 ease-out"
                 style={{
                     left: `${indicatorStyle.left}px`,
                     width: `${indicatorStyle.width}px`,

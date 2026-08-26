@@ -158,7 +158,7 @@ export const COMPONENT_VARIANTS = {
     // Badge Variants (No dark hover background)
     badge: {
         default: "border-transparent bg-brand-50 text-brand-700",
-        primary: "border-red-200/60 bg-red-50 text-[#ab1f24]",
+        primary: "border-brand-200/60 bg-brand-50 text-brand-700",
         secondary: "border-transparent bg-gray-100 text-gray-700",
         outline: "border-gray-300 bg-white text-gray-700",
         success: "border-transparent bg-success-50 text-success-700",

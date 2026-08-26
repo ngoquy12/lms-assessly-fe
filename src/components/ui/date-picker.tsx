@@ -105,7 +105,7 @@ export function DatePicker({ value, onChange, placeholder = "Chọn ngày...", c
                     type="button"
                     disabled={disabled}
                     className={cn(
-                        "flex h-10 w-full cursor-pointer items-center justify-between rounded-xl border border-slate-300 bg-white px-3.5 text-xs font-medium text-slate-900 transition-all hover:border-slate-400 focus:border-[#ab1f24] focus:ring-1 focus:ring-[#ab1f24] focus:outline-hidden disabled:cursor-not-allowed disabled:bg-slate-100/80 disabled:text-slate-400 sm:text-sm",
+                        "flex h-10 w-full cursor-pointer items-center justify-between rounded-xl border border-slate-300 bg-white px-3.5 text-xs font-medium text-slate-900 transition-all hover:border-slate-400 focus:border-brand-500 focus:ring-1 focus:ring-brand-500 focus:outline-hidden disabled:cursor-not-allowed disabled:bg-slate-100/80 disabled:text-slate-400 sm:text-sm",
                         !selectedDate && "font-normal text-slate-400",
                         className,
                     )}
@@ -204,9 +204,9 @@ export function DatePicker({ value, onChange, placeholder = "Chọn ngày...", c
                                 className={cn(
                                     "flex h-8 w-8 cursor-pointer items-center justify-center rounded-lg text-xs font-medium transition-all",
                                     isSelected
-                                        ? "bg-[#ab1f24] font-bold text-white shadow-xs hover:bg-[#8b1a1f]"
+                                        ? "bg-brand-600 font-bold text-white shadow-xs hover:bg-brand-700"
                                         : isToday
-                                          ? "border border-[#ab1f24] font-bold text-[#ab1f24] hover:bg-red-50"
+                                          ? "border border-brand-500 font-bold text-brand-600 hover:bg-brand-50"
                                           : "text-slate-700 hover:bg-slate-100",
                                 )}
                             >
@@ -228,7 +228,7 @@ export function DatePicker({ value, onChange, placeholder = "Chọn ngày...", c
                             onChange?.(`${y}-${m}-${d}`);
                             setOpen(false);
                         }}
-                        className="cursor-pointer font-semibold text-[#ab1f24] hover:underline"
+                        className="cursor-pointer font-semibold text-brand-600 hover:underline"
                     >
                         Hôm nay
                     </button>

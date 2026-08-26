@@ -5,6 +5,7 @@ import { AlertTriangle, Clock, ShieldCheck, Wifi } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
+import { UI_TEXT } from "@/constants/ui-text.constants";
 
 export interface ExamShellLayoutProps {
     children: React.ReactNode;
@@ -34,7 +35,7 @@ export function ExamShellLayout({
                     <Link href="/page-exam" className="flex items-center gap-2">
                         <Image
                             src="/images/header/logo-rikkei2 1.png"
-                            alt="Rikkei Education"
+                            alt={UI_TEXT.common.appName}
                             width={110}
                             height={32}
                             className="h-8 w-auto object-contain"

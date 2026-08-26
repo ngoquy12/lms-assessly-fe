@@ -21,13 +21,13 @@ export function InterviewResultView({ sessionId: _sessionId }: { sessionId: stri
     const transcript = result.transcript;
 
     return (
-        <div className="min-h-screen w-full bg-[#f8fafc] font-sans text-slate-900">
+        <div className="min-h-screen w-full bg-slate-50 font-sans text-slate-900">
             {/* Main Result Content */}
             <main className="mx-auto max-w-[1440px] px-6 py-8 sm:px-10">
                 <div className="space-y-6">
                     {/* Breadcrumb Navigation */}
                     <div className="flex items-center gap-2 text-xs font-semibold text-slate-500 sm:text-sm">
-                        <Link href="/interview" className="transition-colors hover:text-[#ab1f24]">
+                        <Link href="/interview" className="transition-colors hover:text-brand-600">
                             Phỏng vấn AI
                         </Link>
                         <span>/</span>
@@ -66,11 +66,11 @@ export function InterviewResultView({ sessionId: _sessionId }: { sessionId: stri
                             </div>
 
                             {/* Right: Big Score Box */}
-                            <div className="flex shrink-0 items-center gap-4 rounded-2xl border border-red-100 bg-linear-to-br from-red-50/70 via-white to-red-50/30 p-4 shadow-2xs sm:p-5">
+                            <div className="flex shrink-0 items-center gap-4 rounded-2xl border border-brand-100 bg-linear-to-br from-brand-50/70 via-white to-brand-50/30 p-4 shadow-2xs sm:p-5">
                                 <div className="text-center sm:text-right">
                                     <p className="text-xs font-medium text-slate-500">Điểm đánh giá tổng quan</p>
                                     <div className="mt-0.5 flex items-baseline justify-center gap-1 sm:justify-end">
-                                        <span className="text-3xl font-bold tracking-tight text-[#ab1f24] sm:text-4xl">{overallScore}</span>
+                                        <span className="text-3xl font-bold tracking-tight text-brand-700 sm:text-4xl">{overallScore}</span>
                                         <span className="text-base font-semibold text-slate-400">/{maxScore}</span>
                                     </div>
                                     <p className="mt-0.5 text-xs font-semibold text-emerald-700">Tỷ lệ hoàn thành: {overallScore}%</p>
@@ -134,7 +134,7 @@ export function InterviewResultView({ sessionId: _sessionId }: { sessionId: stri
                             <div className="flex items-center justify-between">
                                 <span className="text-xs font-semibold text-slate-600">Logic & Phản xạ thoại</span>
                                 <div className="flex h-8 w-8 items-center justify-center rounded-xl bg-slate-100 text-slate-700 shadow-2xs">
-                                    <Zap className="h-4 w-4 text-[#ab1f24]" />
+                                    <Zap className="h-4 w-4 text-brand-600" />
                                 </div>
                             </div>
                             <div>
@@ -167,17 +167,17 @@ export function InterviewResultView({ sessionId: _sessionId }: { sessionId: stri
                         </Card>
 
                         {/* Suggestions Card */}
-                        <Card className="space-y-3 rounded-2xl border border-red-200/80 bg-white p-5 shadow-2xs">
+                        <Card className="space-y-3 rounded-2xl border border-brand-200/80 bg-white p-5 shadow-2xs">
                             <CardHeader className="border-b border-slate-100 p-0 pb-3">
-                                <CardTitle className="flex items-center gap-2 text-sm font-bold text-[#ab1f24] sm:text-base">
-                                    <Sparkles className="h-4 w-4 text-[#ab1f24]" />
+                                <CardTitle className="flex items-center gap-2 text-sm font-bold text-brand-700 sm:text-base">
+                                    <Sparkles className="h-4 w-4 text-brand-600" />
                                     <span>Gợi ý cải thiện từ AI Interviewer</span>
                                 </CardTitle>
                             </CardHeader>
                             <CardContent className="space-y-2.5 p-0 pt-1 text-xs text-slate-700 sm:text-sm">
                                 {aiSuggestions.map((item, idx) => (
                                     <div key={idx} className="flex items-start gap-2">
-                                        <span className="mt-0.5 font-bold text-[#ab1f24]">•</span>
+                                        <span className="mt-0.5 font-bold text-brand-600">•</span>
                                         <span>{item}</span>
                                     </div>
                                 ))}
@@ -189,7 +189,7 @@ export function InterviewResultView({ sessionId: _sessionId }: { sessionId: stri
                     <Card className="space-y-4 rounded-2xl border border-slate-200/80 bg-white p-5 shadow-2xs sm:p-6">
                         <CardHeader className="border-b border-slate-100 p-0 pb-3">
                             <CardTitle className="flex items-center gap-2 text-sm font-bold text-slate-900 sm:text-base">
-                                <MessageSquare className="h-4 w-4 text-[#ab1f24]" />
+                                <MessageSquare className="h-4 w-4 text-brand-600" />
                                 <span>Biên bản hội thoại & Đánh giá từng lượt nói</span>
                             </CardTitle>
                             <CardDescription className="text-2xs text-slate-500">Bản ghi âm và nhận diện giọng nói tự động (Speech-to-Text)</CardDescription>
@@ -199,14 +199,16 @@ export function InterviewResultView({ sessionId: _sessionId }: { sessionId: stri
                                 <div
                                     key={idx}
                                     className={`flex gap-3 rounded-xl border p-4 text-xs leading-relaxed sm:text-sm ${
-                                        item.speaker === "AI" ? "border-slate-200 bg-slate-50/80 text-slate-900" : "border-red-200 bg-red-50/40 text-slate-900"
+                                        item.speaker === "AI"
+                                            ? "border-slate-200 bg-slate-50/80 text-slate-900"
+                                            : "border-brand-200 bg-brand-50/40 text-slate-900"
                                     }`}
                                 >
                                     <div className="shrink-0 font-bold">
                                         {item.speaker === "AI" ? (
                                             <span className="text-slate-700">🤖 AI Interviewer:</span>
                                         ) : (
-                                            <span className="text-[#ab1f24]">👤 Thí sinh:</span>
+                                            <span className="text-brand-700">👤 Thí sinh:</span>
                                         )}
                                     </div>
                                     <div className="flex-1 space-y-1">
@@ -255,7 +257,7 @@ export function InterviewResultView({ sessionId: _sessionId }: { sessionId: stri
                                 <div className="space-y-1">
                                     <span className="text-xs font-normal text-slate-500">Tên phòng / Kênh phỏng vấn:</span>
                                     <p className="flex items-center gap-1.5 font-semibold text-slate-900">
-                                        <MapPin className="h-3.5 w-3.5 text-[#ab1f24]" />
+                                        <MapPin className="h-3.5 w-3.5 text-brand-600" />
                                         <span>Phòng Phỏng vấn AI Voice Lab 01</span>
                                     </p>
                                 </div>
@@ -304,7 +306,7 @@ export function InterviewResultView({ sessionId: _sessionId }: { sessionId: stri
                         </Link>
 
                         <Link href="/">
-                            <Button className="h-10 gap-2 rounded-xl bg-[#ab1f24] px-5 text-xs font-semibold text-white shadow-xs hover:bg-[#8b1a1f] sm:text-sm">
+                            <Button className="h-10 gap-2 rounded-xl bg-brand-600 px-5 text-xs font-semibold text-white shadow-xs hover:bg-brand-700 sm:text-sm">
                                 <span>Về trang chủ</span>
                                 <ArrowRight className="h-4 w-4" />
                             </Button>

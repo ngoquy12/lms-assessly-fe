@@ -13,11 +13,11 @@ export function TopicsView() {
     const topics = data ?? [];
 
     return (
-        <div className="min-h-screen w-full bg-[#f8fafc] font-sans text-slate-900">
+        <div className="min-h-screen w-full bg-slate-50 font-sans text-slate-900">
             <div className="mx-auto max-w-[1440px] space-y-8 px-6 py-8 sm:px-10">
                 {/* Breadcrumb Navigation */}
                 <div className="flex items-center gap-2 text-xs font-semibold text-slate-500 sm:text-sm">
-                    <Link href="/" className="transition-colors hover:text-[#ab1f24]">
+                    <Link href="/" className="transition-colors hover:text-brand-600">
                         Trang chủ
                     </Link>
                     <span>/</span>
@@ -26,7 +26,7 @@ export function TopicsView() {
 
                 {/* 1. Header */}
                 <div>
-                    <h1 className="text-[32px] font-extrabold tracking-tight text-[#ab1f24] sm:text-[38px]">Cây Kiến Thức & Chủ Đề Ôn Luyện</h1>
+                    <h1 className="text-[32px] font-extrabold tracking-tight text-brand-700 sm:text-[38px]">Cây Kiến Thức & Chủ Đề Ôn Luyện</h1>
                     <p className="mt-1 text-[15px] text-slate-600 sm:text-[16px]">Hệ thống chủ đề kiến thức phân cấp kèm ngân hàng câu hỏi ôn tập chuyên sâu</p>
                 </div>
 
@@ -41,7 +41,7 @@ export function TopicsView() {
                             >
                                 <CardHeader>
                                     <div className="mb-2 flex items-center justify-between">
-                                        <div className="rounded-xl bg-[#fff6f7] p-2.5 text-[#ab1f24]">
+                                        <div className="rounded-xl bg-brand-50 p-2.5 text-brand-700">
                                             <FolderTree className="h-5 w-5" />
                                         </div>
                                         <Badge variant="secondary">{topic.questionsCount} câu hỏi</Badge>
@@ -68,7 +68,7 @@ export function TopicsView() {
                                     <Link href={`/topics/${topic.id}`} className="block">
                                         <Button
                                             variant="outline"
-                                            className="h-10 w-full justify-between rounded-xl font-semibold hover:border-[#ab1f24] hover:text-[#ab1f24]"
+                                            className="h-10 w-full justify-between rounded-xl font-semibold hover:border-brand-500 hover:text-brand-600"
                                             size="sm"
                                         >
                                             <span>Vào ôn luyện theo chủ đề</span>

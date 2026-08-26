@@ -76,7 +76,7 @@ export function LoginModal() {
                     <div className="flex items-center justify-center pb-1">
                         <Image
                             src="/images/header/logo-rikkei2 1.png"
-                            alt="RikkeiEdu"
+                            alt={UI_TEXT.common.appName}
                             width={160}
                             height={52}
                             className="h-11 w-auto object-contain"
@@ -106,7 +106,7 @@ export function LoginModal() {
                                 className={`h-11 w-full rounded-xl border bg-slate-50/70 px-4 text-xs text-slate-900 transition-all outline-none placeholder:text-slate-400 sm:text-sm ${
                                     errors.email
                                         ? "border-red-500 bg-red-50/20"
-                                        : "border-slate-200 focus:border-[#ab1f24] focus:bg-white focus:ring-1 focus:ring-[#ab1f24]"
+                                        : "border-slate-200 focus:border-brand-500 focus:bg-white focus:ring-1 focus:ring-brand-500"
                                 }`}
                             />
                         </div>
@@ -124,7 +124,7 @@ export function LoginModal() {
                                 className={`h-11 w-full rounded-xl border bg-slate-50/70 px-4 pr-11 text-xs text-slate-900 transition-all outline-none placeholder:text-slate-400 sm:text-sm ${
                                     errors.password
                                         ? "border-red-500 bg-red-50/20"
-                                        : "border-slate-200 focus:border-[#ab1f24] focus:bg-white focus:ring-1 focus:ring-[#ab1f24]"
+                                        : "border-slate-200 focus:border-brand-500 focus:bg-white focus:ring-1 focus:ring-brand-500"
                                 }`}
                             />
                             <button
@@ -151,7 +151,7 @@ export function LoginModal() {
                         <button
                             type="button"
                             onClick={() => toast.info("Vui lòng liên hệ quản trị viên để cấp lại mật khẩu.")}
-                            className="cursor-pointer text-xs font-semibold text-[#ab1f24] hover:underline sm:text-sm"
+                            className="cursor-pointer text-xs font-semibold text-brand-600 hover:underline sm:text-sm"
                         >
                             Quên mật khẩu?
                         </button>
@@ -162,7 +162,7 @@ export function LoginModal() {
                         <button
                             type="submit"
                             disabled={isLoading}
-                            className="flex h-11 w-full cursor-pointer items-center justify-center gap-2 rounded-xl bg-[#ab1f24] text-xs font-bold text-white shadow-xs transition-all hover:bg-[#8b1a1f] disabled:opacity-70 sm:text-sm"
+                            className="flex h-11 w-full cursor-pointer items-center justify-center gap-2 rounded-xl bg-brand-600 text-xs font-bold text-white shadow-xs transition-all hover:bg-brand-700 disabled:opacity-70 sm:text-sm"
                         >
                             {isLoading ? (
                                 <>

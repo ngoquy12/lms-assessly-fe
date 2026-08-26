@@ -6,10 +6,10 @@ export const LOCALE_COOKIE_NAME = "NEXT_LOCALE";
 export const LOCALE_LABELS: Record<Locale, { label: string; flag: string }> = {
     vi: {
         label: "Tiếng Việt",
-        flag: "🇻🇳",
+        flag: "VI",
     },
     en: {
         label: "English",
-        flag: "🇬🇧",
+        flag: "EN",
     },
 };

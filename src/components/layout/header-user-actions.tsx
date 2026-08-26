@@ -146,17 +146,17 @@ export function HeaderUserActions() {
 
     return (
         <div className="flex items-center gap-3">
-            {/* 1. Notification Bell Dropdown */}
+            {/* 1. Notifications Dropdown */}
             <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                     <button
                         type="button"
                         aria-label="Thông báo"
-                        className="relative flex h-10 w-10 cursor-pointer items-center justify-center rounded-xl border border-slate-200 bg-white text-slate-600 shadow-2xs transition-all hover:bg-slate-50 hover:text-[#ab1f24] active:scale-95"
+                        className="relative flex h-10 w-10 cursor-pointer items-center justify-center rounded-xl border border-slate-200 bg-white text-slate-600 shadow-2xs transition-all hover:bg-slate-50 hover:text-brand-600 active:scale-95"
                     >
                         <Bell className="h-5 w-5" />
                         {unreadCount > 0 && (
-                            <span className="absolute -top-1 -right-1 flex h-4.5 min-w-4.5 animate-pulse items-center justify-center rounded-full bg-[#ab1f24] px-1 text-[10px] font-bold text-white shadow-xs">
+                            <span className="absolute -top-1 -right-1 flex h-4.5 min-w-4.5 animate-pulse items-center justify-center rounded-full bg-brand-600 px-1 text-[10px] font-bold text-white shadow-xs">
                                 {unreadCount}
                             </span>
                         )}
@@ -173,7 +173,7 @@ export function HeaderUserActions() {
                         <div className="flex items-center gap-2">
                             <span className="text-sm font-bold text-slate-900">Thông báo</span>
                             {unreadCount > 0 && (
-                                <Badge className="border border-red-200 bg-red-50 px-2 py-0.5 text-[10px] font-bold text-[#ab1f24] shadow-none">
+                                <Badge className="border border-brand-200 bg-brand-50 px-2 py-0.5 text-[10px] font-bold text-brand-700 shadow-none">
                                     {unreadCount} mới
                                 </Badge>
                             )}
@@ -182,7 +182,7 @@ export function HeaderUserActions() {
                             <button
                                 type="button"
                                 onClick={handleMarkAllAsRead}
-                                className="cursor-pointer text-xs font-semibold text-slate-500 transition-colors hover:text-[#ab1f24]"
+                                className="cursor-pointer text-xs font-semibold text-slate-500 transition-colors hover:text-brand-600"
                             >
                                 Đã đọc tất cả
                             </button>
@@ -196,14 +196,14 @@ export function HeaderUserActions() {
                                 key={n.id}
                                 onClick={() => handleNotificationClick(n.id, n.href)}
                                 className={`flex cursor-pointer items-start gap-3.5 p-3.5 transition-colors hover:bg-slate-50/80 ${
-                                    !n.isRead ? "bg-red-50/30" : "bg-white"
+                                    !n.isRead ? "bg-brand-50/30" : "bg-white"
                                 }`}
                             >
                                 {/* Type Icon */}
                                 <div
                                     className={`mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-xl shadow-2xs ${
                                         n.type === "exam"
-                                            ? "bg-red-100 text-[#ab1f24]"
+                                            ? "bg-brand-100 text-brand-700"
                                             : n.type === "interview"
                                               ? "bg-emerald-100 text-emerald-700"
                                               : n.type === "competency"
@@ -221,7 +221,7 @@ export function HeaderUserActions() {
                                 <div className="flex-1 space-y-1">
                                     <div className="flex items-start justify-between gap-1">
                                         <h4 className={`text-xs leading-snug font-bold ${!n.isRead ? "text-slate-900" : "text-slate-700"}`}>{n.title}</h4>
-                                        {!n.isRead && <span className="h-2 w-2 shrink-0 rounded-full bg-[#ab1f24]" />}
+                                        {!n.isRead && <span className="h-2 w-2 shrink-0 rounded-full bg-brand-600" />}
                                     </div>
                                     <p className="text-2xs line-clamp-2 leading-relaxed text-slate-500">{n.description}</p>
                                     <span className="block pt-0.5 text-[10px] font-medium text-slate-400">{n.time}</span>
@@ -234,7 +234,7 @@ export function HeaderUserActions() {
                     <div className="border-t border-slate-100 bg-slate-50/50 p-2 text-center">
                         <Link
                             href={"/notifications" as unknown as Route}
-                            className="block rounded-lg py-1.5 text-xs font-bold text-[#ab1f24] transition-colors hover:bg-red-50"
+                            className="block rounded-lg py-1.5 text-xs font-bold text-brand-600 transition-colors hover:bg-brand-50"
                         >
                             Xem thêm
                         </Link>
@@ -250,7 +250,7 @@ export function HeaderUserActions() {
                         className="flex cursor-pointer items-center gap-2.5 rounded-xl p-1 outline-hidden transition-all hover:bg-slate-100/80 active:scale-98"
                     >
                         <Avatar className="h-10 w-10 border border-slate-200 shadow-2xs">
-                            <AvatarFallback className="bg-red-50 text-sm font-bold text-[#ab1f24]">{initials}</AvatarFallback>
+                            <AvatarFallback className="bg-brand-50 text-sm font-bold text-brand-700">{initials}</AvatarFallback>
                         </Avatar>
                         <div className="hidden text-left sm:block">
                             <p className="max-w-[140px] truncate text-xs leading-tight font-bold text-slate-900">{displayName}</p>
@@ -313,7 +313,7 @@ export function HeaderUserActions() {
             <Dialog open={isChangePasswordOpen} onOpenChange={setIsChangePasswordOpen}>
                 <DialogContent size="md" className="max-w-[440px] gap-4 rounded-xl border border-slate-200 bg-white px-[24px] py-[20px] shadow-xl">
                     <DialogHeader className="pb-0 text-center sm:text-center">
-                        <div className="mx-auto mb-2 flex h-12 w-12 items-center justify-center rounded-xl bg-red-50 text-[#ab1f24]">
+                        <div className="mx-auto mb-2 flex h-12 w-12 items-center justify-center rounded-xl bg-brand-50 text-brand-700">
                             <Lock className="h-6 w-6" />
                         </div>
                         <DialogTitle className="text-xl font-bold text-slate-900">Đổi mật khẩu tài khoản</DialogTitle>
@@ -335,7 +335,7 @@ export function HeaderUserActions() {
                                         setCurrentPassword(e.target.value);
                                         if (passwordError) setPasswordError("");
                                     }}
-                                    className="h-10 rounded-xl border-slate-300 pr-9 text-xs focus:border-[#ab1f24] focus:ring-1 focus:ring-[#ab1f24] sm:text-sm"
+                                    className="h-10 rounded-xl border-slate-300 pr-9 text-xs focus:border-brand-500 focus:ring-1 focus:ring-brand-500 sm:text-sm"
                                 />
                                 <button
                                     type="button"
@@ -359,7 +359,7 @@ export function HeaderUserActions() {
                                         setNewPassword(e.target.value);
                                         if (passwordError) setPasswordError("");
                                     }}
-                                    className="h-10 rounded-xl border-slate-300 pr-9 text-xs focus:border-[#ab1f24] focus:ring-1 focus:ring-[#ab1f24] sm:text-sm"
+                                    className="h-10 rounded-xl border-slate-300 pr-9 text-xs focus:border-brand-500 focus:ring-1 focus:ring-brand-500 sm:text-sm"
                                 />
                                 <button
                                     type="button"
@@ -383,7 +383,7 @@ export function HeaderUserActions() {
                                         setConfirmPassword(e.target.value);
                                         if (passwordError) setPasswordError("");
                                     }}
-                                    className="h-10 rounded-xl border-slate-300 pr-9 text-xs focus:border-[#ab1f24] focus:ring-1 focus:ring-[#ab1f24] sm:text-sm"
+                                    className="h-10 rounded-xl border-slate-300 pr-9 text-xs focus:border-brand-500 focus:ring-1 focus:ring-brand-500 sm:text-sm"
                                 />
                                 <button
                                     type="button"
@@ -408,7 +408,7 @@ export function HeaderUserActions() {
                             </Button>
                             <Button
                                 type="submit"
-                                className="h-10 flex-1 rounded-xl bg-[#ab1f24] text-xs font-bold text-white shadow-xs hover:bg-[#8b1a1f] sm:text-sm"
+                                className="h-10 flex-1 rounded-xl bg-brand-600 text-xs font-bold text-white shadow-xs hover:bg-brand-700 sm:text-sm"
                             >
                                 <span>Cập nhật</span>
                             </Button>

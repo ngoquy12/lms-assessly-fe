@@ -19,6 +19,7 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+import { UI_TEXT } from "@/constants/ui-text.constants";
 import { cn } from "@/lib/utils";
 import { MOCK_PRACTICE_LIST, getPracticeQuestionsByPracticeId } from "@/mocks/practice.mock";
 import type { QuestionItem, UserExamAnswer } from "@/types/exam.types";
@@ -334,7 +335,7 @@ export function PracticeExamPublicView({ practiceId }: { practiceId: string }) {
     };
 
     return (
-        <div className="min-h-screen w-full bg-[#f8fafc] font-sans text-slate-900">
+        <div className="min-h-screen w-full bg-slate-50 font-sans text-slate-900">
             {/* 1. Header (RikkeiEdu + 5 Navigation Tabs + Candidate Avatar) */}
             <header className="sticky top-0 z-50 w-full border-b border-slate-200/80 bg-white shadow-2xs">
                 <div className="relative mx-auto flex h-18 max-w-[1440px] items-center justify-between px-6 sm:px-10">
@@ -343,7 +344,7 @@ export function PracticeExamPublicView({ practiceId }: { practiceId: string }) {
                         <Link href="/" className="flex items-center">
                             <Image
                                 src="/images/header/logo-rikkei2 1.png"
-                                alt="RikkeiEdu"
+                                alt={UI_TEXT.common.appName}
                                 width={114}
                                 height={40}
                                 className="h-10 w-auto cursor-pointer object-contain"
@@ -364,11 +365,11 @@ export function PracticeExamPublicView({ practiceId }: { practiceId: string }) {
             <main className="mx-auto max-w-[1440px] px-6 py-8 sm:px-10">
                 {/* Breadcrumb Navigation */}
                 <div className="mb-6 flex items-center gap-2 text-xs font-semibold text-slate-500 sm:text-sm">
-                    <Link href="/" className="transition-colors hover:text-[#ab1f24]">
+                    <Link href="/" className="transition-colors hover:text-brand-600">
                         Trang chủ
                     </Link>
                     <span>/</span>
-                    <Link href="/practice" className="transition-colors hover:text-[#ab1f24]">
+                    <Link href="/practice" className="transition-colors hover:text-brand-600">
                         Luyện tập
                     </Link>
                     <span>/</span>
@@ -409,7 +410,7 @@ export function PracticeExamPublicView({ practiceId }: { practiceId: string }) {
                                                     </span>
                                                 )}
                                             </div>
-                                            <Badge className="pointer-events-none border border-red-200 bg-red-50 text-xs font-bold text-[#ab1f24] shadow-none">
+                                            <Badge className="pointer-events-none border border-brand-200 bg-brand-50 text-xs font-bold text-brand-700 shadow-none">
                                                 {q.points} điểm
                                             </Badge>
                                         </div>
@@ -434,14 +435,14 @@ export function PracticeExamPublicView({ practiceId }: { practiceId: string }) {
                                                         className={cn(
                                                             "flex cursor-pointer items-center gap-3.5 rounded-xl border p-3.5 transition-all",
                                                             isSelected
-                                                                ? "border-[#ab1f24] bg-red-50/50 font-semibold text-slate-900 shadow-2xs"
+                                                                ? "border-brand-500 bg-brand-50/50 font-semibold text-slate-900 shadow-2xs"
                                                                 : "border-slate-200 bg-white text-slate-700 hover:border-slate-300 hover:bg-slate-50",
                                                         )}
                                                     >
                                                         <RadioGroupItem
                                                             value={opt.id}
                                                             id={`practice-radio-${q.id}-${opt.id}`}
-                                                            className="border-slate-400 data-[state=checked]:border-[#ab1f24] data-[state=checked]:text-[#ab1f24]"
+                                                            className="border-slate-400 data-[state=checked]:border-brand-600 data-[state=checked]:text-brand-600"
                                                         />
                                                         <span className="text-sm leading-relaxed select-none sm:text-base">{opt.text}</span>
                                                     </label>
@@ -462,7 +463,7 @@ export function PracticeExamPublicView({ practiceId }: { practiceId: string }) {
                                                         className={cn(
                                                             "flex cursor-pointer items-center gap-3.5 rounded-xl border p-3.5 transition-all",
                                                             isSelected
-                                                                ? "border-[#ab1f24] bg-red-50/50 font-semibold text-slate-900 shadow-2xs"
+                                                                ? "border-brand-500 bg-brand-50/50 font-semibold text-slate-900 shadow-2xs"
                                                                 : "border-slate-200 bg-white text-slate-700 hover:border-slate-300 hover:bg-slate-50",
                                                         )}
                                                     >
@@ -470,7 +471,7 @@ export function PracticeExamPublicView({ practiceId }: { practiceId: string }) {
                                                             id={`practice-check-${q.id}-${opt.id}`}
                                                             checked={isSelected}
                                                             onCheckedChange={() => handleToggleMultipleOption(q.id, opt.id)}
-                                                            className="h-4.5 w-4.5 rounded-md border-slate-400 data-[state=checked]:border-[#ab1f24] data-[state=checked]:bg-[#ab1f24]"
+                                                            className="h-4.5 w-4.5 rounded-md border-slate-400 data-[state=checked]:border-brand-600 data-[state=checked]:bg-brand-600"
                                                         />
                                                         <span className="text-sm leading-relaxed select-none sm:text-base">{opt.text}</span>
                                                     </label>
@@ -490,7 +491,7 @@ export function PracticeExamPublicView({ practiceId }: { practiceId: string }) {
                                                         <button
                                                             type="button"
                                                             onClick={() => handleResetOrdering(q.id)}
-                                                            className="flex cursor-pointer items-center gap-1 text-xs font-semibold text-[#ab1f24] hover:underline"
+                                                            className="flex cursor-pointer items-center gap-1 text-xs font-semibold text-brand-600 hover:underline"
                                                         >
                                                             <RotateCcw className="h-3 w-3" />
                                                             <span>Làm lại</span>
@@ -510,13 +511,13 @@ export function PracticeExamPublicView({ practiceId }: { practiceId: string }) {
                                                                 type="button"
                                                                 onClick={() => handleRemoveOrderingItem(q.id, idx)}
                                                                 title="Bấm để bỏ bước này"
-                                                                className="group flex cursor-pointer items-center gap-1.5 rounded-xl border border-red-200 bg-red-50/70 px-3 py-1.5 text-xs font-bold text-slate-800 shadow-2xs transition-all hover:border-red-300 hover:bg-red-100 active:scale-95"
+                                                                className="group flex cursor-pointer items-center gap-1.5 rounded-xl border border-brand-200 bg-brand-50/70 px-3 py-1.5 text-xs font-bold text-slate-800 shadow-2xs transition-all hover:border-brand-300 hover:bg-brand-100 active:scale-95"
                                                             >
-                                                                <span className="flex h-4 w-4 items-center justify-center rounded-full bg-[#ab1f24] text-[10px] font-bold text-white">
+                                                                <span className="flex h-4 w-4 items-center justify-center rounded-full bg-brand-600 text-[10px] font-bold text-white">
                                                                     {idx + 1}
                                                                 </span>
                                                                 <span>{item}</span>
-                                                                <X className="h-3 w-3 text-slate-400 group-hover:text-red-600" />
+                                                                <X className="h-3 w-3 text-slate-400 group-hover:text-brand-600" />
                                                             </button>
                                                         ))
                                                     )}
@@ -539,7 +540,7 @@ export function PracticeExamPublicView({ practiceId }: { practiceId: string }) {
                                                                     "rounded-xl border px-3.5 py-2 text-sm font-semibold shadow-2xs transition-all",
                                                                     isPicked
                                                                         ? "cursor-not-allowed border-slate-100 bg-slate-100 text-slate-400 opacity-40"
-                                                                        : "cursor-pointer border-slate-200 bg-white text-slate-800 hover:border-[#ab1f24] hover:bg-red-50/40 active:scale-95",
+                                                                        : "cursor-pointer border-slate-200 bg-white text-slate-800 hover:border-brand-500 hover:bg-brand-50/40 active:scale-95",
                                                                 )}
                                                             >
                                                                 {item}
@@ -593,7 +594,7 @@ export function PracticeExamPublicView({ practiceId }: { practiceId: string }) {
                                                 placeholder="Nhập câu trả lời điền vào chỗ trống..."
                                                 value={ans?.textAnswer || ""}
                                                 onChange={(e) => handleTextChange(q.id, e.target.value)}
-                                                className="h-11 rounded-xl border-slate-300 text-sm focus:border-[#ab1f24] focus:ring-1 focus:ring-[#ab1f24]"
+                                                className="h-11 rounded-xl border-slate-300 text-sm focus:border-brand-500 focus:ring-1 focus:ring-brand-500"
                                             />
                                         </div>
                                     )}
@@ -629,7 +630,7 @@ export function PracticeExamPublicView({ practiceId }: { practiceId: string }) {
                                                 placeholder="Nhập nội dung phân tích tự luận của bạn tại đây..."
                                                 value={ans?.textAnswer || ""}
                                                 onChange={(e) => handleTextChange(q.id, e.target.value)}
-                                                className="min-h-[130px] rounded-xl border-slate-300 p-3.5 text-sm leading-relaxed focus:border-[#ab1f24] focus:ring-1 focus:ring-[#ab1f24]"
+                                                className="min-h-[130px] rounded-xl border-slate-300 p-3.5 text-sm leading-relaxed focus:border-brand-500 focus:ring-1 focus:ring-brand-500"
                                             />
                                         </div>
                                     )}
@@ -651,14 +652,14 @@ export function PracticeExamPublicView({ practiceId }: { practiceId: string }) {
                                                             className={cn(
                                                                 "flex cursor-pointer items-start gap-3.5 rounded-xl border p-4 transition-all",
                                                                 isSelected
-                                                                    ? "border-[#ab1f24] bg-red-50/50 font-semibold text-slate-900 shadow-2xs"
+                                                                    ? "border-brand-500 bg-brand-50/50 font-semibold text-slate-900 shadow-2xs"
                                                                     : "border-slate-200 bg-white text-slate-700 hover:border-slate-300 hover:bg-slate-50",
                                                             )}
                                                         >
                                                             <RadioGroupItem
                                                                 value={opt.id}
                                                                 id={`practice-radio-eq-${q.id}-${opt.id}`}
-                                                                className="mt-0.5 border-slate-400 data-[state=checked]:border-[#ab1f24] data-[state=checked]:text-[#ab1f24]"
+                                                                className="mt-0.5 border-slate-400 data-[state=checked]:border-brand-600 data-[state=checked]:text-brand-600"
                                                             />
                                                             <div className="space-y-1">
                                                                 <span className="mr-2 text-sm font-bold text-slate-900">{opt.label}.</span>
@@ -694,14 +695,14 @@ export function PracticeExamPublicView({ practiceId }: { practiceId: string }) {
                                                             className={cn(
                                                                 "flex cursor-pointer items-center gap-3.5 rounded-xl border p-4 transition-all",
                                                                 isSelected
-                                                                    ? "border-[#ab1f24] bg-red-50/50 font-semibold text-slate-900 shadow-2xs"
+                                                                    ? "border-brand-500 bg-brand-50/50 font-semibold text-slate-900 shadow-2xs"
                                                                     : "border-slate-200 bg-white text-slate-700 hover:border-slate-300 hover:bg-slate-50",
                                                             )}
                                                         >
                                                             <RadioGroupItem
                                                                 value={opt.id}
                                                                 id={`practice-radio-iq-${q.id}-${opt.id}`}
-                                                                className="border-slate-400 data-[state=checked]:border-[#ab1f24] data-[state=checked]:text-[#ab1f24]"
+                                                                className="border-slate-400 data-[state=checked]:border-brand-600 data-[state=checked]:text-brand-600"
                                                             />
                                                             <div className="flex items-center gap-2">
                                                                 <span className="text-sm font-bold text-slate-900">{opt.label}.</span>
@@ -729,16 +730,16 @@ export function PracticeExamPublicView({ practiceId }: { practiceId: string }) {
                                         className={cn(
                                             "flex items-center gap-1.5 rounded-xl border px-3 py-1 font-mono text-base font-bold shadow-2xs transition-colors",
                                             secondsRemaining <= 60
-                                                ? "animate-pulse border-red-300 bg-red-100 text-[#ab1f24]"
+                                                ? "animate-pulse border-red-300 bg-red-100 text-red-600"
                                                 : secondsRemaining <= 300
                                                   ? "border-amber-200 bg-amber-50 text-amber-700"
-                                                  : "border-red-100 bg-red-50 text-[#ab1f24]",
+                                                  : "border-brand-100 bg-brand-50 text-brand-700",
                                         )}
                                     >
                                         <Clock
                                             className={cn(
                                                 "h-4 w-4 shrink-0",
-                                                secondsRemaining <= 300 && secondsRemaining > 60 ? "text-amber-600" : "text-[#ab1f24]",
+                                                secondsRemaining <= 60 ? "text-red-600" : secondsRemaining <= 300 ? "text-amber-600" : "text-brand-600",
                                             )}
                                         />
                                         <span>{formatTime(secondsRemaining)}</span>
@@ -799,7 +800,7 @@ export function PracticeExamPublicView({ practiceId }: { practiceId: string }) {
                                                 className={cn(
                                                     "flex aspect-square h-9 w-9 cursor-pointer items-center justify-center rounded-xl text-xs font-bold transition-all sm:h-10 sm:w-10 sm:text-sm",
                                                     isCurrent
-                                                        ? "border-2 border-[#ab1f24] bg-white text-[#ab1f24] shadow-xs"
+                                                        ? "border-2 border-brand-600 bg-white text-brand-700 shadow-xs"
                                                         : hasAnswer
                                                           ? "border border-emerald-300 bg-emerald-50 text-emerald-700"
                                                           : isAvailable
@@ -816,7 +817,7 @@ export function PracticeExamPublicView({ practiceId }: { practiceId: string }) {
                                 {/* Palette Legend */}
                                 <div className="flex items-center justify-between border-t border-slate-100 pt-1 text-xs text-slate-500">
                                     <div className="flex items-center gap-1.5">
-                                        <span className="h-3 w-3 rounded-md border-2 border-[#ab1f24] bg-white" />
+                                        <span className="h-3 w-3 rounded-md border-2 border-brand-600 bg-white" />
                                         <span>Đang làm</span>
                                     </div>
                                     <div className="flex items-center gap-1.5">
@@ -835,7 +836,7 @@ export function PracticeExamPublicView({ practiceId }: { practiceId: string }) {
                                         type="button"
                                         size="lg"
                                         onClick={() => setIsSubmitModalOpen(true)}
-                                        className="h-12 w-full cursor-pointer gap-2 rounded-xl bg-[#ab1f24] text-base font-bold text-white shadow-xs hover:bg-[#8b1a1f] active:scale-98"
+                                        className="h-12 w-full cursor-pointer gap-2 rounded-xl bg-brand-600 text-base font-bold text-white shadow-xs hover:bg-brand-700 active:scale-98"
                                     >
                                         <span>Nộp bài</span>
                                         <ArrowRight className="h-5 w-5" />
@@ -848,7 +849,7 @@ export function PracticeExamPublicView({ practiceId }: { practiceId: string }) {
                         <Card className="space-y-2 rounded-xl border border-slate-200 bg-white p-4 text-xs text-slate-600 shadow-2xs">
                             <div className="flex justify-between font-semibold">
                                 <span>Tiến độ hoàn thành:</span>
-                                <strong className="font-bold text-[#ab1f24]">
+                                <strong className="font-bold text-brand-700">
                                     {answeredCount}/{questions.length} câu ({questions.length > 0 ? Math.round((answeredCount / questions.length) * 100) : 0}%)
                                 </strong>
                             </div>
@@ -862,7 +863,7 @@ export function PracticeExamPublicView({ practiceId }: { practiceId: string }) {
             <Dialog open={isSubmitModalOpen} onOpenChange={setIsSubmitModalOpen}>
                 <DialogContent size="md" className="max-w-[460px] gap-4 rounded-xl border border-slate-200 bg-white px-[24px] py-[20px] shadow-xl">
                     <DialogHeader className="pb-0 text-center sm:text-center">
-                        <div className="mx-auto mb-2 flex h-12 w-12 items-center justify-center rounded-xl bg-red-50 text-[#ab1f24]">
+                        <div className="mx-auto mb-2 flex h-12 w-12 items-center justify-center rounded-xl bg-brand-50 text-brand-700">
                             <FileCheck2 className="h-6 w-6" />
                         </div>
                         <DialogTitle className="text-xl font-bold text-slate-900">Xác nhận nộp bài luyện tập</DialogTitle>
@@ -903,7 +904,7 @@ export function PracticeExamPublicView({ practiceId }: { practiceId: string }) {
                             type="button"
                             onClick={handleConfirmSubmit}
                             disabled={isSubmitting}
-                            className="h-11 flex-1 rounded-xl bg-[#ab1f24] font-bold text-white shadow-xs hover:bg-[#8b1a1f]"
+                            className="h-11 flex-1 rounded-xl bg-brand-600 font-bold text-white shadow-xs hover:bg-brand-700"
                         >
                             {isSubmitting ? (
                                 <>

@@ -20,11 +20,11 @@ export function PracticeListView() {
     );
 
     return (
-        <div className="min-h-screen w-full bg-[#f8fafc] font-sans text-slate-900">
+        <div className="min-h-screen w-full bg-slate-50 font-sans text-slate-900">
             <div className="mx-auto max-w-[1440px] space-y-8 px-6 py-8 sm:px-10">
                 {/* Breadcrumb Navigation */}
                 <div className="flex items-center gap-2 text-xs font-semibold text-slate-500 sm:text-sm">
-                    <Link href="/" className="transition-colors hover:text-[#ab1f24]">
+                    <Link href="/" className="transition-colors hover:text-brand-600">
                         Trang chủ
                     </Link>
                     <span>/</span>
@@ -34,7 +34,7 @@ export function PracticeListView() {
                 {/* 1. Header */}
                 <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
                     <div>
-                        <h1 className="text-[32px] font-extrabold tracking-tight text-[#ab1f24] sm:text-[38px]">Thư Viện Đề Luyện Tập</h1>
+                        <h1 className="text-[32px] font-extrabold tracking-tight text-brand-700 sm:text-[38px]">Thư Viện Đề Luyện Tập</h1>
                         <p className="mt-1 text-[15px] text-slate-600 sm:text-[16px]">
                             Tự do làm các bài thi thử, rèn luyện kỹ năng và xem đáp án giải thích chi tiết.
                         </p>
@@ -46,7 +46,7 @@ export function PracticeListView() {
                             placeholder="Tìm kiếm đề luyện tập..."
                             value={searchQuery}
                             onChange={(e) => setSearchQuery(e.target.value)}
-                            className="h-11 rounded-xl border-slate-300 bg-white pr-4 pl-10 text-sm shadow-2xs focus:border-[#ab1f24] focus:ring-1 focus:ring-[#ab1f24]"
+                            className="h-11 rounded-xl border-slate-300 bg-white pr-4 pl-10 text-sm shadow-2xs focus:border-brand-500 focus:ring-1 focus:ring-brand-500"
                         />
                         {searchQuery && (
                             <button
@@ -73,7 +73,7 @@ export function PracticeListView() {
                                     <div className="mb-2 flex items-center justify-between">
                                         <Badge
                                             variant="primary"
-                                            className="pointer-events-none border-red-200/80 bg-red-50 font-semibold text-[#ab1f24]"
+                                            className="pointer-events-none border-brand-200/80 bg-brand-50 font-semibold text-brand-700"
                                             size="sm"
                                         >
                                             {item.category}
@@ -93,15 +93,15 @@ export function PracticeListView() {
                                 <CardContent className="space-y-4 pt-0">
                                     <div className="flex items-center justify-between rounded-xl border border-slate-100 bg-slate-50 p-3 text-xs text-slate-600">
                                         <span className="flex items-center gap-1">
-                                            <Clock className="h-3.5 w-3.5 text-[#ab1f24]" />
+                                            <Clock className="h-3.5 w-3.5 text-brand-600" />
                                             <span>{item.durationMinutes} phút</span>
                                         </span>
                                         <span className="flex items-center gap-1">
-                                            <Layers className="h-3.5 w-3.5 text-[#ab1f24]" />
+                                            <Layers className="h-3.5 w-3.5 text-brand-600" />
                                             <span>{item.totalQuestions} câu</span>
                                         </span>
                                         <span className="flex items-center gap-1">
-                                            <Users className="h-3.5 w-3.5 text-[#ab1f24]" />
+                                            <Users className="h-3.5 w-3.5 text-brand-600" />
                                             <span>{item.participantsCount} lượt</span>
                                         </span>
                                     </div>
@@ -115,7 +115,7 @@ export function PracticeListView() {
                                         <Link href={`/practice-public/${item.id}`}>
                                             <Button
                                                 size="sm"
-                                                className="h-10 w-full gap-1 rounded-xl bg-[#ab1f24] font-bold text-white shadow-xs hover:bg-[#90171b]"
+                                                className="h-10 w-full gap-1 rounded-xl bg-brand-600 font-bold text-white shadow-xs hover:bg-brand-700"
                                             >
                                                 <Play className="h-3.5 w-3.5 fill-current" />
                                                 <span>Luyện ngay</span>

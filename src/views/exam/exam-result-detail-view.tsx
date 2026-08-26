@@ -27,7 +27,7 @@ export function ExamResultDetailView({ examId: _examId }: { examId: string }) {
     };
 
     return (
-        <div className="min-h-screen w-full bg-[#f8fafc] font-sans text-slate-900">
+        <div className="min-h-screen w-full bg-slate-50 font-sans text-slate-900">
             {/* 1. Fixed Sticky Header (Brand Logo + 5 Navigation Tabs + Candidate Avatar) */}
             <header className="sticky top-0 z-50 w-full border-b border-slate-200/80 bg-white shadow-2xs">
                 <div className="relative mx-auto flex h-18 max-w-[1440px] items-center justify-between px-6 sm:px-10">
@@ -36,7 +36,7 @@ export function ExamResultDetailView({ examId: _examId }: { examId: string }) {
                         <Link href="/" className="flex items-center">
                             <Image
                                 src="/images/header/logo-rikkei2 1.png"
-                                alt="RikkeiEdu"
+                                alt={UI_TEXT.common.appName}
                                 width={114}
                                 height={40}
                                 className="h-10 w-auto cursor-pointer object-contain"
@@ -77,7 +77,7 @@ function ExamResultDetailContent({ result }: { result: NonNullable<ReturnType<ty
         <div className="space-y-6">
             {/* Breadcrumb Navigation */}
             <div className="flex items-center gap-2 text-xs font-semibold text-slate-500 sm:text-sm">
-                <Link href="/page-exam" className="transition-colors hover:text-[#ab1f24]">
+                <Link href="/page-exam" className="transition-colors hover:text-brand-600">
                     Khảo thí
                 </Link>
                 <span>/</span>
@@ -115,11 +115,11 @@ function ExamResultDetailContent({ result }: { result: NonNullable<ReturnType<ty
                     </div>
 
                     {/* Right: Big Score Box */}
-                    <div className="flex shrink-0 items-center gap-4 rounded-2xl border border-red-100 bg-linear-to-br from-red-50/70 via-white to-red-50/30 p-4 shadow-2xs sm:p-5">
+                    <div className="flex shrink-0 items-center gap-4 rounded-2xl border border-brand-100 bg-linear-to-br from-brand-50/70 via-white to-brand-50/30 p-4 shadow-2xs sm:p-5">
                         <div className="text-center sm:text-right">
                             <p className="text-xs font-medium text-slate-500">Tổng điểm đạt được</p>
                             <div className="mt-0.5 flex items-baseline justify-center gap-1 sm:justify-end">
-                                <span className="text-3xl font-bold tracking-tight text-[#ab1f24] sm:text-4xl">{result.score}</span>
+                                <span className="text-3xl font-bold tracking-tight text-brand-600 sm:text-4xl">{result.score}</span>
                                 <span className="text-base font-semibold text-slate-400">/{result.maxScore}</span>
                             </div>
                             <p className="mt-0.5 text-xs font-semibold text-emerald-700">Tỷ lệ hoàn thành: {percentage}%</p>
@@ -184,7 +184,7 @@ function ExamResultDetailContent({ result }: { result: NonNullable<ReturnType<ty
                     <div className="flex items-center justify-between">
                         <span className="text-xs font-semibold text-slate-600">Tốc độ trung bình</span>
                         <div className="flex h-8 w-8 items-center justify-center rounded-xl bg-slate-100 text-slate-700 shadow-2xs">
-                            <Zap className="h-4 w-4 text-[#ab1f24]" />
+                            <Zap className="h-4 w-4 text-brand-600" />
                         </div>
                     </div>
                     <div>
@@ -234,7 +234,7 @@ function ExamResultDetailContent({ result }: { result: NonNullable<ReturnType<ty
                         <div className="space-y-1">
                             <span className="text-xs font-normal text-slate-500">Tên phòng thi / Địa điểm:</span>
                             <p className="flex items-center gap-1.5 font-semibold text-slate-900">
-                                <MapPin className="h-3.5 w-3.5 text-[#ab1f24]" />
+                                <MapPin className="h-3.5 w-3.5 text-brand-600" />
                                 <span>{result.roomName || "Phòng Khảo thí Lab 402"}</span>
                             </p>
                         </div>
@@ -283,7 +283,7 @@ function ExamResultDetailContent({ result }: { result: NonNullable<ReturnType<ty
                 </Link>
 
                 <Link href="/">
-                    <Button className="h-10 gap-2 rounded-xl bg-[#ab1f24] px-5 text-xs font-semibold text-white shadow-xs hover:bg-[#8b1a1f] sm:text-sm">
+                    <Button className="h-10 gap-2 rounded-xl bg-brand-600 px-5 text-xs font-semibold text-white shadow-xs hover:bg-brand-700 sm:text-sm">
                         <span>Về trang chủ</span>
                         <ArrowRight className="h-4 w-4" />
                     </Button>

@@ -8,6 +8,7 @@ import { useRouter } from "next/navigation";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
+import { UI_TEXT } from "@/constants/ui-text.constants";
 
 export function VoiceInterviewView({ sessionId }: { sessionId: string }) {
     const router = useRouter();
@@ -29,7 +30,7 @@ export function VoiceInterviewView({ sessionId }: { sessionId: string }) {
     };
 
     return (
-        <div className="flex min-h-screen flex-col justify-between bg-[#0f172a] font-sans text-white select-none">
+        <div className="flex min-h-screen flex-col justify-between bg-slate-900 font-sans text-white select-none">
             {/* Top Bar */}
             <header className="border-b border-slate-800 bg-slate-900/80 px-6 py-4 backdrop-blur-md">
                 <div className="mx-auto flex max-w-[1440px] items-center justify-between">
@@ -37,7 +38,7 @@ export function VoiceInterviewView({ sessionId }: { sessionId: string }) {
                         <Link href="/" className="flex items-center">
                             <Image
                                 src="/images/header/logo-rikkei2 1.png"
-                                alt="RikkeiEdu"
+                                alt={UI_TEXT.common.appName}
                                 width={110}
                                 height={38}
                                 className="h-9 w-auto object-contain brightness-0 invert"
@@ -52,13 +53,13 @@ export function VoiceInterviewView({ sessionId }: { sessionId: string }) {
 
                     <div className="flex items-center gap-4">
                         <div className="flex items-center gap-2 rounded-xl border border-slate-700 bg-slate-800 px-3.5 py-1.5 font-mono text-sm font-bold text-white shadow-2xs">
-                            <Clock className="h-4 w-4 text-red-400" />
+                            <Clock className="h-4 w-4 text-brand-400" />
                             <span>{timeDisplay}</span>
                         </div>
 
                         <Button
                             onClick={handleEndInterview}
-                            className="h-10 gap-1.5 rounded-xl bg-[#ab1f24] px-4 text-xs font-bold text-white shadow-md hover:bg-[#8b1a1f] sm:text-sm"
+                            className="h-10 gap-1.5 rounded-xl bg-brand-600 px-4 text-xs font-bold text-white shadow-md hover:bg-brand-700 sm:text-sm"
                         >
                             <PhoneOff className="h-4 w-4" />
                             <span>Kết thúc phỏng vấn</span>
@@ -71,9 +72,9 @@ export function VoiceInterviewView({ sessionId }: { sessionId: string }) {
             <main className="mx-auto flex w-full max-w-2xl flex-1 flex-col items-center justify-center space-y-8 px-4 py-8">
                 {/* AI Avatar Pulse Animation */}
                 <div className="relative flex items-center justify-center">
-                    <div className="absolute h-48 w-48 animate-ping rounded-full bg-red-600/20 opacity-60" />
-                    <div className="absolute h-36 w-36 animate-pulse rounded-full bg-red-500/30" />
-                    <div className="relative flex h-28 w-28 items-center justify-center rounded-full border-2 border-red-400/40 bg-linear-to-tr from-[#ab1f24] to-red-800 text-white shadow-2xl">
+                    <div className="absolute h-48 w-48 animate-ping rounded-full bg-brand-600/20 opacity-60" />
+                    <div className="absolute h-36 w-36 animate-pulse rounded-full bg-brand-500/30" />
+                    <div className="relative flex h-28 w-28 items-center justify-center rounded-full border-2 border-brand-400/40 bg-linear-to-tr from-brand-600 to-brand-800 text-white shadow-2xl">
                         <Bot className="h-12 w-12 text-white" />
                     </div>
                 </div>
@@ -81,7 +82,7 @@ export function VoiceInterviewView({ sessionId }: { sessionId: string }) {
                 {/* Subtitle / Question Box */}
                 <Card className="w-full rounded-2xl border-slate-800 bg-slate-900/90 text-center shadow-2xl backdrop-blur-md">
                     <CardContent className="space-y-3 p-6">
-                        <Badge variant="outline" className="border-red-400/40 bg-red-500/20 px-3 py-0.5 text-xs font-semibold text-red-300">
+                        <Badge variant="outline" className="border-brand-400/40 bg-brand-500/20 px-3 py-0.5 text-xs font-semibold text-brand-300">
                             {isAiSpeaking ? "AI Interviewer đang đặt câu hỏi..." : "Đang lắng nghe câu trả lời của bạn..."}
                         </Badge>
                         <p className="text-base leading-relaxed font-semibold text-slate-100 sm:text-lg">
@@ -94,7 +95,7 @@ export function VoiceInterviewView({ sessionId }: { sessionId: string }) {
                 {/* Audio Waveform visualization mockup */}
                 <div className="flex h-10 items-center gap-1.5">
                     {[16, 28, 44, 20, 36, 48, 24, 40, 16, 32, 44, 20].map((h, i) => (
-                        <div key={i} className="w-1.5 animate-pulse rounded-full bg-red-400" style={{ height: `${h}px`, animationDelay: `${i * 100}ms` }} />
+                        <div key={i} className="w-1.5 animate-pulse rounded-full bg-brand-400" style={{ height: `${h}px`, animationDelay: `${i * 100}ms` }} />
                     ))}
                 </div>
             </main>
@@ -111,7 +112,7 @@ export function VoiceInterviewView({ sessionId }: { sessionId: string }) {
                         <Button
                             size="lg"
                             className={`h-11 gap-2 rounded-xl px-6 font-bold shadow-md transition-all ${
-                                isListeningCandidate ? "bg-emerald-600 text-white hover:bg-emerald-700" : "bg-[#ab1f24] text-white hover:bg-[#8b1a1f]"
+                                isListeningCandidate ? "bg-emerald-600 text-white hover:bg-emerald-700" : "bg-brand-600 text-white hover:bg-brand-700"
                             }`}
                             onClick={() => {
                                 setIsListeningCandidate(!isListeningCandidate);

@@ -11,6 +11,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
+import { UI_TEXT } from "@/constants/ui-text.constants";
 
 export function CheckDeviceView({ positionId }: { positionId: string }) {
     const router = useRouter();
@@ -27,7 +28,7 @@ export function CheckDeviceView({ positionId }: { positionId: string }) {
     };
 
     return (
-        <div className="min-h-screen w-full bg-[#f8fafc] font-sans text-slate-900">
+        <div className="min-h-screen w-full bg-slate-50 font-sans text-slate-900">
             {/* 1. Header (Brand Logo + 5 Navigation Tabs + Candidate Profile) */}
             <header className="sticky top-0 z-50 w-full border-b border-slate-200/80 bg-white shadow-2xs">
                 <div className="relative mx-auto flex h-18 max-w-[1440px] items-center justify-between px-6 sm:px-10">
@@ -36,7 +37,7 @@ export function CheckDeviceView({ positionId }: { positionId: string }) {
                         <Link href="/" className="flex items-center">
                             <Image
                                 src="/images/header/logo-rikkei2 1.png"
-                                alt="RikkeiEdu"
+                                alt={UI_TEXT.common.appName}
                                 width={114}
                                 height={40}
                                 className="h-10 w-auto cursor-pointer object-contain"
@@ -59,20 +60,20 @@ export function CheckDeviceView({ positionId }: { positionId: string }) {
                     {/* Breadcrumb Navigation */}
                     <div className="flex items-center justify-between">
                         <div className="flex items-center gap-2 text-xs font-semibold text-slate-500 sm:text-sm">
-                            <Link href="/interview" className="transition-colors hover:text-[#ab1f24]">
+                            <Link href="/interview" className="transition-colors hover:text-brand-600">
                                 Phỏng vấn AI
                             </Link>
                             <span>/</span>
                             <span className="font-bold text-slate-900">Kiểm tra thiết bị âm thanh</span>
                         </div>
-                        <Badge variant="outline" className="border-red-200 bg-red-50 text-xs font-semibold text-[#ab1f24]">
+                        <Badge variant="outline" className="border-brand-200 bg-brand-50 text-xs font-semibold text-brand-700">
                             Bước 1: Chuẩn bị thiết bị
                         </Badge>
                     </div>
 
                     <Card className="space-y-6 rounded-2xl border border-slate-200/80 bg-white p-6 shadow-xs sm:p-8">
                         <CardHeader className="p-0 pb-2 text-center">
-                            <div className="mx-auto mb-2 flex h-12 w-12 items-center justify-center rounded-xl bg-red-50 text-[#ab1f24]">
+                            <div className="mx-auto mb-2 flex h-12 w-12 items-center justify-center rounded-xl bg-brand-50 text-brand-700">
                                 <Mic className="h-6 w-6" />
                             </div>
                             <CardTitle className="text-xl font-bold text-slate-900 sm:text-2xl">Kiểm tra âm thanh & Microphone</CardTitle>
@@ -86,7 +87,7 @@ export function CheckDeviceView({ positionId }: { positionId: string }) {
                             <div className="space-y-3 rounded-2xl border border-slate-200/80 bg-slate-50/60 p-5">
                                 <div className="flex items-center justify-between">
                                     <div className="flex items-center gap-2 text-sm font-bold text-slate-900">
-                                        <Mic className="h-4 w-4 text-[#ab1f24]" />
+                                        <Mic className="h-4 w-4 text-brand-600" />
                                         <span>Tín hiệu Microphone</span>
                                     </div>
                                     <Badge variant="outline" className="border-emerald-300 bg-emerald-50 text-xs font-semibold text-emerald-700">
@@ -149,7 +150,7 @@ export function CheckDeviceView({ positionId }: { positionId: string }) {
                                 <Button
                                     size="lg"
                                     onClick={handleStartSession}
-                                    className="h-11 flex-1 gap-2 rounded-xl bg-[#ab1f24] px-6 text-xs font-bold text-white shadow-md hover:bg-[#8b1a1f] sm:flex-initial sm:text-sm"
+                                    className="h-11 flex-1 gap-2 rounded-xl bg-brand-600 px-6 text-xs font-bold text-white shadow-md hover:bg-brand-700 sm:flex-initial sm:text-sm"
                                 >
                                     <span>Thiết bị đã sẵn sàng — Vào phỏng vấn</span>
                                     <ArrowRight className="h-4 w-4" />

@@ -10,6 +10,7 @@ import { toast } from "sonner";
 import { HeaderNav, MAIN_NAVIGATION_ITEMS } from "@/components/layout/header-nav";
 import { HeaderUserActions } from "@/components/layout/header-user-actions";
 import { LogoutConfirmDialog } from "@/components/modals/logout-confirm-dialog";
+import { UI_TEXT } from "@/constants/ui-text.constants";
 import { useCurrentUser, useLogout } from "@/hooks/queries/use-auth";
 import { cn } from "@/lib/utils";
 import { useAuthModal } from "@/store/use-auth-modal";
@@ -60,7 +61,7 @@ export function MainHeader() {
                     <Link href="/" className="flex items-center">
                         <Image
                             src="/images/header/logo-rikkei2 1.png"
-                            alt="RikkeiEdu"
+                            alt={UI_TEXT.common.appName}
                             width={114}
                             height={40}
                             className="h-10 w-auto cursor-pointer object-contain"
@@ -80,7 +81,7 @@ export function MainHeader() {
                         <button
                             type="button"
                             onClick={openModal}
-                            className="hidden cursor-pointer items-center justify-center rounded-xl bg-[#ab1f24] px-5 py-2 text-sm font-bold text-white shadow-xs transition-colors hover:bg-[#8b1a1f] sm:inline-flex"
+                            className="hidden cursor-pointer items-center justify-center rounded-xl bg-brand-600 px-5 py-2 text-sm font-bold text-white shadow-xs transition-colors hover:bg-brand-700 sm:inline-flex"
                         >
                             {tAuth("title")}
                         </button>
@@ -89,7 +90,7 @@ export function MainHeader() {
                     {/* Mobile Menu Button */}
                     <button
                         type="button"
-                        className="cursor-pointer p-2 text-[#1e2328] transition-colors hover:text-[#ab1f24] lg:hidden"
+                        className="cursor-pointer p-2 text-slate-800 transition-colors hover:text-brand-600 lg:hidden"
                         onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
                         aria-label="Toggle menu"
                     >
@@ -118,11 +119,11 @@ export function MainHeader() {
                                         onClick={() => setIsMobileMenuOpen(false)}
                                         className={cn(
                                             "flex items-center justify-between rounded-xl px-3.5 py-3 text-[15px] font-semibold transition-all",
-                                            isActive ? "bg-[#fff6f7] font-bold text-[#ab1f24]" : "text-slate-800 hover:bg-slate-50 hover:text-[#ab1f24]",
+                                            isActive ? "bg-brand-50 font-bold text-brand-600" : "text-slate-800 hover:bg-slate-50 hover:text-brand-600",
                                         )}
                                     >
                                         <span>{item.label}</span>
-                                        {item.tag && <span className="rounded bg-[#ab1f24] px-1.5 py-0.5 text-[10px] font-bold text-white">{item.tag}</span>}
+                                        {item.tag && <span className="rounded bg-brand-600 px-1.5 py-0.5 text-[10px] font-bold text-white">{item.tag}</span>}
                                     </Link>
                                 );
                             })}
@@ -139,7 +140,7 @@ export function MainHeader() {
                                         openModal();
                                     }
                                 }}
-                                className="w-full cursor-pointer rounded-xl bg-[#ab1f24] py-3 text-center text-[15px] font-bold text-white shadow-xs transition-colors hover:bg-[#8b1a1f]"
+                                className="w-full cursor-pointer rounded-xl bg-brand-600 py-3 text-center text-[15px] font-bold text-white shadow-xs transition-colors hover:bg-brand-700"
                             >
                                 {isAuthenticated ? tAuth("logout") : tAuth("title")}
                             </button>

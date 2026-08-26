@@ -11,6 +11,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
+import { UI_TEXT } from "@/constants/ui-text.constants";
 import { useAssignedExam } from "@/hooks/queries/use-exam";
 import { usePracticeList } from "@/hooks/queries/use-practice";
 
@@ -137,21 +138,21 @@ export function HomeView() {
                         </div>
 
                         {/* Assigned / Upcoming Exam Session Hub Card */}
-                        <div className="mt-1 rounded-2xl border border-slate-200/90 bg-white p-4 shadow-xs transition-all hover:border-red-200 hover:shadow-sm sm:p-5">
+                        <div className="mt-1 rounded-2xl border border-slate-200/90 bg-white p-4 shadow-xs transition-all hover:border-brand-200 hover:shadow-sm sm:p-5">
                             <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
                                 <div className="min-w-0 space-y-1.5">
                                     <div className="flex flex-wrap items-center gap-2">
                                         {examStatus === "LIVE" ? (
-                                            <span className="inline-flex items-center gap-1.5 rounded-full border border-red-200 bg-red-50 px-2.5 py-0.5 text-xs font-bold text-[#ab1f24]">
+                                            <span className="inline-flex items-center gap-1.5 rounded-full border border-brand-200 bg-brand-50 px-2.5 py-0.5 text-xs font-bold text-brand-700">
                                                 <span className="relative flex h-2 w-2">
-                                                    <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-red-400 opacity-75"></span>
-                                                    <span className="relative inline-flex h-2 w-2 rounded-full bg-[#ab1f24]"></span>
+                                                    <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-brand-400 opacity-75"></span>
+                                                    <span className="relative inline-flex h-2 w-2 rounded-full bg-brand-600"></span>
                                                 </span>
                                                 <span>Ca thi đang diễn ra</span>
                                             </span>
                                         ) : (
-                                            <span className="inline-flex items-center gap-1.5 rounded-full border border-red-200/80 bg-red-50 px-2.5 py-0.5 text-xs font-bold text-[#ab1f24]">
-                                                <Clock className="h-3.5 w-3.5 text-[#ab1f24]" />
+                                            <span className="inline-flex items-center gap-1.5 rounded-full border border-brand-200/80 bg-brand-50 px-2.5 py-0.5 text-xs font-bold text-brand-700">
+                                                <Clock className="h-3.5 w-3.5 text-brand-600" />
                                                 <span>Ca thi sắp mở phòng</span>
                                             </span>
                                         )}
@@ -172,7 +173,7 @@ export function HomeView() {
                                             <>
                                                 <span>•</span>
                                                 <span>
-                                                    Mở sau: <strong className="font-bold text-[#ab1f24]">{formatTime(countdownSeconds)}</strong>
+                                                    Mở sau: <strong className="font-bold text-brand-600">{formatTime(countdownSeconds)}</strong>
                                                 </span>
                                             </>
                                         )}
@@ -184,7 +185,7 @@ export function HomeView() {
                                         <Button
                                             type="button"
                                             onClick={() => setIsPasscodeDialogOpen(true)}
-                                            className="h-10.5 w-full cursor-pointer rounded-xl bg-[#ab1f24] px-5 text-xs font-bold text-white shadow-xs transition-all hover:bg-[#8b1a1f] sm:w-auto sm:text-sm"
+                                            className="h-10.5 w-full cursor-pointer rounded-xl bg-brand-600 px-5 text-xs font-bold text-white shadow-xs transition-all hover:bg-brand-700 sm:w-auto sm:text-sm"
                                         >
                                             <KeyRound className="mr-1.5 h-4 w-4" />
                                             <span>Nhập mã vào phòng thi</span>
@@ -193,7 +194,7 @@ export function HomeView() {
                                         <Button
                                             type="button"
                                             onClick={() => setIsWaitingRoomOpen(true)}
-                                            className="h-10.5 w-full cursor-pointer rounded-xl bg-[#ab1f24] px-5 text-xs font-bold text-white shadow-xs transition-all hover:bg-[#8b1a1f] sm:w-auto sm:text-sm"
+                                            className="h-10.5 w-full cursor-pointer rounded-xl bg-brand-600 px-5 text-xs font-bold text-white shadow-xs transition-all hover:bg-brand-700 sm:w-auto sm:text-sm"
                                         >
                                             <Timer className="mr-1.5 h-4 w-4" />
                                             <span>Vào phòng chờ</span>
@@ -210,7 +211,7 @@ export function HomeView() {
                             <div className="relative rounded-2xl border-2 border-dashed border-black/20 bg-white p-5 pb-0 shadow-[0_20px_40px_rgba(188,34,40,0.3)]">
                                 <Image
                                     src="/images/home/model-1.png"
-                                    alt="Thí sinh đang làm bài thi"
+                                    alt={UI_TEXT.home.heroImageAlt}
                                     width={560}
                                     height={440}
                                     className="block h-auto w-full rounded-xl object-contain"
@@ -288,7 +289,7 @@ export function HomeView() {
                                             <div className="flex items-center justify-between gap-2">
                                                 <Badge
                                                     variant="primary"
-                                                    className="pointer-events-none border-red-200/80 bg-red-50 font-semibold text-[#ab1f24]"
+                                                    className="pointer-events-none border-brand-200/80 bg-brand-50 font-semibold text-brand-700"
                                                     size="sm"
                                                 >
                                                     {practice.category}
@@ -407,7 +408,7 @@ export function HomeView() {
                         <div className="relative max-w-[480px]">
                             <Image
                                 src="/images/banner/peoplecontact.png"
-                                alt="Hệ thống khảo thí trực tuyến Rikkei Education"
+                                alt={UI_TEXT.home.systemImageAlt}
                                 width={480}
                                 height={380}
                                 className="h-auto w-full object-contain drop-shadow-md"
@@ -421,7 +422,7 @@ export function HomeView() {
             <Dialog open={isWaitingRoomOpen} onOpenChange={setIsWaitingRoomOpen}>
                 <DialogContent size="md" className="max-w-[420px] gap-5 rounded-2xl border-0 bg-white px-6 py-6 shadow-2xl">
                     <DialogHeader className="space-y-2 pb-0 text-center sm:text-center">
-                        <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-2xl bg-red-50 text-[#ab1f24]">
+                        <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-2xl bg-brand-50 text-brand-700">
                             <Timer className="h-6 w-6" />
                         </div>
                         <div>
@@ -440,8 +441,8 @@ export function HomeView() {
                                     <div className="mt-0.5 text-[10px] font-bold text-slate-400">Phút</div>
                                 </div>
                                 <span className="text-2xl font-bold text-slate-400">:</span>
-                                <div className="min-w-[80px] rounded-xl border border-red-200 bg-white p-3 shadow-xs">
-                                    <div className="font-mono text-3xl font-bold text-[#ab1f24] sm:text-4xl">{formatSeconds(countdownSeconds)}</div>
+                                <div className="min-w-[80px] rounded-xl border border-brand-200 bg-white p-3 shadow-xs">
+                                    <div className="font-mono text-3xl font-bold text-brand-600 sm:text-4xl">{formatSeconds(countdownSeconds)}</div>
                                     <div className="mt-0.5 text-[10px] font-bold text-slate-400">Giây</div>
                                 </div>
                             </div>
@@ -455,7 +456,7 @@ export function HomeView() {
                             </div>
                             <p className="text-xs text-slate-500">Đang chuyển sang màn hình nhập mã...</p>
                             <div className="flex justify-center pt-1">
-                                <Loader2 className="h-5 w-5 animate-spin text-[#ab1f24]" />
+                                <Loader2 className="h-5 w-5 animate-spin text-brand-600" />
                             </div>
                         </div>
                     )}
@@ -477,7 +478,7 @@ export function HomeView() {
                                 setIsWaitingRoomOpen(false);
                                 setIsPasscodeDialogOpen(true);
                             }}
-                            className="h-11 flex-1 rounded-xl bg-[#ab1f24] text-xs font-bold text-white shadow-xs hover:bg-[#8b1a1f] sm:text-sm"
+                            className="h-11 flex-1 rounded-xl bg-brand-600 text-xs font-bold text-white shadow-xs hover:bg-brand-700 sm:text-sm"
                         >
                             Vào thi ngay
                         </Button>
@@ -489,7 +490,7 @@ export function HomeView() {
             <Dialog open={isPasscodeDialogOpen} onOpenChange={setIsPasscodeDialogOpen}>
                 <DialogContent size="md" className="max-w-[420px] gap-5 rounded-2xl border-0 bg-white px-6 py-6 shadow-2xl">
                     <DialogHeader className="space-y-2 pb-0 text-center sm:text-center">
-                        <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-2xl bg-red-50 text-[#ab1f24]">
+                        <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-2xl bg-brand-50 text-brand-700">
                             <KeyRound className="h-6 w-6" />
                         </div>
                         <div>
@@ -510,7 +511,7 @@ export function HomeView() {
                                         if (passcodeError) setPasscodeError("");
                                     }}
                                     autoFocus
-                                    className="h-13 rounded-xl border-slate-200 bg-slate-50/70 text-center font-mono text-lg font-bold tracking-widest text-slate-900 uppercase transition-all placeholder:font-sans placeholder:text-xs placeholder:font-normal placeholder:tracking-normal placeholder:text-slate-400 focus:border-[#ab1f24] focus:bg-white focus:ring-1 focus:ring-[#ab1f24]"
+                                    className="h-13 rounded-xl border-slate-200 bg-slate-50/70 text-center font-mono text-lg font-bold tracking-widest text-slate-900 uppercase transition-all placeholder:font-sans placeholder:text-xs placeholder:font-normal placeholder:tracking-normal placeholder:text-slate-400 focus:border-brand-500 focus:bg-white focus:ring-1 focus:ring-brand-500"
                                 />
                             </div>
                             {passcodeError && <p className="text-center text-xs font-semibold text-red-600">{passcodeError}</p>}
@@ -527,7 +528,7 @@ export function HomeView() {
                             </Button>
                             <Button
                                 type="submit"
-                                className="h-11 flex-1 rounded-xl bg-[#ab1f24] text-xs font-bold text-white shadow-xs hover:bg-[#8b1a1f] sm:text-sm"
+                                className="h-11 flex-1 rounded-xl bg-brand-600 text-xs font-bold text-white shadow-xs hover:bg-brand-700 sm:text-sm"
                             >
                                 <span>Vào thi</span>
                                 <ArrowRight className="ml-1.5 h-4 w-4" />

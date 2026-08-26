@@ -13,6 +13,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { UI_TEXT } from "@/constants/ui-text.constants";
 import { useCompetencyQuestions } from "@/hooks/queries/use-competency";
 import { cn } from "@/lib/utils";
 
@@ -75,7 +76,7 @@ export function CompetencyExamView({ testId }: { testId: string }) {
     const answeredCount = Object.keys(answers).length;
 
     return (
-        <div className="min-h-screen w-full bg-[#f8fafc] font-sans text-slate-900">
+        <div className="min-h-screen w-full bg-slate-50 font-sans text-slate-900">
             {/* 1. Header (Brand Logo + 5 Navigation Tabs + Candidate Avatar) */}
             <header className="sticky top-0 z-50 w-full border-b border-slate-200/80 bg-white shadow-2xs">
                 <div className="relative mx-auto flex h-18 max-w-[1440px] items-center justify-between px-6 sm:px-10">
@@ -84,7 +85,7 @@ export function CompetencyExamView({ testId }: { testId: string }) {
                         <Link href="/" className="flex items-center">
                             <Image
                                 src="/images/header/logo-rikkei2 1.png"
-                                alt="RikkeiEdu"
+                                alt={UI_TEXT.common.appName}
                                 width={114}
                                 height={40}
                                 className="h-10 w-auto cursor-pointer object-contain"
@@ -105,7 +106,7 @@ export function CompetencyExamView({ testId }: { testId: string }) {
             <main className="mx-auto max-w-[1440px] px-6 py-8 sm:px-10">
                 {/* Breadcrumb Navigation */}
                 <div className="mb-6 flex items-center gap-2 text-xs font-semibold text-slate-500 sm:text-sm">
-                    <Link href="/competency-assessment" className="transition-colors hover:text-[#ab1f24]">
+                    <Link href="/competency-assessment" className="transition-colors hover:text-brand-600">
                         Khởi nguyên
                     </Link>
                     <span>/</span>
@@ -120,7 +121,7 @@ export function CompetencyExamView({ testId }: { testId: string }) {
                                 <CardHeader className="border-b border-slate-100 p-0 pb-4">
                                     <div className="flex flex-wrap items-center justify-between gap-2">
                                         <div className="flex items-center gap-2">
-                                            <Badge variant="outline" className="border-red-200 bg-red-50 text-xs font-bold text-[#ab1f24]">
+                                            <Badge variant="outline" className="border-brand-200 bg-brand-50 text-xs font-bold text-brand-700">
                                                 Câu hỏi #{currentQ.num}
                                             </Badge>
                                             <span className="text-xs font-semibold text-slate-500">{currentQ.category}</span>
@@ -148,11 +149,11 @@ export function CompetencyExamView({ testId }: { testId: string }) {
                                                     key={opt.id}
                                                     className={`flex cursor-pointer items-start gap-3 rounded-xl border p-4 text-xs transition-all sm:text-sm ${
                                                         isSelected
-                                                            ? "border-[#ab1f24] bg-red-50/50 shadow-xs ring-1 ring-[#ab1f24]"
+                                                            ? "border-brand-500 bg-brand-50/50 shadow-xs ring-1 ring-brand-500"
                                                             : "border-slate-200 bg-white hover:border-slate-300 hover:bg-slate-50/50"
                                                     }`}
                                                 >
-                                                    <RadioGroupItem value={opt.id} id={opt.id} className="mt-0.5 text-[#ab1f24]" />
+                                                    <RadioGroupItem value={opt.id} id={opt.id} className="mt-0.5 text-brand-600" />
                                                     <div className="space-y-0.5 leading-relaxed">
                                                         <span className="font-bold text-slate-900">{opt.label}. </span>
                                                         <span className="font-medium text-slate-800">{opt.text}</span>
@@ -177,7 +178,7 @@ export function CompetencyExamView({ testId }: { testId: string }) {
                                         {currentIndex < questions.length - 1 ? (
                                             <Button
                                                 onClick={() => setCurrentIndex((prev) => Math.min(questions.length - 1, prev + 1))}
-                                                className="h-10 rounded-xl bg-[#ab1f24] px-5 text-xs font-bold text-white shadow-xs hover:bg-[#8b1a1f] sm:text-sm"
+                                                className="h-10 rounded-xl bg-brand-600 px-5 text-xs font-bold text-white shadow-xs hover:bg-brand-700 sm:text-sm"
                                             >
                                                 <span>Câu tiếp theo</span>
                                             </Button>
@@ -202,7 +203,7 @@ export function CompetencyExamView({ testId }: { testId: string }) {
                         <div className="space-y-3 rounded-2xl border border-slate-200/80 bg-white p-5 shadow-2xs">
                             <div className="flex items-center gap-3">
                                 <Avatar className="h-11 w-11 border border-slate-200 shadow-2xs">
-                                    <AvatarFallback className="bg-red-50 text-sm font-bold text-[#ab1f24]">BH</AvatarFallback>
+                                    <AvatarFallback className="bg-brand-50 text-sm font-bold text-brand-700">BH</AvatarFallback>
                                 </Avatar>
                                 <div>
                                     <h3 className="text-sm font-bold text-slate-900">Bảo Hoàng 01</h3>
@@ -216,20 +217,25 @@ export function CompetencyExamView({ testId }: { testId: string }) {
                             className={cn(
                                 "space-y-1 rounded-2xl border p-5 text-center shadow-2xs transition-colors",
                                 timeLeftSeconds <= 60
-                                    ? "animate-pulse border-red-300 bg-red-100/90 text-[#ab1f24]"
+                                    ? "animate-pulse border-red-300 bg-red-100/90 text-red-600"
                                     : timeLeftSeconds <= 300
                                       ? "border-amber-200 bg-amber-50/80 text-amber-700"
-                                      : "border-red-200/80 bg-red-50/50 text-[#ab1f24]",
+                                      : "border-brand-200/80 bg-brand-50/50 text-brand-700",
                             )}
                         >
                             <div className="flex items-center justify-center gap-2">
-                                <Clock className={cn("h-5 w-5", timeLeftSeconds <= 300 && timeLeftSeconds > 60 ? "text-amber-600" : "text-[#ab1f24]")} />
+                                <Clock
+                                    className={cn(
+                                        "h-5 w-5",
+                                        timeLeftSeconds <= 60 ? "text-red-600" : timeLeftSeconds <= 300 ? "text-amber-600" : "text-brand-600",
+                                    )}
+                                />
                                 <span className="text-xs font-bold">Thời gian còn lại</span>
                             </div>
                             <div
                                 className={cn(
                                     "font-mono text-3xl font-bold tracking-wider",
-                                    timeLeftSeconds <= 300 && timeLeftSeconds > 60 ? "text-amber-700" : "text-[#ab1f24]",
+                                    timeLeftSeconds <= 60 ? "text-red-600" : timeLeftSeconds <= 300 ? "text-amber-700" : "text-brand-700",
                                 )}
                             >
                                 {timeDisplay}
@@ -257,7 +263,7 @@ export function CompetencyExamView({ testId }: { testId: string }) {
                                             onClick={() => setCurrentIndex(idx)}
                                             className={`flex aspect-square h-9 w-9 cursor-pointer items-center justify-center rounded-xl text-xs font-bold transition-all sm:h-10 sm:w-10 sm:text-sm ${
                                                 isCurrent
-                                                    ? "border-2 border-[#ab1f24] bg-red-50 text-[#ab1f24] shadow-xs"
+                                                    ? "border-2 border-brand-600 bg-brand-50 text-brand-700 shadow-xs"
                                                     : isAnswered
                                                       ? "border border-emerald-300 bg-emerald-50 text-emerald-700"
                                                       : "border border-slate-200 bg-white text-slate-600 hover:bg-slate-50"
@@ -271,7 +277,7 @@ export function CompetencyExamView({ testId }: { testId: string }) {
 
                             <Button
                                 onClick={() => setIsSubmitModalOpen(true)}
-                                className="h-11 w-full gap-2 rounded-xl bg-[#ab1f24] text-sm font-bold text-white shadow-xs hover:bg-[#8b1a1f]"
+                                className="h-11 w-full gap-2 rounded-xl bg-brand-600 text-sm font-bold text-white shadow-xs hover:bg-brand-700"
                             >
                                 <FileCheck2 className="h-4 w-4" />
                                 <span>Nộp bài đánh giá</span>
@@ -284,7 +290,7 @@ export function CompetencyExamView({ testId }: { testId: string }) {
                 <Dialog open={isSubmitModalOpen} onOpenChange={setIsSubmitModalOpen}>
                     <DialogContent size="md" className="max-w-[460px] gap-4 rounded-xl border border-slate-200 bg-white px-[24px] py-[20px] shadow-xl">
                         <DialogHeader className="pb-0 text-center sm:text-center">
-                            <div className="mx-auto mb-2 flex h-12 w-12 items-center justify-center rounded-xl bg-red-50 text-[#ab1f24]">
+                            <div className="mx-auto mb-2 flex h-12 w-12 items-center justify-center rounded-xl bg-brand-50 text-brand-700">
                                 <FileCheck2 className="h-6 w-6" />
                             </div>
                             <DialogTitle className="text-xl font-bold text-slate-900">Xác nhận nộp bài đánh giá</DialogTitle>
@@ -305,7 +311,7 @@ export function CompetencyExamView({ testId }: { testId: string }) {
                             <Button
                                 type="button"
                                 onClick={handleConfirmSubmit}
-                                className="h-10 flex-1 rounded-xl bg-[#ab1f24] text-xs font-bold text-white shadow-xs hover:bg-[#8b1a1f] sm:text-sm"
+                                className="h-10 flex-1 rounded-xl bg-brand-600 text-xs font-bold text-white shadow-xs hover:bg-brand-700 sm:text-sm"
                             >
                                 <span>Xác nhận nộp</span>
                             </Button>

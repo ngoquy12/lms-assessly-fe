@@ -24,3 +24,14 @@ export interface LeaderboardRankItem {
     examsCompleted: number;
     badge?: string;
 }
+
+export interface OfficeLocation {
+    id: string;
+    label: string;
+    address: string;
+}
+
+export interface FooterNavGroup {
+    title: string;
+    items: string[];
+}

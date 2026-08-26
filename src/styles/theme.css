@@ -132,33 +132,33 @@
     --color-alpha-white: rgb(255 255 255);
     --color-alpha-black: rgb(0 0 0);
 
-    /* LMS Assessly style guide: Primary Brand Color #ab1f24 (Rikkei Red & Harmonic Accents) */
-    --color-brand-25: rgb(255 250 250);
-    /* #FFFAFA */
-    --color-brand-50: rgb(254 242 242);
-    /* #FEF2F2 - soft tint */
-    --color-brand-100: rgb(254 226 226);
-    /* #FEE2E2 */
-    --color-brand-100-60: rgba(254, 226, 226, 0.6);
-    --color-brand-100-00: rgba(254, 226, 226, 0);
-    --color-brand-200: rgb(254 202 202);
-    /* #FECACA */
-    --color-brand-300: rgb(252 165 165);
-    /* #FCA5A5 */
-    --color-brand-400: rgb(248 113 113);
-    /* #F87171 - bright accent */
-    --color-brand-500: rgb(171 31 36);
-    /* #AB1F24 - Primary Brand (CHỦ ĐẠO) */
-    --color-brand-600: rgb(144 23 27);
-    /* #90171B - Deep Brand Hover */
-    --color-brand-700: rgb(116 17 21);
-    /* #741115 - Brand Pressed */
-    --color-brand-800: rgb(90 13 16);
-    /* #5A0D10 */
-    --color-brand-900: rgb(66 9 11);
-    /* #42090B */
-    --color-brand-950: rgb(40 5 6);
-    /* #280506 */
+    /* LMS Portal style guide: Brand colors - Wine / Indigo (#4B51C4 scale) */
+    --color-brand-25: rgb(247 248 254);
+    /* #F7F8FE */
+    --color-brand-50: rgb(236 237 251);
+    /* #ECEDFB - wine soft */
+    --color-brand-100: rgb(213 215 247);
+    /* #D5D7F7 */
+    --color-brand-100-60: rgba(213, 215, 247, 0.6);
+    --color-brand-100-00: rgba(213, 215, 247, 0);
+    --color-brand-200: rgb(180 184 240);
+    /* #B4B8F0 */
+    --color-brand-300: rgb(142 148 232);
+    /* #8E94E8 */
+    --color-brand-400: rgb(108 114 224);
+    /* #6C72E0 - wine bright */
+    --color-brand-500: rgb(75 81 196);
+    /* #4B51C4 - Primary brand (Indigo / Violet Blue) */
+    --color-brand-600: rgb(54 60 151);
+    /* #363C97 - wine deep */
+    --color-brand-700: rgb(42 47 122);
+    /* #2A2F7A */
+    --color-brand-800: rgb(31 35 92);
+    /* #1F235C */
+    --color-brand-900: rgb(21 24 63);
+    /* #15183F */
+    --color-brand-950: rgb(12 14 40);
+    /* #0C0E28 */
 
     /* Sidebar / nav shell */
     --color-nav-100: rgb(203 206 243);

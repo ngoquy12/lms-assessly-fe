@@ -18,11 +18,11 @@ export function ProfileView() {
     const { data: user, isLoading, isError, refetch } = useUserProfile();
 
     return (
-        <div className="min-h-screen w-full bg-[#f8fafc] font-sans text-slate-900">
+        <div className="min-h-screen w-full bg-slate-50 font-sans text-slate-900">
             <div className="mx-auto max-w-[1440px] space-y-8 px-6 py-8 sm:px-10">
                 {/* Breadcrumb Navigation */}
                 <div className="flex items-center gap-2 text-xs font-semibold text-slate-500 sm:text-sm">
-                    <Link href="/" className="transition-colors hover:text-[#ab1f24]">
+                    <Link href="/" className="transition-colors hover:text-brand-600">
                         Trang chủ
                     </Link>
                     <span>/</span>
@@ -31,7 +31,7 @@ export function ProfileView() {
 
                 {/* 1. Header (Standardized Hero Title & Subtitle) */}
                 <div className="space-y-1.5">
-                    <h1 className="text-3xl leading-tight font-bold tracking-tight text-[#ab1f24] sm:text-4xl lg:text-[40px]">Hồ sơ sinh viên</h1>
+                    <h1 className="text-3xl leading-tight font-bold tracking-tight text-brand-700 sm:text-4xl lg:text-[40px]">Hồ sơ sinh viên</h1>
                     <p className="max-w-3xl text-sm leading-relaxed font-normal text-slate-600 sm:text-base">
                         Quản lý thông tin tài khoản, cập nhật ảnh đại diện và bảo mật thông tin cá nhân
                     </p>
@@ -123,15 +123,21 @@ function ProfileContent({ user }: { user: NonNullable<ReturnType<typeof useUserP
                     <Card className="flex flex-col items-center justify-center space-y-5 rounded-2xl border border-slate-200/80 bg-white p-6 text-center shadow-2xs sm:p-8">
                         {/* Avatar with Click to Upload & Hover Effect */}
                         <div className="group relative cursor-pointer" onClick={() => fileInputRef.current?.click()} title="Nhấp để thay đổi ảnh đại diện">
-                            <div className="h-32 w-32 overflow-hidden rounded-full border-4 border-slate-100 bg-[#fff6f7] shadow-md transition-transform duration-200 group-hover:scale-[1.02] sm:h-36 sm:w-36">
-                                <Image src={avatarUrl} alt={fullName} width={144} height={144} className="h-full w-full object-cover" />
+                            <div className="h-32 w-32 overflow-hidden rounded-full border-4 border-slate-100 bg-brand-50/50 shadow-md transition-transform duration-200 group-hover:scale-[1.02] sm:h-36 sm:w-36">
+                                <Image
+                                    src={avatarUrl}
+                                    alt={fullName || UI_TEXT.common.icons.userAvatarAlt}
+                                    width={144}
+                                    height={144}
+                                    className="h-full w-full object-cover"
+                                />
                             </div>
                             <div className="absolute inset-0 flex items-center justify-center rounded-full bg-black/35 opacity-0 transition-opacity duration-200 group-hover:opacity-100">
                                 <Camera className="h-8 w-8 text-white drop-shadow-sm" />
                             </div>
                             <button
                                 type="button"
-                                className="absolute right-1 bottom-1 flex h-9 w-9 cursor-pointer items-center justify-center rounded-full bg-[#ab1f24] text-white shadow-md transition-transform hover:scale-110 hover:bg-[#8b1a1f]"
+                                className="absolute right-1 bottom-1 flex h-9 w-9 cursor-pointer items-center justify-center rounded-full bg-brand-600 text-white shadow-md transition-transform hover:scale-110 hover:bg-brand-700"
                                 title="Tải lên ảnh đại diện mới"
                             >
                                 <Camera className="h-4.5 w-4.5" />
@@ -174,7 +180,7 @@ function ProfileContent({ user }: { user: NonNullable<ReturnType<typeof useUserP
                                         <Input
                                             value={fullName}
                                             onChange={(e) => setFullName(e.target.value)}
-                                            className="h-10 rounded-xl border-slate-300 text-xs focus:border-[#ab1f24] focus:ring-1 focus:ring-[#ab1f24] sm:text-sm"
+                                            className="h-10 rounded-xl border-slate-300 text-xs focus:border-brand-500 focus:ring-1 focus:ring-brand-500 sm:text-sm"
                                         />
                                     </div>
 
@@ -195,7 +201,7 @@ function ProfileContent({ user }: { user: NonNullable<ReturnType<typeof useUserP
                                             type="email"
                                             value={email}
                                             onChange={(e) => setEmail(e.target.value)}
-                                            className="h-10 rounded-xl border-slate-300 text-xs focus:border-[#ab1f24] focus:ring-1 focus:ring-[#ab1f24] sm:text-sm"
+                                            className="h-10 rounded-xl border-slate-300 text-xs focus:border-brand-500 focus:ring-1 focus:ring-brand-500 sm:text-sm"
                                         />
                                     </div>
 
@@ -206,7 +212,7 @@ function ProfileContent({ user }: { user: NonNullable<ReturnType<typeof useUserP
                                             type="tel"
                                             value={phone}
                                             onChange={(e) => setPhone(e.target.value)}
-                                            className="h-10 rounded-xl border-slate-300 text-xs focus:border-[#ab1f24] focus:ring-1 focus:ring-[#ab1f24] sm:text-sm"
+                                            className="h-10 rounded-xl border-slate-300 text-xs focus:border-brand-500 focus:ring-1 focus:ring-brand-500 sm:text-sm"
                                         />
                                     </div>
 
@@ -222,7 +228,7 @@ function ProfileContent({ user }: { user: NonNullable<ReturnType<typeof useUserP
                                         <Input
                                             value={className}
                                             onChange={(e) => setClassName(e.target.value)}
-                                            className="h-10 rounded-xl border-slate-300 text-xs focus:border-[#ab1f24] focus:ring-1 focus:ring-[#ab1f24] sm:text-sm"
+                                            className="h-10 rounded-xl border-slate-300 text-xs focus:border-brand-500 focus:ring-1 focus:ring-brand-500 sm:text-sm"
                                         />
                                     </div>
                                 </div>
@@ -241,7 +247,7 @@ function ProfileContent({ user }: { user: NonNullable<ReturnType<typeof useUserP
 
                                     <Button
                                         type="submit"
-                                        className="h-11 cursor-pointer gap-2 rounded-xl bg-[#ab1f24] px-6 text-xs font-bold text-white shadow-xs hover:bg-[#8b1a1f] sm:text-sm"
+                                        className="h-11 cursor-pointer gap-2 rounded-xl bg-brand-600 px-6 text-xs font-bold text-white shadow-xs hover:bg-brand-700 sm:text-sm"
                                     >
                                         <Check className="h-4 w-4" />
                                         <span>Lưu thay đổi</span>
@@ -257,7 +263,7 @@ function ProfileContent({ user }: { user: NonNullable<ReturnType<typeof useUserP
             <Dialog open={isChangePasswordOpen} onOpenChange={setIsChangePasswordOpen}>
                 <DialogContent size="md" className="max-w-[440px] gap-4 rounded-xl border border-slate-200 bg-white px-[24px] py-[20px] shadow-xl">
                     <DialogHeader className="pb-0 text-center sm:text-center">
-                        <div className="mx-auto mb-2 flex h-12 w-12 items-center justify-center rounded-xl bg-red-50 text-[#ab1f24]">
+                        <div className="mx-auto mb-2 flex h-12 w-12 items-center justify-center rounded-xl bg-brand-50 text-brand-700">
                             <Lock className="h-6 w-6" />
                         </div>
                         <DialogTitle className="text-xl font-bold text-slate-900">Đổi mật khẩu tài khoản</DialogTitle>
@@ -279,7 +285,7 @@ function ProfileContent({ user }: { user: NonNullable<ReturnType<typeof useUserP
                                         setCurrentPassword(e.target.value);
                                         if (passwordError) setPasswordError("");
                                     }}
-                                    className="h-10 rounded-xl border-slate-300 pr-9 text-xs focus:border-[#ab1f24] focus:ring-1 focus:ring-[#ab1f24] sm:text-sm"
+                                    className="h-10 rounded-xl border-slate-300 pr-9 text-xs focus:border-brand-500 focus:ring-1 focus:ring-brand-500 sm:text-sm"
                                 />
                                 <button
                                     type="button"
@@ -303,7 +309,7 @@ function ProfileContent({ user }: { user: NonNullable<ReturnType<typeof useUserP
                                         setNewPassword(e.target.value);
                                         if (passwordError) setPasswordError("");
                                     }}
-                                    className="h-10 rounded-xl border-slate-300 pr-9 text-xs focus:border-[#ab1f24] focus:ring-1 focus:ring-[#ab1f24] sm:text-sm"
+                                    className="h-10 rounded-xl border-slate-300 pr-9 text-xs focus:border-brand-500 focus:ring-1 focus:ring-brand-500 sm:text-sm"
                                 />
                                 <button
                                     type="button"
@@ -327,7 +333,7 @@ function ProfileContent({ user }: { user: NonNullable<ReturnType<typeof useUserP
                                         setConfirmPassword(e.target.value);
                                         if (passwordError) setPasswordError("");
                                     }}
-                                    className="h-10 rounded-xl border-slate-300 pr-9 text-xs focus:border-[#ab1f24] focus:ring-1 focus:ring-[#ab1f24] sm:text-sm"
+                                    className="h-10 rounded-xl border-slate-300 pr-9 text-xs focus:border-brand-500 focus:ring-1 focus:ring-brand-500 sm:text-sm"
                                 />
                                 <button
                                     type="button"
@@ -352,7 +358,7 @@ function ProfileContent({ user }: { user: NonNullable<ReturnType<typeof useUserP
                             </Button>
                             <Button
                                 type="submit"
-                                className="h-10 flex-1 rounded-xl bg-[#ab1f24] text-xs font-bold text-white shadow-xs hover:bg-[#8b1a1f] sm:text-sm"
+                                className="h-10 flex-1 rounded-xl bg-brand-600 text-xs font-bold text-white shadow-xs hover:bg-brand-700 sm:text-sm"
                             >
                                 <span>Cập nhật</span>
                             </Button>

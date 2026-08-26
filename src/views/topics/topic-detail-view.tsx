@@ -16,7 +16,7 @@ export function TopicDetailView({ topicId }: { topicId: string }) {
         <div className="mx-auto max-w-[1440px] space-y-6 px-6 py-8 font-sans text-slate-900 sm:px-10">
             {/* Breadcrumb Navigation */}
             <div className="flex items-center gap-2 text-xs font-semibold text-slate-500 sm:text-sm">
-                <Link href="/topics" className="transition-colors hover:text-[#ab1f24]">
+                <Link href="/topics" className="transition-colors hover:text-brand-600">
                     Chủ đề kiến thức
                 </Link>
                 <span>/</span>

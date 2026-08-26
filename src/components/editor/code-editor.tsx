@@ -8,7 +8,7 @@ import { cn } from "@/lib/utils";
 const Editor = dynamic(() => import("@monaco-editor/react"), {
     ssr: false,
     loading: () => (
-        <div className="flex h-[240px] w-full items-center justify-center bg-[#1e1e1e] font-mono text-xs text-slate-400">
+        <div className="flex h-[240px] w-full items-center justify-center bg-zinc-900 font-mono text-xs text-slate-400">
             <Loader2 className="mr-2 h-4 w-4 animate-spin text-slate-400" />
             <span>Đang tải trình soạn thảo code...</span>
         </div>
@@ -41,10 +41,10 @@ export function CodeEditor({
     const [currentLanguage, setCurrentLanguage] = useState(language);
 
     return (
-        <div className={cn("overflow-hidden rounded-xl border border-slate-800 bg-[#1e1e1e] shadow-md", className)}>
+        <div className={cn("overflow-hidden rounded-xl border border-slate-800 bg-zinc-900 shadow-md", className)}>
             {/* Header bar */}
             {!hideHeader && (
-                <div className="flex items-center justify-between border-b border-gray-800 bg-[#252526] px-4 py-2 text-xs text-gray-300">
+                <div className="flex items-center justify-between border-b border-gray-800 bg-zinc-800 px-4 py-2 text-xs text-gray-300">
                     <div className="flex items-center gap-2 font-mono">
                         <span className="h-2 w-2 rounded-full bg-emerald-500" />
                         <span>Trình soạn thảo mã nguồn</span>
@@ -54,7 +54,7 @@ export function CodeEditor({
                             value={currentLanguage}
                             onChange={(e) => setCurrentLanguage(e.target.value)}
                             disabled={readOnly}
-                            className="cursor-pointer rounded border border-gray-700 bg-[#333333] px-2 py-1 text-xs text-gray-200 focus:ring-1 focus:ring-brand-500 focus:outline-none"
+                            className="cursor-pointer rounded border border-gray-700 bg-zinc-700 px-2 py-1 text-xs text-gray-200 focus:ring-1 focus:ring-brand-500 focus:outline-none"
                         >
                             <option value="javascript">JavaScript</option>
                             <option value="typescript">TypeScript</option>

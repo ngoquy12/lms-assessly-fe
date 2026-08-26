@@ -109,16 +109,16 @@ export function ActivityHeatmapCalendar({ year = 2026, activityData = {}, classN
         };
     }, [year, activityData]);
 
-    const getLevelColorClass = (level: 0 | 1 | 2 | 3 | 4) => {
+    const getLevelColorClass = (level: number) => {
         switch (level) {
             case 1:
-                return "bg-[#fde2e4] border-[#fbc0c5] hover:bg-[#fca5a5]";
+                return "bg-brand-50 border-brand-200 hover:bg-brand-100";
             case 2:
-                return "bg-[#f87171] border-[#ef4444] hover:bg-[#dc2626]";
+                return "bg-brand-300 border-brand-400 hover:bg-brand-400";
             case 3:
-                return "bg-[#dc2626] border-[#b91c1c] hover:bg-[#991b1b]";
+                return "bg-brand-500 border-brand-600 hover:bg-brand-600";
             case 4:
-                return "bg-[#ab1f24] border-[#8b1a1f] hover:bg-[#701418]";
+                return "bg-brand-700 border-brand-800 hover:bg-brand-800";
             default:
                 return "bg-slate-100/90 border-slate-200/70 hover:bg-slate-200";
         }
@@ -183,7 +183,7 @@ export function ActivityHeatmapCalendar({ year = 2026, activityData = {}, classN
                                                             className={cn(
                                                                 "h-3 w-3 cursor-pointer rounded-[3px] border transition-all",
                                                                 getLevelColorClass(day.level),
-                                                                selectedCellDate === day.date && "ring-2 ring-[#ab1f24] ring-offset-1",
+                                                                selectedCellDate === day.date && "ring-2 ring-brand-500 ring-offset-1",
                                                             )}
                                                             aria-label={`${day.date}: ${day.count} bài thi`}
                                                         />
@@ -233,17 +233,17 @@ export function ActivityHeatmapCalendar({ year = 2026, activityData = {}, classN
                         <span>Ít</span>
                         <div className="flex items-center gap-1">
                             <span className="h-3 w-3 rounded-[3px] border border-slate-200/70 bg-slate-100" />
-                            <span className="h-3 w-3 rounded-[3px] border border-[#fbc0c5] bg-[#fde2e4]" />
-                            <span className="h-3 w-3 rounded-[3px] border border-[#ef4444] bg-[#f87171]" />
-                            <span className="h-3 w-3 rounded-[3px] border border-[#b91c1c] bg-[#dc2626]" />
-                            <span className="h-3 w-3 rounded-[3px] border border-[#8b1a1f] bg-[#ab1f24]" />
+                            <span className="h-3 w-3 rounded-[3px] border border-brand-200 bg-brand-50" />
+                            <span className="h-3 w-3 rounded-[3px] border border-brand-400 bg-brand-300" />
+                            <span className="h-3 w-3 rounded-[3px] border border-brand-600 bg-brand-500" />
+                            <span className="h-3 w-3 rounded-[3px] border border-brand-800 bg-brand-700" />
                         </div>
                         <span>Nhiều</span>
                     </div>
 
                     <div className="flex items-center gap-4 text-xs font-semibold text-slate-700">
                         <span>
-                            Tổng số: <strong className="font-bold text-[#ab1f24]">{totalActivities} bài thi</strong> trong năm {year}
+                            Tổng số: <strong className="font-bold text-brand-600">{totalActivities} bài thi</strong> trong năm {year}
                         </span>
                     </div>
                 </div>

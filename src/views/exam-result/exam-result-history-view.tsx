@@ -134,11 +134,11 @@ export function ExamResultHistoryView() {
     };
 
     return (
-        <div className="min-h-screen w-full bg-[#f8fafc] font-sans text-slate-900">
+        <div className="min-h-screen w-full bg-slate-50 font-sans text-slate-900">
             <div className="mx-auto max-w-[1440px] space-y-6 px-3.5 py-6 sm:space-y-8 sm:px-8 lg:px-10">
                 {/* Breadcrumb Navigation */}
                 <div className="flex items-center gap-2 text-xs font-semibold text-slate-500 sm:text-sm">
-                    <Link href="/" className="transition-colors hover:text-[#ab1f24]">
+                    <Link href="/" className="transition-colors hover:text-brand-600">
                         Trang chủ
                     </Link>
                     <span>/</span>
@@ -147,7 +147,7 @@ export function ExamResultHistoryView() {
 
                 {/* 1. Header: Page Title & Subtitle */}
                 <div className="space-y-1.5 text-center">
-                    <h1 className="text-2xl font-extrabold tracking-tight text-[#ab1f24] sm:text-[32px] lg:text-[38px]">Kết quả luyện tập</h1>
+                    <h1 className="text-2xl font-extrabold tracking-tight text-brand-700 sm:text-[32px] lg:text-[38px]">Kết quả luyện tập</h1>
                     <p className="text-xs text-slate-600 sm:text-sm md:text-base">Xem lại kết quả, phân tích điểm mạnh và tiếp tục cải thiện.</p>
                 </div>
 
@@ -161,11 +161,11 @@ export function ExamResultHistoryView() {
                             onClick={() => setSelectedTopicId(null)}
                             className={`flex w-full cursor-pointer items-center gap-2.5 rounded-xl px-3.5 py-3 text-left text-[14px] transition-all sm:text-[14.5px] ${
                                 selectedTopicId === null
-                                    ? "bg-[#fff6f7] font-bold text-[#ab1f24] shadow-2xs"
-                                    : "font-semibold text-slate-800 hover:bg-slate-50 hover:text-[#ab1f24]"
+                                    ? "bg-brand-50/80 font-bold text-brand-700 shadow-2xs"
+                                    : "font-semibold text-slate-800 hover:bg-slate-50 hover:text-brand-600"
                             }`}
                         >
-                            <LayoutGrid className="h-4 w-4 shrink-0 text-[#ab1f24]" />
+                            <LayoutGrid className="h-4 w-4 shrink-0 text-brand-600" />
                             <span>Hoạt động của bạn (Tổng quan)</span>
                         </button>
 
@@ -181,7 +181,7 @@ export function ExamResultHistoryView() {
                                             type="button"
                                             onClick={() => toggleGroup(group.id)}
                                             className={`flex w-full cursor-pointer items-center justify-between rounded-xl px-3.5 py-2.5 text-left text-[14px] font-bold transition-all sm:text-[14.5px] ${
-                                                hasActiveChild ? "text-[#ab1f24]" : "text-slate-800 hover:bg-slate-50 hover:text-[#ab1f24]"
+                                                hasActiveChild ? "text-brand-700" : "text-slate-800 hover:bg-slate-50 hover:text-brand-600"
                                             }`}
                                         >
                                             <span className="truncate pr-2">{group.name}</span>
@@ -204,7 +204,7 @@ export function ExamResultHistoryView() {
                                                             onClick={() => setSelectedTopicId(child.id)}
                                                             className={`flex w-full cursor-pointer items-center justify-between rounded-xl px-3.5 py-2.5 text-left text-[13px] transition-all sm:text-[13.5px] ${
                                                                 isActive
-                                                                    ? "bg-[#fff6f7] font-bold text-[#ab1f24] shadow-2xs"
+                                                                    ? "bg-brand-50/80 font-bold text-brand-700 shadow-2xs"
                                                                     : "font-medium text-slate-600 hover:bg-slate-100/70 hover:text-slate-900"
                                                             }`}
                                                         >
@@ -236,7 +236,7 @@ export function ExamResultHistoryView() {
                                                 onClick={() => setSelectedYear(yr)}
                                                 className={`cursor-pointer rounded-xl px-3 py-1.5 text-xs font-bold transition-all sm:px-4 ${
                                                     selectedYear === yr
-                                                        ? "bg-[#ab1f24] text-white shadow-xs"
+                                                        ? "bg-brand-600 text-white shadow-xs"
                                                         : "border border-slate-200 bg-white text-slate-700 hover:bg-slate-50"
                                                 }`}
                                             >
@@ -254,7 +254,7 @@ export function ExamResultHistoryView() {
                                     <div className="rounded-xl border border-slate-200/80 bg-white p-3.5 shadow-2xs sm:p-4">
                                         <span className="block text-[11px] text-slate-500 sm:text-xs">Tổng bài thi năm {selectedYear}</span>
                                         <div className="mt-1 flex items-center gap-1.5 text-[15px] font-bold text-slate-900 sm:text-[17px]">
-                                            <FileText className="h-4 w-4 shrink-0 text-[#ab1f24]" />
+                                            <FileText className="h-4 w-4 shrink-0 text-brand-600" />
                                             <span>38 bài</span>
                                         </div>
                                     </div>
@@ -301,7 +301,7 @@ export function ExamResultHistoryView() {
                                         onClick={() => setSelectedTopicId(null)}
                                         className="h-8.5 rounded-xl border-slate-200 text-xs font-semibold text-slate-700 hover:bg-slate-50"
                                     >
-                                        <LayoutGrid className="mr-1.5 h-3.5 w-3.5 text-[#ab1f24]" />
+                                        <LayoutGrid className="mr-1.5 h-3.5 w-3.5 text-brand-600" />
                                         <span>Xem sơ đồ tổng quan</span>
                                     </Button>
                                 </div>
@@ -344,11 +344,11 @@ export function ExamResultHistoryView() {
                                     {/* Legend on Top */}
                                     <div className="flex items-center justify-center gap-6 text-xs font-medium text-slate-700 sm:justify-end">
                                         <div className="flex items-center gap-2">
-                                            <div className="h-[2px] w-5 bg-[#22c55e]" />
+                                            <div className="h-[2px] w-5 bg-emerald-500" />
                                             <span>Điểm tổng</span>
                                         </div>
                                         <div className="flex items-center gap-2">
-                                            <div className="rounded-2xs h-3.5 w-3.5 bg-[rgba(217,83,79,0.85)]" />
+                                            <div className="rounded-2xs h-3.5 w-3.5 bg-[rgba(75,81,196,0.85)]" />
                                             <span className="max-w-[200px] truncate">{currentTopic.name}</span>
                                         </div>
                                     </div>
@@ -398,7 +398,7 @@ export function ExamResultHistoryView() {
                                                     Thời gian: <strong>{attempt.submittedAt}</strong>
                                                 </div>
                                                 <div>
-                                                    Điểm số: <strong className="text-sm font-bold text-[#ab1f24]">{attempt.score}</strong>/{attempt.maxScore}
+                                                    Điểm số: <strong className="text-sm font-bold text-brand-700">{attempt.score}</strong>/{attempt.maxScore}
                                                 </div>
                                             </div>
                                             {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
@@ -406,7 +406,7 @@ export function ExamResultHistoryView() {
                                                 <Button
                                                     size="sm"
                                                     variant="outline"
-                                                    className="h-8 rounded-lg border-slate-200 bg-white text-xs font-semibold text-slate-700 shadow-2xs hover:border-red-200 hover:bg-red-50 hover:text-[#ab1f24]"
+                                                    className="h-8 rounded-lg border-slate-200 bg-white text-xs font-semibold text-slate-700 shadow-2xs hover:border-brand-200 hover:bg-brand-50 hover:text-brand-700"
                                                 >
                                                     <span>Xem kết quả</span>
                                                     <ArrowRight className="ml-1 h-3.5 w-3.5" />
@@ -441,7 +441,7 @@ export function ExamResultHistoryView() {
                                                 </td>
                                                 <td className="px-3 py-3.5 text-xs whitespace-nowrap text-slate-500">{attempt.submittedAt}</td>
                                                 <td className="px-3 py-3.5 text-center font-bold whitespace-nowrap text-slate-900">
-                                                    <span className="font-bold text-[#ab1f24]">{attempt.score}</span>/{attempt.maxScore}
+                                                    <span className="font-bold text-brand-700">{attempt.score}</span>/{attempt.maxScore}
                                                 </td>
                                                 <td className="px-3 py-3.5 text-center whitespace-nowrap">
                                                     <span className="inline-flex items-center gap-1 rounded-full border border-emerald-200 bg-emerald-50 px-2.5 py-0.5 text-[11px] font-bold text-emerald-700">
@@ -455,7 +455,7 @@ export function ExamResultHistoryView() {
                                                         <Button
                                                             size="sm"
                                                             variant="outline"
-                                                            className="h-8 rounded-lg border-slate-200 text-xs font-semibold text-slate-700 hover:border-red-200 hover:bg-red-50 hover:text-[#ab1f24]"
+                                                            className="h-8 rounded-lg border-slate-200 text-xs font-semibold text-slate-700 hover:border-brand-200 hover:bg-brand-50 hover:text-brand-700"
                                                         >
                                                             <span>Xem kết quả</span>
                                                             <ArrowRight className="ml-1 h-3.5 w-3.5" />

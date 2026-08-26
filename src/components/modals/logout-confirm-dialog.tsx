@@ -32,7 +32,7 @@ export function LogoutConfirmDialog({ open, onOpenChange }: LogoutConfirmDialogP
         <Dialog open={open} onOpenChange={onOpenChange}>
             <DialogContent size="md" className="max-w-[400px] gap-4 rounded-xl border border-slate-200 bg-white px-[24px] py-[20px] shadow-xl">
                 <DialogHeader className="pb-0 text-center sm:text-center">
-                    <div className="mx-auto mb-2 flex h-12 w-12 items-center justify-center rounded-xl bg-red-50 text-[#ab1f24]">
+                    <div className="mx-auto mb-2 flex h-12 w-12 items-center justify-center rounded-xl bg-brand-50 text-brand-700">
                         <LogOut className="h-6 w-6" />
                     </div>
                     <DialogTitle className="text-lg font-bold text-slate-900">Xác nhận đăng xuất</DialogTitle>
@@ -55,7 +55,7 @@ export function LogoutConfirmDialog({ open, onOpenChange }: LogoutConfirmDialogP
                         type="button"
                         disabled={isPending}
                         onClick={handleConfirmLogout}
-                        className="h-10 flex-1 rounded-xl bg-[#ab1f24] text-xs font-bold text-white shadow-xs hover:bg-[#8b1a1f] sm:text-sm"
+                        className="h-10 flex-1 rounded-xl bg-brand-600 text-xs font-bold text-white shadow-xs hover:bg-brand-700 sm:text-sm"
                     >
                         {isPending ? "Đang xử lý..." : "Đăng xuất"}
                     </Button>

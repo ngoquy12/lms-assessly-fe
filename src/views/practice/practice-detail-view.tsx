@@ -16,7 +16,7 @@ export function PracticeDetailView({ practiceId }: { practiceId: string }) {
         <div className="mx-auto max-w-[1440px] space-y-6 px-6 py-8 font-sans text-slate-900 sm:px-10">
             {/* Breadcrumb Navigation */}
             <div className="flex items-center gap-2 text-xs font-semibold text-slate-500 sm:text-sm">
-                <Link href="/practice" className="transition-colors hover:text-[#ab1f24]">
+                <Link href="/practice" className="transition-colors hover:text-brand-600">
                     Luyện tập
                 </Link>
                 <span>/</span>

@@ -85,34 +85,35 @@ export function ToeicListView() {
     const paginatedExams = filteredSessions.slice((currentPage - 1) * ITEMS_PER_PAGE, currentPage * ITEMS_PER_PAGE);
 
     return (
-        <div className="min-h-screen w-full bg-[#f8fafc] font-sans text-slate-900">
+        <div className="min-h-screen w-full bg-slate-50 font-sans text-slate-900">
             <div className="mx-auto max-w-[1440px] space-y-8 px-6 py-8 sm:px-10">
                 {/* Breadcrumb Navigation */}
                 <div className="flex items-center gap-2 text-xs font-semibold text-slate-500 sm:text-sm">
-                    <Link href="/" className="transition-colors hover:text-[#ab1f24]">
+                    <Link href="/" className="transition-colors hover:text-brand-600">
                         Trang chủ
                     </Link>
                     <span>/</span>
-                    <span className="font-bold text-slate-900">Luyện thi TOEIC</span>
+                    <span className="font-bold text-slate-900">Luyện thi Ngoại ngữ</span>
                 </div>
 
                 {/* Header Title Section */}
                 <div className="space-y-3 py-2 text-center">
-                    <h1 className="text-3xl leading-tight font-bold tracking-tight text-[#ab1f24] sm:text-4xl lg:text-[40px]">
-                        Luyện thi TOEIC cùng Rikkei Edu
+                    <h1 className="text-3xl leading-tight font-bold tracking-tight text-brand-700 sm:text-4xl lg:text-[40px]">
+                        Luyện thi Ngoại ngữ cùng Rikkei Edu
                     </h1>
                     <p className="mx-auto max-w-3xl text-sm leading-relaxed font-normal text-slate-600 sm:text-base">
-                        Hệ thống luyện thi TOEIC chuẩn format ETS với ngân hàng đề phong phú, âm thanh Listening chất lượng cao và báo cáo phân tích chi tiết.
+                        Hệ thống luyện thi Ngoại ngữ (TOEIC / IELTS) chuẩn quốc tế với ngân hàng đề phong phú, âm thanh Listening chất lượng cao và báo cáo phân
+                        tích chi tiết.
                     </p>
                 </div>
 
                 {/* 3. Featured Live Active Exam Banner */}
                 {activeExam && (
-                    <div className="relative overflow-hidden rounded-3xl border-2 border-[#ab1f24]/30 bg-linear-to-r from-red-50 via-white to-red-50/40 p-5 shadow-md sm:p-6 md:p-8">
+                    <div className="relative overflow-hidden rounded-3xl border-2 border-brand-500/30 bg-linear-to-r from-brand-50 via-white to-brand-50/40 p-5 shadow-md sm:p-6 md:p-8">
                         <div className="relative z-10 flex flex-col justify-between gap-6 lg:flex-row lg:items-center">
                             <div className="space-y-3">
                                 <div className="flex flex-wrap items-center gap-2 sm:gap-2.5">
-                                    <span className="inline-flex shrink-0 items-center gap-1.5 rounded-full bg-[#ab1f24] px-3 py-1 text-xs font-bold whitespace-nowrap text-white shadow-xs">
+                                    <span className="inline-flex shrink-0 items-center gap-1.5 rounded-full bg-brand-600 px-3 py-1 text-xs font-bold whitespace-nowrap text-white shadow-xs">
                                         <Radio className="h-3.5 w-3.5 animate-pulse" />
                                         <span>Ca thi đang mở — Vào làm bài ngay</span>
                                     </span>
@@ -129,14 +130,14 @@ export function ToeicListView() {
 
                                 <div className="flex flex-wrap items-center gap-3 text-xs font-medium text-slate-600 sm:gap-4 md:text-sm">
                                     <span className="flex shrink-0 items-center gap-1.5 rounded-lg border border-slate-200 bg-white px-3 py-1 whitespace-nowrap shadow-2xs">
-                                        <Clock className="h-4 w-4 text-[#ab1f24]" />
+                                        <Clock className="h-4 w-4 text-brand-600" />
                                         <span>
                                             Thời lượng: <strong className="font-bold text-slate-900">{activeExam.durationMinutes} phút</strong> (
                                             {activeExam.totalQuestions} câu)
                                         </span>
                                     </span>
                                     <span className="flex shrink-0 items-center gap-1.5 rounded-lg border border-slate-200 bg-white px-3 py-1 whitespace-nowrap shadow-2xs">
-                                        <Calendar className="h-4 w-4 text-[#ab1f24]" />
+                                        <Calendar className="h-4 w-4 text-brand-600" />
                                         <span>
                                             Khung giờ:{" "}
                                             <strong className="text-slate-900">
@@ -158,7 +159,7 @@ export function ToeicListView() {
                                 <Button
                                     size="lg"
                                     onClick={() => handleOpenRoomModal(activeExam)}
-                                    className="h-12 w-full cursor-pointer rounded-xl bg-[#ab1f24] px-6 text-base font-bold whitespace-nowrap text-white shadow-md transition-all hover:bg-[#8b1a1f] hover:shadow-lg active:scale-98 sm:w-auto sm:px-8"
+                                    className="h-12 w-full cursor-pointer rounded-xl bg-brand-600 px-6 text-base font-bold whitespace-nowrap text-white shadow-md transition-all hover:bg-brand-700 hover:shadow-lg active:scale-98 sm:w-auto sm:px-8"
                                 >
                                     <KeyRound className="mr-2 h-5 w-5 shrink-0" />
                                     <span>Vào phòng thi</span>
@@ -176,7 +177,7 @@ export function ToeicListView() {
                             type="button"
                             onClick={() => handleStatusFilterChange("ALL")}
                             className={`shrink-0 cursor-pointer rounded-xl px-4 py-2.5 text-sm font-bold whitespace-nowrap transition-all ${
-                                statusFilter === "ALL" ? "bg-[#ab1f24] text-white shadow-xs" : "bg-slate-100 text-slate-700 hover:bg-slate-200"
+                                statusFilter === "ALL" ? "bg-brand-600 text-white shadow-xs" : "bg-slate-100 text-slate-700 hover:bg-slate-200"
                             }`}
                         >
                             Tất cả ({sessions.length})
@@ -185,7 +186,7 @@ export function ToeicListView() {
                             type="button"
                             onClick={() => handleStatusFilterChange("ACTIVE")}
                             className={`shrink-0 cursor-pointer rounded-xl px-4 py-2.5 text-sm font-bold whitespace-nowrap transition-all ${
-                                statusFilter === "ACTIVE" ? "bg-[#ab1f24] text-white shadow-xs" : "bg-slate-100 text-slate-700 hover:bg-slate-200"
+                                statusFilter === "ACTIVE" ? "bg-brand-600 text-white shadow-xs" : "bg-slate-100 text-slate-700 hover:bg-slate-200"
                             }`}
                         >
                             Đang mở thi ({activeCount})
@@ -194,7 +195,7 @@ export function ToeicListView() {
                             type="button"
                             onClick={() => handleStatusFilterChange("UPCOMING")}
                             className={`shrink-0 cursor-pointer rounded-xl px-4 py-2.5 text-sm font-bold whitespace-nowrap transition-all ${
-                                statusFilter === "UPCOMING" ? "bg-[#ab1f24] text-white shadow-xs" : "bg-slate-100 text-slate-700 hover:bg-slate-200"
+                                statusFilter === "UPCOMING" ? "bg-brand-600 text-white shadow-xs" : "bg-slate-100 text-slate-700 hover:bg-slate-200"
                             }`}
                         >
                             Sắp diễn ra ({upcomingCount})
@@ -203,7 +204,7 @@ export function ToeicListView() {
                             type="button"
                             onClick={() => handleStatusFilterChange("COMPLETED")}
                             className={`shrink-0 cursor-pointer rounded-xl px-4 py-2.5 text-sm font-bold whitespace-nowrap transition-all ${
-                                statusFilter === "COMPLETED" ? "bg-[#ab1f24] text-white shadow-xs" : "bg-slate-100 text-slate-700 hover:bg-slate-200"
+                                statusFilter === "COMPLETED" ? "bg-brand-600 text-white shadow-xs" : "bg-slate-100 text-slate-700 hover:bg-slate-200"
                             }`}
                         >
                             Đã hoàn thành ({completedCount})
@@ -215,7 +216,7 @@ export function ToeicListView() {
                         <button
                             type="button"
                             onClick={() => handleOpenRoomModal()}
-                            className="flex shrink-0 cursor-pointer items-center justify-center gap-2 rounded-xl border border-red-200 bg-red-50 px-4 py-2 text-sm font-bold whitespace-nowrap text-[#ab1f24] shadow-2xs transition-all hover:bg-red-100 active:scale-98"
+                            className="flex shrink-0 cursor-pointer items-center justify-center gap-2 rounded-xl border border-brand-200 bg-brand-50 px-4 py-2 text-sm font-bold whitespace-nowrap text-brand-700 shadow-2xs transition-all hover:bg-brand-100 active:scale-98"
                         >
                             <KeyRound className="h-4 w-4 shrink-0" />
                             <span>Nhập mã phòng thi</span>
@@ -227,7 +228,7 @@ export function ToeicListView() {
                                 placeholder="Tìm theo môn thi hoặc mã ca..."
                                 value={searchQuery}
                                 onChange={(e) => handleSearchChange(e.target.value)}
-                                className="h-10 rounded-xl border-slate-200 pr-9 pl-9 text-sm focus:border-[#ab1f24] focus:ring-1 focus:ring-[#ab1f24]"
+                                className="h-10 rounded-xl border-slate-200 pr-9 pl-9 text-sm focus:border-brand-500 focus:ring-1 focus:ring-brand-500"
                             />
                             {searchQuery && (
                                 <button
@@ -246,7 +247,7 @@ export function ToeicListView() {
                                 type="button"
                                 onClick={() => setViewMode("table")}
                                 className={`shrink-0 cursor-pointer rounded-lg p-2 transition-all ${
-                                    viewMode === "table" ? "bg-white text-[#ab1f24] shadow-xs" : "text-slate-500 hover:text-slate-900"
+                                    viewMode === "table" ? "bg-white text-brand-600 shadow-xs" : "text-slate-500 hover:text-slate-900"
                                 }`}
                                 title="Xem dạng bảng"
                             >
@@ -256,7 +257,7 @@ export function ToeicListView() {
                                 type="button"
                                 onClick={() => setViewMode("grid")}
                                 className={`shrink-0 cursor-pointer rounded-lg p-2 transition-all ${
-                                    viewMode === "grid" ? "bg-white text-[#ab1f24] shadow-xs" : "text-slate-500 hover:text-slate-900"
+                                    viewMode === "grid" ? "bg-white text-brand-600 shadow-xs" : "text-slate-500 hover:text-slate-900"
                                 }`}
                                 title="Xem dạng thẻ"
                             >
@@ -272,8 +273,8 @@ export function ToeicListView() {
                         <div className="overflow-x-auto">
                             <table className="w-full min-w-[800px] border-collapse text-left">
                                 <thead>
-                                    <tr className="border-b border-red-100 bg-[#fff8f8]">
-                                        <th className="w-16 px-4 py-4 text-center text-sm font-bold whitespace-nowrap text-[#ab1f24]">
+                                    <tr className="border-b border-brand-100 bg-brand-50/60">
+                                        <th className="w-16 px-4 py-4 text-center text-sm font-bold whitespace-nowrap text-brand-700">
                                             <TooltipProvider delayDuration={200}>
                                                 <Tooltip>
                                                     <TooltipTrigger asChild>
@@ -285,10 +286,10 @@ export function ToeicListView() {
                                                 </Tooltip>
                                             </TooltipProvider>
                                         </th>
-                                        <th className="px-6 py-4 text-sm font-bold whitespace-nowrap text-[#ab1f24]">Bài thi & Ca thi</th>
-                                        <th className="px-6 py-4 text-sm font-bold whitespace-nowrap text-[#ab1f24]">Thời gian & Phòng</th>
-                                        <th className="px-6 py-4 text-sm font-bold whitespace-nowrap text-[#ab1f24]">Trạng thái</th>
-                                        <th className="px-6 py-4 text-right text-sm font-bold whitespace-nowrap text-[#ab1f24]">Hành động</th>
+                                        <th className="px-6 py-4 text-sm font-bold whitespace-nowrap text-brand-700">Bài thi & Ca thi</th>
+                                        <th className="px-6 py-4 text-sm font-bold whitespace-nowrap text-brand-700">Thời gian & Phòng</th>
+                                        <th className="px-6 py-4 text-sm font-bold whitespace-nowrap text-brand-700">Trạng thái</th>
+                                        <th className="px-6 py-4 text-right text-sm font-bold whitespace-nowrap text-brand-700">Hành động</th>
                                     </tr>
                                 </thead>
                                 <tbody className="divide-y divide-slate-100">
@@ -335,8 +336,8 @@ export function ToeicListView() {
                                             {/* Status Badge */}
                                             <td className="px-6 py-4 whitespace-nowrap">
                                                 {exam.status === "ACTIVE" && (
-                                                    <span className="inline-flex shrink-0 items-center gap-1.5 rounded-full border border-red-200 bg-red-50 px-3 py-1 text-xs font-bold whitespace-nowrap text-[#ab1f24]">
-                                                        <span className="h-2 w-2 animate-ping rounded-full bg-red-600" />
+                                                    <span className="inline-flex shrink-0 items-center gap-1.5 rounded-full border border-brand-200 bg-brand-50 px-3 py-1 text-xs font-bold whitespace-nowrap text-brand-700">
+                                                        <span className="h-2 w-2 animate-ping rounded-full bg-brand-600" />
                                                         <span>Đang mở thi</span>
                                                     </span>
                                                 )}
@@ -367,7 +368,7 @@ export function ToeicListView() {
                                                     <Button
                                                         size="sm"
                                                         onClick={() => handleOpenRoomModal(exam)}
-                                                        className="shrink-0 rounded-xl bg-[#ab1f24] px-4 py-2 font-bold whitespace-nowrap text-white shadow-xs hover:bg-[#8b1a1f]"
+                                                        className="shrink-0 rounded-xl bg-brand-600 px-4 py-2 font-bold whitespace-nowrap text-white shadow-xs hover:bg-brand-700"
                                                     >
                                                         <KeyRound className="mr-1.5 h-3.5 w-3.5 shrink-0" />
                                                         <span>Vào phòng thi</span>
@@ -422,7 +423,7 @@ export function ToeicListView() {
                                             variant="outline"
                                             className={
                                                 exam.status === "ACTIVE"
-                                                    ? "shrink-0 border-red-300 bg-red-50 font-bold whitespace-nowrap text-[#ab1f24]"
+                                                    ? "shrink-0 border-brand-300 bg-brand-50 font-bold whitespace-nowrap text-brand-700"
                                                     : exam.status === "UPCOMING"
                                                       ? "shrink-0 border-amber-300 bg-amber-50 font-bold whitespace-nowrap text-amber-800"
                                                       : "shrink-0 border-emerald-300 bg-emerald-50 font-bold whitespace-nowrap text-emerald-700"
@@ -466,7 +467,7 @@ export function ToeicListView() {
                                     {exam.status === "ACTIVE" && (
                                         <Button
                                             onClick={() => handleOpenRoomModal(exam)}
-                                            className="w-full shrink-0 rounded-xl bg-[#ab1f24] py-3 font-bold whitespace-nowrap text-white shadow-xs hover:bg-[#8b1a1f]"
+                                            className="w-full shrink-0 rounded-xl bg-brand-600 py-3 font-bold whitespace-nowrap text-white shadow-xs hover:bg-brand-700"
                                         >
                                             <KeyRound className="mr-2 h-4 w-4 shrink-0" />
                                             <span>Vào phòng thi</span>
@@ -517,7 +518,7 @@ export function ToeicListView() {
                                 onClick={() => setCurrentPage(pageNum)}
                                 className={`flex h-10 min-w-10 shrink-0 cursor-pointer items-center justify-center rounded-xl px-3.5 text-sm font-bold whitespace-nowrap transition-all ${
                                     currentPage === pageNum
-                                        ? "border border-[#ab1f24] bg-[#ab1f24] text-white shadow-xs"
+                                        ? "border border-brand-600 bg-brand-600 text-white shadow-xs"
                                         : "border border-slate-200 bg-white text-slate-700 shadow-2xs hover:bg-slate-50"
                                 }`}
                             >
@@ -542,7 +543,7 @@ export function ToeicListView() {
                 <Dialog open={isRoomModalOpen} onOpenChange={setIsRoomModalOpen}>
                     <DialogContent size="md" className="max-w-[420px] gap-5 rounded-2xl border-0 bg-white px-6 py-6 shadow-2xl">
                         <DialogHeader className="space-y-2 pb-0 text-center sm:text-center">
-                            <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-2xl bg-red-50 text-[#ab1f24]">
+                            <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-2xl bg-brand-50 text-brand-700">
                                 <KeyRound className="h-6 w-6" />
                             </div>
                             <div>
@@ -565,7 +566,7 @@ export function ToeicListView() {
                                             if (roomCodeError) setRoomCodeError("");
                                         }}
                                         autoFocus
-                                        className="h-13 rounded-xl border-slate-200 bg-slate-50/70 text-center font-mono text-lg font-bold tracking-widest text-slate-900 uppercase transition-all placeholder:font-sans placeholder:text-xs placeholder:font-normal placeholder:tracking-normal placeholder:text-slate-400 focus:border-[#ab1f24] focus:bg-white focus:ring-1 focus:ring-[#ab1f24]"
+                                        className="h-13 rounded-xl border-slate-200 bg-slate-50/70 text-center font-mono text-lg font-bold tracking-widest text-slate-900 uppercase transition-all placeholder:font-sans placeholder:text-xs placeholder:font-normal placeholder:tracking-normal placeholder:text-slate-400 focus:border-brand-500 focus:bg-white focus:ring-1 focus:ring-brand-500"
                                     />
                                 </div>
                                 {roomCodeError && <p className="text-center text-xs font-semibold text-red-600">{roomCodeError}</p>}
@@ -582,7 +583,7 @@ export function ToeicListView() {
                                 </Button>
                                 <Button
                                     type="submit"
-                                    className="h-11 flex-1 rounded-xl bg-[#ab1f24] text-xs font-bold text-white shadow-xs hover:bg-[#8b1a1f] sm:text-sm"
+                                    className="h-11 flex-1 rounded-xl bg-brand-600 text-xs font-bold text-white shadow-xs hover:bg-brand-700 sm:text-sm"
                                 >
                                     <span>Vào thi</span>
                                     <ArrowRight className="ml-1.5 h-4 w-4" />
