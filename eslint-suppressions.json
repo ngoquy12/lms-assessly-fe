@@ -341,7 +341,7 @@
   },
   "src/views/exam/exam-taking-view.tsx": {
     "no-restricted-syntax": {
-      "count": 69
+      "count": 68
     }
   },
   "src/views/exam/verify-ticket-view.tsx": {
@@ -391,7 +391,7 @@
   },
   "src/views/practice/practice-exam-public-view.tsx": {
     "no-restricted-syntax": {
-      "count": 69
+      "count": 68
     }
   },
   "src/views/practice/practice-list-view.tsx": {

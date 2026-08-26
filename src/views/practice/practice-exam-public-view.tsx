@@ -42,10 +42,6 @@ export function PracticeExamPublicView({ practiceId }: { practiceId: string }) {
 
     const questions: QuestionItem[] = getPracticeQuestionsByPracticeId(practiceId);
 
-    // Total display cells for matrix palette (36 cells matching official exam)
-    const TOTAL_PALETTE_CELLS = 36;
-    const paletteNumbers = Array.from({ length: TOTAL_PALETTE_CELLS }, (_, i) => i + 1);
-
     // Keys for LocalStorage persistence
     const STORAGE_KEY_ANSWERS = `lms_practice_answers_${practiceId}`;
     const STORAGE_KEY_START_TIME = `lms_practice_start_time_${practiceId}`;
@@ -775,37 +771,29 @@ export function PracticeExamPublicView({ practiceId }: { practiceId: string }) {
                             {/* 8-Column Matrix Palette with Square Buttons (aspect-square) */}
                             <CardContent className="space-y-5 p-0">
                                 <div className="grid grid-cols-6 justify-items-center gap-2 sm:grid-cols-6 lg:grid-cols-8">
-                                    {paletteNumbers.map((num) => {
-                                        const matchingQuestion = questions.find((q) => q.orderNumber === num);
-                                        const isAvailable = Boolean(matchingQuestion);
+                                    {questions.map((q) => {
+                                        const num = q.orderNumber;
                                         const isCurrent = activeQuestionId === num;
-                                        const hasAnswer = matchingQuestion
-                                            ? Boolean(
-                                                  (answers[matchingQuestion.id]?.selectedOptionIds &&
-                                                      answers[matchingQuestion.id].selectedOptionIds!.length > 0) ||
-                                                  (answers[matchingQuestion.id]?.textAnswer && answers[matchingQuestion.id].textAnswer!.trim().length > 0) ||
-                                                  (answers[matchingQuestion.id]?.matchingAnswers &&
-                                                      Object.keys(answers[matchingQuestion.id].matchingAnswers!).length > 0) ||
-                                                  (answers[matchingQuestion.id]?.orderedItems && answers[matchingQuestion.id].orderedItems!.length > 0) ||
-                                                  (answers[matchingQuestion.id]?.codeAnswer && answers[matchingQuestion.id].codeAnswer!.trim().length > 0),
-                                              )
-                                            : false;
+                                        const hasAnswer = Boolean(
+                                            (answers[q.id]?.selectedOptionIds && answers[q.id].selectedOptionIds!.length > 0) ||
+                                            (answers[q.id]?.textAnswer && answers[q.id].textAnswer!.trim().length > 0) ||
+                                            (answers[q.id]?.matchingAnswers && Object.keys(answers[q.id].matchingAnswers!).length > 0) ||
+                                            (answers[q.id]?.orderedItems && answers[q.id].orderedItems!.length > 0) ||
+                                            (answers[q.id]?.codeAnswer && answers[q.id].codeAnswer!.trim().length > 0),
+                                        );
 
                                         return (
                                             <button
-                                                key={num}
+                                                key={q.id}
                                                 type="button"
-                                                onClick={() => isAvailable && scrollToQuestion(num)}
-                                                disabled={!isAvailable}
+                                                onClick={() => scrollToQuestion(num)}
                                                 className={cn(
                                                     "flex aspect-square h-9 w-9 cursor-pointer items-center justify-center rounded-xl text-xs font-bold transition-all sm:h-10 sm:w-10 sm:text-sm",
                                                     isCurrent
                                                         ? "border-2 border-brand-600 bg-white text-brand-700 shadow-xs"
                                                         : hasAnswer
                                                           ? "border border-emerald-300 bg-emerald-50 text-emerald-700"
-                                                          : isAvailable
-                                                            ? "border border-slate-200 bg-white text-slate-700 hover:border-slate-300 hover:bg-slate-50"
-                                                            : "cursor-not-allowed border border-slate-100 bg-slate-50 text-slate-300 opacity-40",
+                                                          : "border border-slate-200 bg-white text-slate-700 hover:border-slate-300 hover:bg-slate-50",
                                                 )}
                                             >
                                                 {num}

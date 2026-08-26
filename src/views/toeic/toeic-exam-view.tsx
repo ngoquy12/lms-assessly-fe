@@ -150,7 +150,6 @@ export function ToeicExamView({ examId, testId }: { examId?: string; testId?: st
     };
 
     const answeredCount = Object.keys(answers).length;
-    const paletteNumbers = Array.from({ length: 20 }, (_, i) => i + 1);
 
     return (
         <div className="min-h-screen w-full bg-slate-50 font-sans text-slate-900">
@@ -341,27 +340,23 @@ export function ToeicExamView({ examId, testId }: { examId?: string; testId?: st
                             {/* 8-Column Matrix Palette with Square Buttons (4 cạnh bằng nhau aspect-square) */}
                             <CardContent className="space-y-5 p-0">
                                 <div className="grid grid-cols-6 justify-items-center gap-2 sm:grid-cols-6 lg:grid-cols-8">
-                                    {paletteNumbers.map((num) => {
-                                        const matchingQuestion = questions.find((q) => q.orderNumber === num);
-                                        const isAvailable = Boolean(matchingQuestion);
+                                    {questions.map((q) => {
+                                        const num = q.orderNumber;
                                         const isCurrent = activeQuestionId === num;
-                                        const hasAnswer = matchingQuestion ? Boolean(answers[matchingQuestion.id]) : false;
+                                        const hasAnswer = Boolean(answers[q.id]);
 
                                         return (
                                             <button
-                                                key={num}
+                                                key={q.id}
                                                 type="button"
-                                                onClick={() => isAvailable && scrollToQuestion(num)}
-                                                disabled={!isAvailable}
+                                                onClick={() => scrollToQuestion(num)}
                                                 className={cn(
                                                     "flex aspect-square h-9 w-9 cursor-pointer items-center justify-center rounded-xl text-xs font-bold transition-all sm:h-10 sm:w-10 sm:text-sm",
                                                     isCurrent
                                                         ? "border-2 border-brand-600 bg-white text-brand-600 shadow-xs"
                                                         : hasAnswer
                                                           ? "border border-emerald-300 bg-emerald-50 text-emerald-700"
-                                                          : isAvailable
-                                                            ? "border border-slate-200 bg-white text-slate-700 hover:border-slate-300 hover:bg-slate-50"
-                                                            : "cursor-not-allowed border border-slate-100 bg-slate-50 text-slate-300 opacity-40",
+                                                          : "border border-slate-200 bg-white text-slate-700 hover:border-slate-300 hover:bg-slate-50",
                                                 )}
                                             >
                                                 {num}
